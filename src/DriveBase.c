@@ -5,9 +5,6 @@
 	Details: DriveBase controller for the robot
 */
 
-#ifndef DriveBase.c
-#define DriveBase.c
-
 #include "PIDController.c"
 
 PID masterPID;

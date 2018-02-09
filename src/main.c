@@ -11,83 +11,66 @@
 
 // Includes
 #include "DriveBase.c"
+#include "RobotStates.h"
 
 // Prototypes
+void testPeriodic();
 void cleanup();
 void waitForButton();
-void testEncoders();
 
 // Code
 task main()
 {
-	clearDebugStream();
-	wait1Msec(250);
+    RobotState currentState = STATE_DISABLED;
+    clearDebugStream();
+    wait1Msec(250);
+    waitForButton();
 
-	while(SensorValue[towerPot] < 3900) {
-		motor[towerMotor] = 20;
-		writeDebugStreamLine("Value: %d", SensorValue[towerPot]);
-	}
+    while(currentState != STATE_DISABLED) {
+        switch(currentState) {
+            case STATE_ENABLED:
+                currentState = STATE_TEST;
+                break;
+            case STATE_TEST:
+                testPeriodic();
+                break;
+        }
 
-	while(SensorValue[towerPot] > 100) {
-		motor[towerMotor] = -20;
-		writeDebugStreamLine("Value: %d", SensorValue[towerPot]);
-	}
+        wait1Msec(1);
+    }
 
-	motor[towerMotor] = 0;
+    cleanup();
+}
 
-	//waitForButton();
+void testPeriodic() {
+    while(SensorValue[towerPot] < 3900) {
+        motor[towerMotor] = 20;
+        writeDebugStreamLine("Value: %d", SensorValue[towerPot]);
+    }
 
-	//wait1Msec(400);
+    while(SensorValue[towerPot] > 100) {
+        motor[towerMotor] = -20;
+        writeDebugStreamLine("Value: %d", SensorValue[towerPot]);
+    }
 
-	//driveInit();
-	//arcTurn(20, 70, false, 10, 0);
-	//driveInit();
-	//arcTurn(20, 100, true, 10, 0);
-	//driveInit();
-	//arcTurn(20, 100, false, 10, 0);
-	//driveInit();
-	//arcTurn(20, 70, true, 10, 0);
-
-	cleanup();
+    motor[towerMotor] = 0;
+    currentState = STATE_DISABLED;
 }
 
 // General cleanup and safety code
 void cleanup()
 {
-	motor[rightMotor] = 0;
-	motor[leftMotor] = 0;
-	resetMotorEncoder(rightMotor);
-	resetMotorEncoder(leftMotor);
-}
-
-void testEncoders() {
-	resetMotorEncoder(rightMotor);
-	resetMotorEncoder(leftMotor);
-
-	while(true)
-	{
-		waitForButton();
-
-		resetMotorEncoder(rightMotor);
-		resetMotorEncoder(leftMotor);
-
-		for(int i = 0; i < 1000; i++)
-		{
-			motor[leftMotor] = 70;
-			motor[rightMotor] = 70;
-
-			writeDebugStreamLine("Left: %d", getMotorEncoder(leftMotor));
-			writeDebugStreamLine("Right: %d", getMotorEncoder(rightMotor));
-
-			wait1Msec(1);
-		}
-
-		cleanup();
-	}
+    motor[rightMotor] = 0;
+    motor[leftMotor] = 0;
+    motor[towerMotor] = 0;
+    resetMotorEncoder(rightMotor);
+    resetMotorEncoder(leftMotor);
 }
 
 void waitForButton() {
-	while(!SensorValue(topButton)) {
-		wait1Msec(5);
-	}
+    while(!SensorValue(topButton)) {
+        wait1Msec(5);
+    }
+
+    currentState = STATE_ENABLED;
 }

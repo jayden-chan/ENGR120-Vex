@@ -5,9 +5,6 @@
 	Details: PID Controller
 */
 
-#ifndef PIDController.c
-#define PIDController.c
-
 #include "Utils.c"
 #include "Constants.h"
 

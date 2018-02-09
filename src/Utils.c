@@ -5,9 +5,6 @@
 	Details: Utility class to support PIDController and other files
 */
 
-#ifndef Utils.c
-#define Utils.c
-
 // Returns the sign of the input, and 0 if the input is 0
 float sign(float input)
 {

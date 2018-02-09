@@ -1,5 +1,5 @@
-#ifndef Constants.h
-#define Constants.h
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 const int MAX_SPEED = 127;
 const float TICKS_PER_DEG = 1.74222222; // ticks
