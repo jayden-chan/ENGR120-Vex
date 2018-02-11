@@ -120,5 +120,3 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 		}
 	}
 }
-
-#endif

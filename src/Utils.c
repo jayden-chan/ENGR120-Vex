@@ -21,5 +21,3 @@ float clamp(float input, float clamp)
 {
 	return abs(input) > clamp ? clamp * sign(input) : input;
 }
-
-#endif

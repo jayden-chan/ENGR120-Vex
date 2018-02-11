@@ -74,5 +74,3 @@ float PIDCalculate(PID &pid, float error)
 	// Return the sum
 	return output;
 }
-
-#endif

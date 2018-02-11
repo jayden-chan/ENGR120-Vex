@@ -17,11 +17,12 @@
 void testPeriodic();
 void cleanup();
 void waitForButton();
+RobotState currentState = STATE_DISABLED;
 
 // Code
 task main()
 {
-    RobotState currentState = STATE_DISABLED;
+
     clearDebugStream();
     wait1Msec(250);
     waitForButton();
