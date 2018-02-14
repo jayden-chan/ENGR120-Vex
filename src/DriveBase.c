@@ -22,6 +22,18 @@ void driveInit() {
 	resetMotorEncoder(leftMotor);
 }
 
+// Helper functions
+
+void setRaw(float left, float right) {
+    motor[leftMotor] = left;
+    motor[rightMotor] = right;
+}
+
+void stopMotors() {
+    motor[leftMotor] = 0;
+    motor[rightMotor] = 0;
+}
+
 void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold) {
 
 	int safeTime = 0;
@@ -42,8 +54,10 @@ void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold)
 		driveOut = clamp(driveOut, maxSpeed);
 		slaveOut = clamp(slaveOut, maxSpeed);
 
-		motor[rightMotor] = (driveOut - slaveOut);
-		motor[leftMotor] = (driveOut + slaveOut);
+		setRaw((driveOut + slaveOut), (driveOut - slaveOut));
+
+		//motor[leftMotor] = (driveOut + slaveOut);
+		//motor[rightMotor] = (driveOut - slaveOut);
 
 		writeDebugStreamLine("driveError: %f", driveError);
 		writeDebugStreamLine("slaveError: %f", slaveError);
@@ -53,13 +67,11 @@ void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold)
 		writeDebugStreamLine("safeTime: %d", safeTime);
 
 		if(safeTime > safeThreshold) {
-			//break;
+			break;
 		}
 
 	}
-
-	motor[rightMotor] = 0;
-	motor[leftMotor] = 0;
+	stopMotors();
 }
 
 void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int safeThreshold)
@@ -98,12 +110,14 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 		slaveOut = clamp(slaveOut, 127);
 
 		if(turnRight) {
-			motor[leftMotor] = driveOut - slaveOut;
-			motor[rightMotor] = (driveOut / ratio) + slaveOut;
+		    setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
+			//motor[leftMotor] = driveOut - slaveOut;
+			//motor[rightMotor] = (driveOut / ratio) + slaveOut;
 		}
 		else {
-			motor[leftMotor] = (driveOut / ratio) + slaveOut;
-			motor[rightMotor] = driveOut - slaveOut;
+		    setRaw(((driveOut / ratio) + slaveOut), (driveOut - slaveOut));
+			//motor[leftMotor] = (driveOut / ratio) + slaveOut;
+			//motor[rightMotor] = driveOut - slaveOut;
 		}
 
 		safeTime = abs(outsideError) < safeRange ? safeTime + dTime : 0;
@@ -112,11 +126,4 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 			break;
 		}
 	}
-}
-
-// Helper functions
-
-void setRaw(float left, float right) {
-    motor[leftMotor] = left;
-    motor[rightMotor] = right;
 }
