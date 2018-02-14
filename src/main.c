@@ -1,4 +1,5 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
+#pragma config(Sensor, in1,    lightSensor,    sensorReflection)
 #pragma config(Sensor, in8,    towerPot,       sensorPotentiometer)
 #pragma config(Sensor, dgtl1,  topButton,      sensorTouch)
 #pragma config(Sensor, dgtl2,  ultrasonic,     sensorSONAR_cm)
@@ -17,24 +18,24 @@
 void testPeriodic();
 void cleanup();
 void waitForButton();
+
 RobotState currentState = STATE_DISABLED;
 
 // Code
 task main()
 {
-
     clearDebugStream();
     wait1Msec(250);
     waitForButton();
 
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
-            case STATE_ENABLED:
-                currentState = STATE_TEST;
-                break;
-            case STATE_TEST:
-                testPeriodic();
-                break;
+        case STATE_ENABLED:
+            currentState = STATE_TEST;
+            break;
+        case STATE_TEST:
+            testPeriodic();
+            break;
         }
 
         wait1Msec(1);
@@ -44,18 +45,8 @@ task main()
 }
 
 void testPeriodic() {
-    while(SensorValue[towerPot] < 3900) {
-        motor[towerMotor] = 20;
-        writeDebugStreamLine("Value: %d", SensorValue[towerPot]);
-    }
-
-    while(SensorValue[towerPot] > 100) {
-        motor[towerMotor] = -20;
-        writeDebugStreamLine("Value: %d", SensorValue[towerPot]);
-    }
-
-    motor[towerMotor] = 0;
-    currentState = STATE_DISABLED;
+    writeDebugStreamLine("Test periodic running.\n");
+    writeDebugStreamLine("Value of light sensor: %d", SensorValue[lightSensor]);
 }
 
 // General cleanup and safety code

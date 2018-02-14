@@ -120,3 +120,10 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 		}
 	}
 }
+
+// Helper functions
+
+void setRaw(float left, float right) {
+    motor[leftMotor] = left;
+    motor[rightMotor] = right;
+}
