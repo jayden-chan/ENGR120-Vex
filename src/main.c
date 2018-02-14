@@ -29,12 +29,15 @@ task main() {
         switch(currentState) {
         case STATE_ENABLED:
             currentState = STATE_TEST;
+            writeDebugStreamLine("Inside Enabled switch block");
             break;
         case STATE_TEST:
             testPeriodic();
+            writeDebugStreamLine("Inside test switch block");
             break;
         }
-
+        case default:
+            writeDebugStreamLine("Inside default switch block");
         wait1Msec(1);
     }
 
