@@ -22,8 +22,8 @@ void waitForButton();
 RobotState currentState = STATE_DISABLED;
 
 // Code
-task main()
-{
+task main() {
+
     clearDebugStream();
     wait1Msec(250);
     waitForButton();
@@ -50,8 +50,8 @@ void testPeriodic() {
 }
 
 // General cleanup and safety code
-void cleanup()
-{
+void cleanup() {
+
     motor[rightMotor] = 0;
     motor[leftMotor] = 0;
     motor[towerMotor] = 0;

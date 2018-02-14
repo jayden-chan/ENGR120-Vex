@@ -10,8 +10,8 @@
 PID masterPID;
 PID slavePID;
 
-void driveInit()
-{
+void driveInit() {
+
 	PIDInit(masterPID, 3, 0, 10, 127, 0, true);
 	PIDReset(masterPID);
 
@@ -22,14 +22,14 @@ void driveInit()
 	resetMotorEncoder(leftMotor);
 }
 
-void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold)
-{
+void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold) {
+
 	int safeTime = 0;
 	int time = 0;
 	int dTime = 0;
 
-	while(true)
-	{
+	while(true) {
+
 		dTime = nSysTime - time;
 		time = nSysTime;
 
@@ -52,8 +52,7 @@ void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold)
 
 		writeDebugStreamLine("safeTime: %d", safeTime);
 
-		if(safeTime > safeThreshold)
-		{
+		if(safeTime > safeThreshold) {
 			//break;
 		}
 
@@ -76,18 +75,15 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 	int time = 0;
 	int dTime = 0;
 
-	while(true)
-	{
+	while(true) {
 		dTime = nSysTime - time;
 		time = nSysTime;
 
-		if(turnRight)
-		{
+		if(turnRight) {
 			outsideError = outsideSet - getMotorEncoder(leftMotor);
 			slaveError = getMotorEncoder(leftMotor) - getMotorEncoder(rightMotor) * ratio;
 		}
-		else
-		{
+		else {
 			outsideError = outsideSet - getMotorEncoder(rightMotor);
 			slaveError = getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor) * ratio;
 
@@ -101,21 +97,18 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 		driveOut = clamp(driveOut, 70);
 		slaveOut = clamp(slaveOut, 127);
 
-		if(turnRight)
-		{
+		if(turnRight) {
 			motor[leftMotor] = driveOut - slaveOut;
 			motor[rightMotor] = (driveOut / ratio) + slaveOut;
 		}
-		else
-		{
+		else {
 			motor[leftMotor] = (driveOut / ratio) + slaveOut;
 			motor[rightMotor] = driveOut - slaveOut;
 		}
 
 		safeTime = abs(outsideError) < safeRange ? safeTime + dTime : 0;
 
-		if(safeTime > safeThreshold)
-		{
+		if(safeTime > safeThreshold) {
 			break;
 		}
 	}

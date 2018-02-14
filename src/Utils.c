@@ -6,18 +6,11 @@
 */
 
 // Returns the sign of the input, and 0 if the input is 0
-float sign(float input)
-{
-	if(input == 0)
-	{
-		return 0;
-	}
-
-	return abs(input) / input;
+float sign(float input) {
+    return input == 0 ? 0 : (abs(input) / input);
 }
 
 // Clamps the input value between +clamp and -clamp
-float clamp(float input, float clamp)
-{
+float clamp(float input, float clamp) {
 	return abs(input) > clamp ? clamp * sign(input) : input;
 }
