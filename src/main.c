@@ -35,9 +35,10 @@ task main() {
             testPeriodic();
             writeDebugStreamLine("Inside test switch block");
             break;
-        }
-        case default:
+         default:
             writeDebugStreamLine("Inside default switch block");
+        }
+
         wait1Msec(1);
     }
 
