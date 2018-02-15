@@ -78,9 +78,6 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
-        //motor[leftMotor] = (driveOut + slaveOut);
-        //motor[rightMotor] = (driveOut - slaveOut);
-
         writeDebugStreamLine("driveError: %f", driveError);
         writeDebugStreamLine("slaveError: %f", slaveError);
 
@@ -134,13 +131,9 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 
         if(turnRight) {
             setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
-            //motor[leftMotor] = driveOut - slaveOut;
-            //motor[rightMotor] = (driveOut / ratio) + slaveOut;
         }
         else {
             setRaw(((driveOut / ratio) + slaveOut), (driveOut - slaveOut));
-            //motor[leftMotor] = (driveOut / ratio) + slaveOut;
-            //motor[rightMotor] = driveOut - slaveOut;
         }
 
         safeTime = abs(outsideError) < safeRange ? safeTime + dTime : 0;
@@ -149,4 +142,6 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
             break;
         }
     }
+
+    stopMotors();
 }
