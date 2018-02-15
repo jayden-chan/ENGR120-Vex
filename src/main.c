@@ -25,6 +25,12 @@ task main() {
     wait1Msec(250);
     waitForButton();
 
+    float last[4];
+    last[0] = 0;
+    last[1] = 0;
+    last[2] = 0;
+    last[3] = 0;
+
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
@@ -48,6 +54,13 @@ task main() {
 void testPeriodic() {
     writeDebugStreamLine("Test periodic running.\n");
     writeDebugStreamLine("Value of light sensor: %d", SensorValue[lightSensor]);
+
+    last[0] = last[1];
+    last[1] = last[2];
+    last[2] = last[3];
+    last[3] = SensorValue[lightSensor];
+
+    writeDebugStreamLine("Average of last 4: %f", (last[0] + last[1] + last[2] + last[3]) / 4);
 }
 
 // General cleanup and safety code
