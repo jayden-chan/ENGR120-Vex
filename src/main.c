@@ -19,13 +19,15 @@ void waitForButton();
 
 RobotState currentState = STATE_DISABLED;
 
+float last[4];
+
 task main() {
 
     clearDebugStream();
     wait1Msec(250);
     waitForButton();
 
-    float last[4];
+
     last[0] = 0;
     last[1] = 0;
     last[2] = 0;
