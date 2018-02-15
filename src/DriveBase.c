@@ -34,7 +34,7 @@ void stopMotors() {
     motor[rightMotor] = 0;
 }
 
-void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold) {
+void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold) {
 
     int safeTime = 0;
     int time = 0;
@@ -45,7 +45,7 @@ void driveStraight(int setpoint, int maxSpeed, int safeRange, int safeThreshold)
         dTime = nSysTime - time;
         time = nSysTime;
 
-        float driveError = (setpoint * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
+        float driveError = (distance * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
 
         float driveOut = PIDCalculate(masterPID, driveError);

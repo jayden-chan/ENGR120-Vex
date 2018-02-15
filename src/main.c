@@ -16,6 +16,7 @@
 void testPeriodic();
 void cleanup();
 void waitForButton();
+void testLightSensor();
 
 RobotState currentState = STATE_DISABLED;
 
@@ -26,7 +27,6 @@ task main() {
     clearDebugStream();
     wait1Msec(250);
     waitForButton();
-
 
     last[0] = 0;
     last[1] = 0;
@@ -52,6 +52,14 @@ task main() {
 }
 
 void testPeriodic() {
+    arcTurn(30, 90, true, 20, 250);
+    driveStraight(100, 70, 20, 250);
+    arcTurn(30, 90, false, 20, 250);
+
+    currentState = STATE_DISABLED;
+}
+
+void testLightSensor() {
     writeDebugStreamLine("Test periodic running.\n");
     writeDebugStreamLine("Value of light sensor: %d", SensorValue[lightSensor]);
 
