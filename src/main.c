@@ -44,10 +44,8 @@ task main() {
          default:
             writeDebugStreamLine("Inside default switch block");
         }
-
         wait1Msec(1);
     }
-
     cleanup();
 }
 
