@@ -85,14 +85,13 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
         if(safeTime > safeThreshold) {
             break;
         }
-
     }
     stopMotors();
 }
 
 // Performs an arc turn with the radius and ending orientation provided
-void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int safeThreshold)
-{
+void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int safeThreshold) {
+
     float insideSet = (2 * MATH_PI * radius) * (orientation / 360) * TICKS_PER_CM2;
     float outsideSet = (2 * MATH_PI * (radius + DRIVETRAIN_WIDTH)) * (orientation / 360) * TICKS_PER_CM2;
 
