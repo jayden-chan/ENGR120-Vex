@@ -58,10 +58,6 @@ void init() {
 void testPeriodic() {
     driveReset();
     arcTurn(30, 90, true, 20, 250);
-    driveReset();
-    driveStraight(100, 70, 20, 250);
-    driveReset();
-    arcTurn(30, 90, false, 20, 250);
 
     currentState = STATE_DISABLED;
 }
