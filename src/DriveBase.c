@@ -10,6 +10,10 @@
 PID masterPID;
 PID slavePID;
 
+/****************************************************************/
+/*                   Init and reset functions                   */
+/****************************************************************/
+
 void driveInit() {
 
     PIDInit(masterPID, 3, 0, 10, 127, 0, true);
@@ -30,7 +34,9 @@ void driveReset() {
     PIDReset(slavePID);
 }
 
-// Helper functions
+/****************************************************************/
+/*                       Helper functions                       */
+/****************************************************************/
 
 void setRaw(float left, float right) {
     motor[leftMotor] = left;
@@ -41,6 +47,10 @@ void stopMotors() {
     motor[leftMotor] = 0;
     motor[rightMotor] = 0;
 }
+
+/****************************************************************/
+/*                        Drive functions                       */
+/****************************************************************/
 
 void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold) {
 
