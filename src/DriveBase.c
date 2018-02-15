@@ -22,6 +22,14 @@ void driveInit() {
     resetMotorEncoder(leftMotor);
 }
 
+void driveReset() {
+    resetMotorEncoder(rightMotor);
+    resetMotorEncoder(leftMotor);
+
+    PIDReset(masterPID);
+    PIDReset(slavePID);
+}
+
 // Helper functions
 
 void setRaw(float left, float right) {

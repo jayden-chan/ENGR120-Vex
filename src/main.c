@@ -52,11 +52,11 @@ task main() {
 }
 
 void testPeriodic() {
-    driveInit();
+    driveReset();
     arcTurn(30, 90, true, 20, 250);
-    driveInit();
+    driveReset();
     driveStraight(100, 70, 20, 250);
-    driveInit();
+    driveReset();
     arcTurn(30, 90, false, 20, 250);
 
     currentState = STATE_DISABLED;
