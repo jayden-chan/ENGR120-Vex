@@ -26,6 +26,7 @@ void driveInit() {
     resetMotorEncoder(leftMotor);
 }
 
+// Resets critical drivebase components to prepare for the next manoeuvre
 void driveReset() {
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
@@ -38,11 +39,13 @@ void driveReset() {
 /*                       Helper functions                       */
 /****************************************************************/
 
+// Simply sets the values for the left and right side of the drivetrain
 void setRaw(float left, float right) {
     motor[leftMotor] = left;
     motor[rightMotor] = right;
 }
 
+// Stops the motors
 void stopMotors() {
     motor[leftMotor] = 0;
     motor[rightMotor] = 0;
@@ -52,6 +55,7 @@ void stopMotors() {
 /*                        Drive functions                       */
 /****************************************************************/
 
+// Drives perfectly straight for the distance given (in cm)
 void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold) {
 
     int safeTime = 0;
@@ -92,6 +96,7 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
     stopMotors();
 }
 
+// Performs an arc turn with the radius and ending orientation provided
 void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int safeThreshold)
 {
     float insideSet = (2 * MATH_PI * radius) * (orientation / 360) * TICKS_PER_CM2;

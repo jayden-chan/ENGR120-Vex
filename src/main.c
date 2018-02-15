@@ -23,7 +23,6 @@ RobotState currentState = STATE_DISABLED;
 float last[4];
 
 task main() {
-
     init();
     waitForButton();
 
@@ -67,6 +66,7 @@ void testPeriodic() {
     currentState = STATE_DISABLED;
 }
 
+// Prints the value of the light sensor in analog port 1.
 void testLightSensor() {
     writeDebugStreamLine("Test periodic running.\n");
     writeDebugStreamLine("Value of light sensor: %d", SensorValue[lightSensor]);
