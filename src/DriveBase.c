@@ -30,9 +30,6 @@ void driveInit() {
 void driveReset() {
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
-
-    PIDReset(masterPID);
-    PIDReset(slavePID);
 }
 
 /****************************************************************/
