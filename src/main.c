@@ -13,19 +13,18 @@
 #include "DriveBase.c"
 #include "RobotStates.h"
 
+void init();
 void testPeriodic();
 void cleanup();
 void waitForButton();
 void testLightSensor();
 
 RobotState currentState = STATE_DISABLED;
-
 float last[4];
 
 task main() {
 
-    clearDebugStream();
-    wait1Msec(250);
+    init();
     waitForButton();
 
     last[0] = 0;
@@ -49,6 +48,12 @@ task main() {
         wait1Msec(1);
     }
     cleanup();
+}
+
+void init() {
+    clearDebugStream();
+    driveInit();
+    wait1Msec(250);
 }
 
 void testPeriodic() {
