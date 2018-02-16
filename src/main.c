@@ -20,6 +20,8 @@ void cleanup();
 void waitForButton();
 void testLightSensor();
 void connect();
+float averageLightSensor();
+void drivePeriodic();
 
 RobotState currentState = STATE_DISABLED;
 float last[5];
@@ -87,21 +89,37 @@ void testPeriodic() {
 }
 
 void drivePeriodic() {
-    driveStraight(-15, 70, 20, 250);
+    driveStraight(-15, 30, 20, 250);
     currentState = STATE_DISABLED;
 }
 
 void connect() {
-    while(SensorValue[ultrasonic] > 4) {
-      motor[leftMotor] = 20;
-      motor[rightMotor] = 20;
+    float lightAverage;
+    while(SensorValue[ultrasonic] > 10) {
+      motor[leftMotor] = 30;
+      motor[rightMotor] = 30;
+      lightAverage = averageLightSensor();
 
     }
+        while(averageLightSensor() - lightAverage < 30){
+            motor[leftMotor] = 18;
+            motor[rightMotor] = 18;
 
-    driveInit();
-    driveStraight(-30,25,20,250);
 
-    currentState = STATE_DISABLED;
+    }
+    currentState = STATE_DRIVE;
+
+}
+float averageLightSensor(){
+
+    last[0] = last[1];
+    last[1] = last[2];
+    last[2] = last[3];
+    last[3] = last[4];
+    last[4] = SensorValue[lightSensor];
+
+   average = (last[0] + last[1] + last[2] + last[3] + last[4]) / 5;
+   return average;
 }
 
 // Prints the value of the light sensor in analog port 1.
