@@ -19,6 +19,7 @@ void testPeriodic();
 void cleanup();
 void waitForButton();
 void testLightSensor();
+void connect();
 
 RobotState currentState = STATE_DISABLED;
 float last[4];
@@ -39,7 +40,7 @@ task main() {
             writeDebugStreamLine("Inside Enabled switch block");
             break;
         case STATE_TEST:
-            testPeriodic();
+            connect();
             writeDebugStreamLine("Inside test switch block");
             break;
          default:
@@ -57,12 +58,38 @@ void init() {
 }
 
 void testPeriodic() {
+ //   driveInit();
+ //   driveStraight(50, 70, 20, 250);
     driveInit();
-    driveStraight(100, 70, 20, 250);
+    arcTurn(10, 360, true, 20, 250);
+    driveInit();
+    driveStraight(75, 70, 20, 250);
+   /* driveInit();
+    arcTurn(1, 90, true, 20, 250);
+    driveInit();
+    driveStraight(50, 70, 20, 250);
     wait10Msec(100);
     driveInit();
-    arcTurn(30, 90, true, 20, 250);
+    driveStraight(-30, 70, 20, 250);
+    driveInit();
+    arcTurn(1, 90, true, 20, 250);
+    driveInit();
+    driveStraight(50, 70, 20, 250);
+    */
+
     currentState = STATE_DISABLED;
+}
+
+void connect() {
+  while(SensorValue[ultrasonic] > 4) {
+      motor[leftMotor] = 20;
+      motor[rightMotor] = 20;
+
+  }
+  driveInit();
+  driveStraight(-30,25,20,250);
+
+currentState = STATE_DISABLED;
 }
 
 // Prints the value of the light sensor in analog port 1.
