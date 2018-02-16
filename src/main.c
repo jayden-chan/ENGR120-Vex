@@ -22,7 +22,8 @@ void testLightSensor();
 void connect();
 
 RobotState currentState = STATE_DISABLED;
-float last[4];
+float last[5];
+float average, lastAverage;
 
 task main() {
     init();
@@ -32,6 +33,7 @@ task main() {
     last[1] = 0;
     last[2] = 0;
     last[3] = 0;
+    last[4] = 0;
 
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
@@ -42,6 +44,10 @@ task main() {
         case STATE_TEST:
             connect();
             writeDebugStreamLine("Inside test switch block");
+            break;
+        case STATE_DRIVE:
+            drivePeriodic();
+            writeDebugStreamLine("Inside drive switch block");
             break;
          default:
             writeDebugStreamLine("Inside default switch block");
@@ -80,16 +86,22 @@ void testPeriodic() {
     currentState = STATE_DISABLED;
 }
 
+void drivePeriodic() {
+    driveStraight(-15, 70, 20, 250);
+    currentState = STATE_DISABLED;
+}
+
 void connect() {
-  while(SensorValue[ultrasonic] > 4) {
+    while(SensorValue[ultrasonic] > 4) {
       motor[leftMotor] = 20;
       motor[rightMotor] = 20;
 
-  }
-  driveInit();
-  driveStraight(-30,25,20,250);
+    }
 
-currentState = STATE_DISABLED;
+    driveInit();
+    driveStraight(-30,25,20,250);
+
+    currentState = STATE_DISABLED;
 }
 
 // Prints the value of the light sensor in analog port 1.
@@ -100,9 +112,18 @@ void testLightSensor() {
     last[0] = last[1];
     last[1] = last[2];
     last[2] = last[3];
-    last[3] = SensorValue[lightSensor];
+    last[3] = last[4];
+    last[4] = SensorValue[lightSensor];
 
-    writeDebugStreamLine("Average of last 4: %f", (last[0] + last[1] + last[2] + last[3]) / 4);
+    lastAverage = average;
+    average = (last[0] + last[1] + last[2] + last[3] + last[4]) / 5;
+
+    if(abs(average - lastAverage) > 30) {
+        currentState = STATE_DRIVE;
+        return;
+    }
+
+    writeDebugStreamLine("Average of last 5: %f", average);
 }
 
 // General cleanup and safety code
