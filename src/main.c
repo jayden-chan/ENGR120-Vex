@@ -57,8 +57,10 @@ void init() {
 
 void testPeriodic() {
     driveInit();
-    arcTurn(30, 90, true, 20, 250);
+    driveStraight(100, 70, 20, 250);
+    wait10Msec(100);
 
+    arcTurn(30, 90, true, 20, 250);
     currentState = STATE_DISABLED;
 }
 
