@@ -3,6 +3,7 @@
 #pragma config(Sensor, in8,    towerPot,       sensorPotentiometer)
 #pragma config(Sensor, dgtl1,  topButton,      sensorTouch)
 #pragma config(Sensor, dgtl2,  ultrasonic,     sensorSONAR_cm)
+#pragma config(Sensor, dgtl4,  button2,        sensorTouch)
 #pragma config(Sensor, I2C_1,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port1,           rightMotor,    tmotorVex393_HBridge, openLoop, reversed, encoderPort, I2C_1)
@@ -59,7 +60,7 @@ void testPeriodic() {
     driveInit();
     driveStraight(100, 70, 20, 250);
     wait10Msec(100);
-
+    driveInit();
     arcTurn(30, 90, true, 20, 250);
     currentState = STATE_DISABLED;
 }
