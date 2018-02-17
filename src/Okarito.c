@@ -45,6 +45,12 @@ void turn90Degs() {
     currentState = STATE_WAITING;
 }
 
+void approachTarget() {
+    driveReset();
+    ultrasonicApproach();
+    currentState = STATE_DISABLED;
+}
+
 void connect() {
     float lightAverage;
 

@@ -6,7 +6,9 @@ typedef enum RobotStateEnum {
     STATE_ENABLED,
     STATE_WAITING,
     STATE_TURN,
-    STATE_DRIVE
+    STATE_DRIVE,
+    STATE_APPROACH,
+    STATE_DEPART
 } RobotState;
 
 #endif

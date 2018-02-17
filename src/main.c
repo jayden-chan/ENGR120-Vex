@@ -25,12 +25,12 @@ void waitForButton();
 task main() {
     init();
 
-    currentState = STATE_ENABLED;
+    waitForButton();
 
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
-            currentState = STATE_WAITING;
+            currentState = STATE_APPROACH;
             break;
         case STATE_WAITING:
             waitingForButtons();
@@ -40,6 +40,9 @@ task main() {
             break;
         case STATE_TURN:
             turn90Degs();
+            break;
+        case STATE_APPROACH:
+            approachTarget();
             break;
          default:
             writeDebugStreamLine("Inside default switch block");

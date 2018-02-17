@@ -11,6 +11,8 @@ void drivePeriodic();
 void waitingForButtons();
 void driveOneMeter();
 void turn90Degs();
+void approachTarget();
+void departTarget();
 
 RobotState currentState = STATE_DISABLED;
 float last[5];
