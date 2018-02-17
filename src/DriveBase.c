@@ -7,6 +7,7 @@
 
 #include "PIDController.c"
 #include "Ultrasonic.c"
+#include "Arm.c"
 
 PID masterPID;
 PID slavePID;
@@ -24,7 +25,7 @@ void driveInit() {
     PIDInit(slavePID, 1, 0.25, 6, 100, 0, true);
     PIDReset(slavePID);
 
-    PIDInit(ultrasonicPID, 1, 0, 0, 127, 0, true);
+    PIDInit(ultrasonicPID, 1.05, 0.05, 0, 127, 0, true);
     PIDReset(ultrasonicPID);
 
     resetMotorEncoder(rightMotor);
@@ -80,12 +81,12 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
-        writeDebugStreamLine("driveError: %f", driveError);
-        writeDebugStreamLine("slaveError: %f", slaveError);
+        //writeDebugStreamLine("driveError: %f", driveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
 
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 
-        writeDebugStreamLine("safeTime: %d", safeTime);
+        //writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;
@@ -105,8 +106,10 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     float outsideError, slaveError;
 
     int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+    int time = nSysTime;
+    wait1Msec(1);
+
+    int dTime;
 
     while(true) {
         dTime = nSysTime - time;
@@ -139,6 +142,9 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 
         safeTime = abs(outsideError) < safeRange ? safeTime + dTime : 0;
 
+        writeDebugStreamLine("Safe time: %d", safeTime);
+        writeDebugStreamLine("Safe thresh: %d", safeThreshold);
+
         if(safeTime > safeThreshold) {
             break;
         }
@@ -149,16 +155,9 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 
 void ultrasonicApproach() {
 
-    int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+    while(!(isCableDetached())) {
 
-    while(true) {
-
-        dTime = nSysTime - time;
-        time = nSysTime;
-
-        float driveError = getUltraSonic() - 10;
+        float driveError = getUltraSonic() - ULTRASONIC_THRESH;
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
 
         float driveOut = PIDCalculate(ultrasonicPID, driveError);
@@ -169,14 +168,45 @@ void ultrasonicApproach() {
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
+        //writeDebugStreamLine("driveError: %f", driveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
+    }
+    stopMotors();
+}
+
+void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
+
+    float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (degrees / 360);
+
+    int safeTime = 0;
+    int time = 0;
+    int dTime = 0;
+
+    while(true) {
+
+        dTime = nSysTime - time;
+        time = nSysTime;
+
+        float driveError = (arcLength * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
+        float slaveError = abs(getMotorEncoder(rightMotor)) - abs(getMotorEncoder(leftMotor));
+
+        float driveOut = PIDCalculate(masterPID, driveError);
+        //float slaveOut = 0;
+        float slaveOut = PIDCalculate(slavePID, slaveError);
+
+        driveOut = clamp(driveOut, maxSpeed);
+        slaveOut = clamp(slaveOut, maxSpeed);
+
+        setRaw(-(driveOut + slaveOut), (driveOut - slaveOut));
+
         writeDebugStreamLine("driveError: %f", driveError);
         writeDebugStreamLine("slaveError: %f", slaveError);
 
-        safeTime = abs(driveError) < 3 ? safeTime + dTime : 0;
+        safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 
         writeDebugStreamLine("safeTime: %d", safeTime);
 
-        if(safeTime > 250) {
+        if(safeTime > safeThreshold) {
             break;
         }
     }

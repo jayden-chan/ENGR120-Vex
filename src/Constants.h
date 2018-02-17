@@ -11,5 +11,7 @@ const float FINAL_POT_RATIO = DEGREES_PER_MVOLT * DET_SHAFT_GEAR_RATIO; // n/a
 const float TICKS_PER_CM2 = (TICKS_PER_ROT / WHEEL_CIRC); // ticks
 const float DRIVETRAIN_WIDTH = 21.95; // cm
 const float MATH_PI = 3.14159265359; // n/a
+const int ULTRASONIC_THRESH = 3; // cm
+const int CABLE_LIGHT_THRESH = 66; // n/a
 
 #endif

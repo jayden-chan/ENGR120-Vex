@@ -2,16 +2,14 @@
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
     Last Modified: Feb 16 2018
-    Details: Main robot code
+    Details: Main robot code for 'Okarito'
 */
 
 #include "Okarito.h"
 
 void testPeriodic() {
     driveReset();
-    arcTurn(10, 360, true, 20, 250);
-    driveReset();
-    driveStraight(75, 70, 20, 250);
+    arcTurn(30, 90, false, 20, 250);
 
     currentState = STATE_DISABLED;
 }
@@ -21,6 +19,43 @@ void drivePeriodic() {
     driveStraight(-15, 30, 20, 250);
     driveReset();
     arcTurn(10, -90, true, 20, 250);
+    currentState = STATE_DISABLED;
+}
+
+void waitingForButtons() {
+    if(SensorValue[topButton]) {
+        currentState = STATE_DRIVE;
+    }
+    if(SensorValue[button2]) {
+        currentState = STATE_TURN;
+    }
+}
+
+void driveOneMeter() {
+    driveReset();
+    driveStraight(100, 70, 10, 250);
+    currentState = STATE_WAITING;
+}
+
+void turn90Degs() {
+    driveReset();
+    rotate(90, 50, 10, 250);
+    currentState = STATE_WAITING;
+}
+
+void approachTarget() {
+    driveReset();
+    ultrasonicApproach();
+
+    currentState = STATE_DEPART;
+}
+
+void departTarget() {
+    //driveInit();
+    //driveStraight(-50, 40, 10, 250);
+    driveInit();
+    arcTurn(25, -90, false, 20, 250);
+
     currentState = STATE_DISABLED;
 }
 
