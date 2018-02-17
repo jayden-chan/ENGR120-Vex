@@ -47,7 +47,17 @@ void turn90Degs() {
 
 void approachTarget() {
     driveReset();
-    ultrasonicApproach();
+    ultrasonicApproach(isCableDetached());
+
+    currentState = STATE_DEPART;
+}
+
+void departTarget() {
+    driveReset();
+    driveStraight(-50, 40, 10, 350);
+    driveReset();
+    arcTurn(90, 40, 10, 250);
+
     currentState = STATE_DISABLED;
 }
 

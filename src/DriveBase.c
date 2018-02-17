@@ -147,16 +147,9 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     stopMotors();
 }
 
-void ultrasonicApproach() {
-
-    int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+void ultrasonicApproach(bool done) {
 
     while(true) {
-
-        dTime = nSysTime - time;
-        time = nSysTime;
 
         float driveError = getUltraSonic() - 10;
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
@@ -172,11 +165,7 @@ void ultrasonicApproach() {
         writeDebugStreamLine("driveError: %f", driveError);
         writeDebugStreamLine("slaveError: %f", slaveError);
 
-        safeTime = abs(driveError) < 3 ? safeTime + dTime : 0;
-
-        writeDebugStreamLine("safeTime: %d", safeTime);
-
-        if(safeTime > 250) {
+        if(done) {
             break;
         }
     }
