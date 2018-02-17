@@ -2,7 +2,7 @@
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
     Last Modified: Feb 16 2018
-    Details: Main robot code
+    Details: Main robot code for 'Okarito'
 */
 
 #include "Okarito.h"
@@ -25,10 +25,10 @@ void drivePeriodic() {
 }
 
 void waitingForButtons() {
-    if(button 1 pressed) {
+    if(SensorValue[topButton]) {
         currentState = STATE_DRIVE;
     }
-    if(button 2 pressed) {
+    if(SensorValue[button2]) {
         currentState = STATE_TURN;
     }
 }
@@ -41,7 +41,7 @@ void driveOneMeter() {
 
 void turn90Degs() {
     driveReset();
-    rotate(90, 70, 10, 250);
+    rotate(90, 50, 10, 250);
     currentState = STATE_WAITING;
 }
 

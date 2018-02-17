@@ -197,9 +197,10 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
         time = nSysTime;
 
         float driveError = (arcLength * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
-        float slaveError = abs((getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor)));
+        float slaveError = abs(getMotorEncoder(rightMotor)) - abs(getMotorEncoder(leftMotor));
 
         float driveOut = PIDCalculate(masterPID, driveError);
+        //float slaveOut = 0;
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
