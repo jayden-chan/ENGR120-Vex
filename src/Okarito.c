@@ -9,9 +9,7 @@
 
 void testPeriodic() {
     driveReset();
-    arcTurn(10, 360, true, 20, 250);
-    driveReset();
-    driveStraight(75, 70, 20, 250);
+    arcTurn(30, 90, false, 20, 250);
 
     currentState = STATE_DISABLED;
 }
@@ -47,16 +45,16 @@ void turn90Degs() {
 
 void approachTarget() {
     driveReset();
-    ultrasonicApproach(isCableDetached());
+    ultrasonicApproach();
 
     currentState = STATE_DEPART;
 }
 
 void departTarget() {
-    driveReset();
-    driveStraight(-50, 40, 10, 350);
-    driveReset();
-    arcTurn(90, 40, 10, 250);
+    //driveInit();
+    //driveStraight(-50, 40, 10, 250);
+    driveInit();
+    arcTurn(25, -90, false, 20, 250);
 
     currentState = STATE_DISABLED;
 }

@@ -7,6 +7,7 @@
 
 #include "PIDController.c"
 #include "Ultrasonic.c"
+#include "Arm.c"
 
 PID masterPID;
 PID slavePID;
@@ -24,7 +25,7 @@ void driveInit() {
     PIDInit(slavePID, 1, 0.25, 6, 100, 0, true);
     PIDReset(slavePID);
 
-    PIDInit(ultrasonicPID, 1, 0, 0, 127, 0, true);
+    PIDInit(ultrasonicPID, 1.05, 0.05, 0, 127, 0, true);
     PIDReset(ultrasonicPID);
 
     resetMotorEncoder(rightMotor);
@@ -80,12 +81,12 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
-        writeDebugStreamLine("driveError: %f", driveError);
-        writeDebugStreamLine("slaveError: %f", slaveError);
+        //writeDebugStreamLine("driveError: %f", driveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
 
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 
-        writeDebugStreamLine("safeTime: %d", safeTime);
+        //writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;
@@ -105,8 +106,10 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     float outsideError, slaveError;
 
     int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+    int time = nSysTime;
+    wait1Msec(1);
+
+    int dTime;
 
     while(true) {
         dTime = nSysTime - time;
@@ -139,6 +142,9 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 
         safeTime = abs(outsideError) < safeRange ? safeTime + dTime : 0;
 
+        writeDebugStreamLine("Safe time: %d", safeTime);
+        writeDebugStreamLine("Safe thresh: %d", safeThreshold);
+
         if(safeTime > safeThreshold) {
             break;
         }
@@ -147,11 +153,11 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     stopMotors();
 }
 
-void ultrasonicApproach(bool done) {
+void ultrasonicApproach() {
 
-    while(true) {
+    while(!(isCableDetached())) {
 
-        float driveError = getUltraSonic() - 10;
+        float driveError = getUltraSonic() - ULTRASONIC_THRESH;
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
 
         float driveOut = PIDCalculate(ultrasonicPID, driveError);
@@ -162,12 +168,8 @@ void ultrasonicApproach(bool done) {
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
-        writeDebugStreamLine("driveError: %f", driveError);
-        writeDebugStreamLine("slaveError: %f", slaveError);
-
-        if(done) {
-            break;
-        }
+        //writeDebugStreamLine("driveError: %f", driveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
     }
     stopMotors();
 }

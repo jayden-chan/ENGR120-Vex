@@ -6,5 +6,5 @@
 */
 
 bool isCableDetached() {
-    return SensorValue[lightSensor] > 70;
+    return SensorValue[lightSensor] > CABLE_LIGHT_THRESH;
 }

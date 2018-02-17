@@ -2,7 +2,6 @@
 #define OKARITO_H
 
 #include "DriveBase.c"
-#include "Arm.c"
 #include "RobotStates.h"
 
 void testPeriodic();

@@ -1,5 +1,6 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, in1,    lightSensor,    sensorReflection)
+#pragma config(Sensor, in2,    lightSensor2,   sensorReflection)
 #pragma config(Sensor, in8,    towerPot,       sensorPotentiometer)
 #pragma config(Sensor, dgtl1,  topButton,      sensorTouch)
 #pragma config(Sensor, dgtl2,  ultrasonic,     sensorSONAR_cm)
@@ -39,15 +40,18 @@ task main() {
             driveOneMeter();
             break;
         case STATE_TURN:
-            turn90Degs();
+            testPeriodic();
             break;
         case STATE_APPROACH:
             approachTarget();
             break;
+        case STATE_DEPART:
+            departTarget();
+            break;
          default:
             writeDebugStreamLine("Inside default switch block");
         }
-        wait1Msec(1);
+        //wait1Msec(1);
     }
     cleanup();
 }
