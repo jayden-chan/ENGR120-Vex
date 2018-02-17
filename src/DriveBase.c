@@ -1,14 +1,16 @@
 /*
-    Author: Jayden Chan
+    Author: Jayden Chan, Cobey Hollier
     Date Created: Jan 13 2018
-    Last Modified: Feb 13 2018
+    Last Modified: Feb 16 2018
     Details: DriveBase controller for the robot
 */
 
 #include "PIDController.c"
+#include "Ultrasonic.c"
 
 PID masterPID;
 PID slavePID;
+PID ultrasonicPID;
 
 /****************************************************************/
 /*                   Init and reset functions                   */
@@ -21,6 +23,9 @@ void driveInit() {
 
     PIDInit(slavePID, 1, 0.25, 6, 100, 0, true);
     PIDReset(slavePID);
+
+    PIDInit(ultrasonicPID, 1, 0, 0, 127, 0, true);
+    PIDReset(ultrasonicPID);
 
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
@@ -139,5 +144,41 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
         }
     }
 
+    stopMotors();
+}
+
+void ultrasonicApproach() {
+
+    int safeTime = 0;
+    int time = 0;
+    int dTime = 0;
+
+    while(true) {
+
+        dTime = nSysTime - time;
+        time = nSysTime;
+
+        float driveError = getUltraSonic() - 10;
+        float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
+
+        float driveOut = PIDCalculate(ultrasonicPID, driveError);
+        float slaveOut = PIDCalculate(slavePID, slaveError);
+
+        driveOut = clamp(driveOut, 30);
+        slaveOut = clamp(slaveOut, 30);
+
+        setRaw((driveOut + slaveOut), (driveOut - slaveOut));
+
+        writeDebugStreamLine("driveError: %f", driveError);
+        writeDebugStreamLine("slaveError: %f", slaveError);
+
+        safeTime = abs(driveError) < 3 ? safeTime + dTime : 0;
+
+        writeDebugStreamLine("safeTime: %d", safeTime);
+
+        if(safeTime > 250) {
+            break;
+        }
+    }
     stopMotors();
 }

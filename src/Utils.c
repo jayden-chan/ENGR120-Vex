@@ -1,7 +1,7 @@
 /*
     Author: Jayden Chan
     Date Created: Jan 12 2018
-    Last Modified: Feb 13 2018
+    Last Modified: Feb 16 2018
     Details: Utility class to support PIDController and other files
 */
 
@@ -13,4 +13,17 @@ float sign(float input) {
 // Clamps the input value between +clamp and -clamp
 float clamp(float input, float clamp) {
     return abs(input) > clamp ? clamp * sign(input) : input;
+}
+
+// Clamps the input value between min and max
+float clamp2(float input, float min, float max) {
+    if(input > max) {
+        return max;
+    }
+    else if(input < min) {
+        return min;
+    }
+    else {
+        return input;
+    }
 }
