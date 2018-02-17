@@ -90,6 +90,8 @@ void testPeriodic() {
 
 void drivePeriodic() {
     driveStraight(-15, 30, 20, 250);
+    driveInit();
+    arcTurn(10, -90, true, 20, 250);
     currentState = STATE_DISABLED;
 }
 
