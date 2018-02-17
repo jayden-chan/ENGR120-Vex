@@ -5,18 +5,21 @@
     Details: Main robot code
 */
 
+#include "Okarito.h"
+
 void testPeriodic() {
-    driveInit();
+    driveReset();
     arcTurn(10, 360, true, 20, 250);
-    driveInit();
+    driveReset();
     driveStraight(75, 70, 20, 250);
 
     currentState = STATE_DISABLED;
 }
 
 void drivePeriodic() {
+    driveReset();
     driveStraight(-15, 30, 20, 250);
-    driveInit();
+    driveReset();
     arcTurn(10, -90, true, 20, 250);
     currentState = STATE_DISABLED;
 }
@@ -24,7 +27,7 @@ void drivePeriodic() {
 void connect() {
     float lightAverage;
 
-    while(SensorValue[ultrasonic] > 10) {
+    while(getUltraSonic() > 10) {
         motor[leftMotor] = 30;
         motor[rightMotor] = 30;
         lightAverage = averageLightSensor();
@@ -49,4 +52,3 @@ float averageLightSensor(){
     average = (last[0] + last[1] + last[2] + last[3] + last[4]) / 5;
     return average;
 }
-

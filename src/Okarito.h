@@ -2,13 +2,15 @@
 #define OKARITO_H
 
 #include "DriveBase.c"
+#include "RobotStates.h"
 
-void testPeriodic(); //d
-void connect(); //d
+void testPeriodic();
+void connect();
 float averageLightSensor();
-void drivePeriodic(); //d
+void drivePeriodic();
 
+RobotState currentState = STATE_DISABLED;
 float last[5];
-float average, lastAverage;
+float average;
 
 #endif

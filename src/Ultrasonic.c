@@ -5,8 +5,6 @@
     Details: Wrapper class for the ultrasonic sensor.
 */
 
-#include "Utils.c"
-
 float getUltraSonic() {
     return clamp2((float) SensorValue[ultrasonic], 0, 100);
 }
