@@ -2,9 +2,10 @@
 #define ROBOTSTATES_H
 
 typedef enum RobotStateEnum {
-    STATE_DISABLED = 0,
+    STATE_DISABLED,
     STATE_ENABLED,
-    STATE_TEST,
+    STATE_WAITING,
+    STATE_TURN,
     STATE_DRIVE
 } RobotState;
 

@@ -24,18 +24,22 @@ void waitForButton();
 
 task main() {
     init();
-    waitForButton();
+
+    currentState = STATE_ENABLED;
 
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
-            currentState = STATE_TEST;
+            currentState = STATE_WAITING;
             break;
-        case STATE_TEST:
-            connect();
+        case STATE_WAITING:
+            waitingForButtons();
             break;
         case STATE_DRIVE:
-            drivePeriodic();
+            driveOneMeter();
+            break;
+        case STATE_TURN:
+            turn90Degs();
             break;
          default:
             writeDebugStreamLine("Inside default switch block");

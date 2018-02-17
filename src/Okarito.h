@@ -8,6 +8,9 @@ void testPeriodic();
 void connect();
 float averageLightSensor();
 void drivePeriodic();
+void waitingForButtons();
+void driveOneMeter();
+void turn90Degs();
 
 RobotState currentState = STATE_DISABLED;
 float last[5];

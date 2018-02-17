@@ -182,3 +182,41 @@ void ultrasonicApproach() {
     }
     stopMotors();
 }
+
+void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
+
+    float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (degrees / 360);
+
+    int safeTime = 0;
+    int time = 0;
+    int dTime = 0;
+
+    while(true) {
+
+        dTime = nSysTime - time;
+        time = nSysTime;
+
+        float driveError = (arcLength * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
+        float slaveError = abs((getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor)));
+
+        float driveOut = PIDCalculate(masterPID, driveError);
+        float slaveOut = PIDCalculate(slavePID, slaveError);
+
+        driveOut = clamp(driveOut, maxSpeed);
+        slaveOut = clamp(slaveOut, maxSpeed);
+
+        setRaw(-(driveOut + slaveOut), (driveOut - slaveOut));
+
+        writeDebugStreamLine("driveError: %f", driveError);
+        writeDebugStreamLine("slaveError: %f", slaveError);
+
+        safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
+
+        writeDebugStreamLine("safeTime: %d", safeTime);
+
+        if(safeTime > safeThreshold) {
+            break;
+        }
+    }
+    stopMotors();
+}

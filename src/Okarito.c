@@ -24,6 +24,27 @@ void drivePeriodic() {
     currentState = STATE_DISABLED;
 }
 
+void waitingForButtons() {
+    if(button 1 pressed) {
+        currentState = STATE_DRIVE;
+    }
+    if(button 2 pressed) {
+        currentState = STATE_TURN;
+    }
+}
+
+void driveOneMeter() {
+    driveReset();
+    driveStraight(100, 70, 10, 250);
+    currentState = STATE_WAITING;
+}
+
+void turn90Degs() {
+    driveReset();
+    rotate(90, 70, 10, 250);
+    currentState = STATE_WAITING;
+}
+
 void connect() {
     float lightAverage;
 
