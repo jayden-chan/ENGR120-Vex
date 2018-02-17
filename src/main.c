@@ -18,7 +18,6 @@ void cleanup();
 void init();
 void waitForButton();
 
-
 /****************************************************************/
 /*    DO NOT MODIFY THIS FILE EXCEPT TO ADD NEW ROBOT STATES    */
 /****************************************************************/

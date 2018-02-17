@@ -1,7 +1,7 @@
 /*
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
-    Last Modified: Feb 16 2018
+    Last Modified: Feb 17 2018
     Details: Main robot code for 'Okarito'
 */
 
@@ -51,29 +51,12 @@ void approachTarget() {
 }
 
 void departTarget() {
-    //driveInit();
-    //driveStraight(-50, 40, 10, 250);
-    driveInit();
+    driveReset();
+    driveStraight(-50, 40, 10, 250);
+    driveReset();
     arcTurn(25, -90, false, 20, 250);
 
     currentState = STATE_DISABLED;
-}
-
-void connect() {
-    float lightAverage;
-
-    while(getUltraSonic() > 10) {
-        motor[leftMotor] = 30;
-        motor[rightMotor] = 30;
-        lightAverage = averageLightSensor();
-    }
-
-    while(averageLightSensor() - lightAverage < 30){
-            motor[leftMotor] = 18;
-            motor[rightMotor] = 18;
-    }
-
-    currentState = STATE_DRIVE;
 }
 
 float averageLightSensor(){

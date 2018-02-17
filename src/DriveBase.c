@@ -1,7 +1,7 @@
 /*
     Author: Jayden Chan, Cobey Hollier
     Date Created: Jan 13 2018
-    Last Modified: Feb 16 2018
+    Last Modified: Feb 17 2018
     Details: DriveBase controller for the robot
 */
 
@@ -36,6 +36,10 @@ void driveInit() {
 void driveReset() {
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
+
+    PIDReset(masterPID);
+    PIDReset(slavePID);
+    PIDReset(ultrasonicPID);
 }
 
 /****************************************************************/
@@ -81,17 +85,18 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
-        //writeDebugStreamLine("driveError: %f", driveError);
-        //writeDebugStreamLine("slaveError: %f", slaveError);
+        writeDebugStreamLine("driveError: %f", driveError);
+        writeDebugStreamLine("slaveError: %f", slaveError);
 
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 
-        //writeDebugStreamLine("safeTime: %d", safeTime);
+        writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;
         }
     }
+
     stopMotors();
 }
 
@@ -106,10 +111,8 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     float outsideError, slaveError;
 
     int safeTime = 0;
-    int time = nSysTime;
-    wait1Msec(1);
-
-    int dTime;
+    int time = 0;
+    int dTime = 0;
 
     while(true) {
         dTime = nSysTime - time;
@@ -153,6 +156,7 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     stopMotors();
 }
 
+// Approaches the target and breaks when the cable has been connected
 void ultrasonicApproach() {
 
     while(!(isCableDetached())) {
@@ -167,13 +171,12 @@ void ultrasonicApproach() {
         slaveOut = clamp(slaveOut, 30);
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
-
-        //writeDebugStreamLine("driveError: %f", driveError);
-        //writeDebugStreamLine("slaveError: %f", slaveError);
     }
+
     stopMotors();
 }
 
+// Rotates in place for the given number of degrees
 void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 
     float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (degrees / 360);
@@ -191,7 +194,6 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
         float slaveError = abs(getMotorEncoder(rightMotor)) - abs(getMotorEncoder(leftMotor));
 
         float driveOut = PIDCalculate(masterPID, driveError);
-        //float slaveOut = 0;
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
@@ -210,5 +212,6 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
             break;
         }
     }
+
     stopMotors();
 }
