@@ -7,6 +7,6 @@
 
 #include "Utils.c"
 
-int getUltraSonic() {
+float getUltraSonic() {
     return clamp2((float) SensorValue[ultrasonic], 0, 100);
 }
