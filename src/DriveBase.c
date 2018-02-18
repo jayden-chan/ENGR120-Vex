@@ -158,8 +158,8 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 
 // Approaches the target and breaks when the cable has been connected
 void ultrasonicApproach() {
-
-    while(!(isCableDetached())) {
+    float photosensorDefaultValue = SensorValue[lightSensor];
+    while(!(isCableDetached(photosensorDefaultValue))) {
 
         float driveError = getUltraSonic() - ULTRASONIC_THRESH;
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));

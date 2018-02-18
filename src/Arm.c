@@ -5,6 +5,7 @@
     Details: Wrapper class for arm mechanism
 */
 
-bool isCableDetached() {
-    return SensorValue[lightSensor] > CABLE_LIGHT_THRESH;
+bool isCableDetached(float defaultValue) {
+    float sensorDelta = abs(SensorValue[lightSensor] - defaultValue);
+    return sensorDelta > 15;
 }
