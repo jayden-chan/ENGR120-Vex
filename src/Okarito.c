@@ -1,14 +1,13 @@
 /*
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
-    Last Modified: Feb 18 2018
+    Last Modified: Feb 19 2018
     Details: Main robot code for 'Okarito'
 */
 
 #include "Okarito.h"
 
 void testPeriodic() {
-    driveReset();
     arcTurn(30, 90, false, 20, 250);
 
     currentState = STATE_DISABLED;
@@ -30,28 +29,23 @@ void waitingForApproach() {
 }
 
 void driveOneMeter() {
-    driveReset();
     driveStraight(100, 70, 10, 250);
     currentState = STATE_WAITING;
 }
 
 void turn90Degs() {
-    driveReset();
     rotate(90, 50, 10, 250);
     currentState = STATE_WAITING;
 }
 
 void approachTarget() {
-    driveReset();
     ultrasonicApproach();
 
     currentState = STATE_DEPART;
 }
 
 void departTarget() {
-    driveReset();
     driveStraight(-50, 38, 10, 250);
-    driveReset();
     arcTurn(25, -90, false, 20, 250);
 
     currentState = STATE_WAITING;
