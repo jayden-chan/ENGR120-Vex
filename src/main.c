@@ -16,7 +16,6 @@
 
 void cleanup();
 void init();
-void waitForButton();
 
 /****************************************************************/
 /*    DO NOT MODIFY THIS FILE EXCEPT TO ADD NEW ROBOT STATES    */
@@ -25,12 +24,10 @@ void waitForButton();
 task main() {
     init();
 
-    waitForButton();
-
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
-            currentState = STATE_APPROACH;
+            currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
             waitingForButtons();
@@ -50,8 +47,8 @@ task main() {
          default:
             writeDebugStreamLine("Inside default switch block");
         }
-        //wait1Msec(1);
     }
+
     cleanup();
 }
 
@@ -76,13 +73,4 @@ void cleanup() {
     motor[towerMotor] = 0;
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
-}
-
-// Changes the state to enabled after the button is pushed
-void waitForButton() {
-    while(!SensorValue(topButton)) {
-        wait1Msec(5);
-    }
-
-    currentState = STATE_ENABLED;
 }
