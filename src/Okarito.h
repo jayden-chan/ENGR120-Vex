@@ -5,10 +5,9 @@
 #include "RobotStates.h"
 
 void testPeriodic();
-void connect();
 float averageLightSensor();
-void drivePeriodic();
 void waitingForButtons();
+void waitingForApproach();
 void driveOneMeter();
 void turn90Degs();
 void approachTarget();

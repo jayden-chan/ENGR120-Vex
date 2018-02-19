@@ -1,7 +1,7 @@
 /*
     Author: Jayden Chan
     Date Created: Jan 12 2018
-    Last Modified: Feb 16 2018
+    Last Modified: Feb 18 2018
     Details: PID Controller
 */
 
@@ -32,7 +32,6 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
 
 // Resets the error values for the provided PID controller
 void PIDReset(PID &pid) {
-
     pid.error = 0;
     pid.lastTime = 0;
     pid.dTime = 0;
