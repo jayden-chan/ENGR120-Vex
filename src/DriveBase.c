@@ -25,7 +25,7 @@ void driveInit() {
     PIDInit(slavePID, 1, 0.25, 6, 100, 0, true);
     PIDReset(slavePID);
 
-    PIDInit(ultrasonicPID, 1.05, 0.05, 0, 127, 0, true);
+    PIDInit(ultrasonicPID, 2, 0.1, 0, 127, 0, true);
     PIDReset(ultrasonicPID);
 
     resetMotorEncoder(rightMotor);
@@ -65,6 +65,8 @@ void stopMotors() {
 // Drives perfectly straight for the distance given (in cm)
 void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold) {
 
+    driveReset();
+
     int safeTime = 0;
     int time = 0;
     int dTime = 0;
@@ -102,6 +104,8 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
 // Performs an arc turn with the radius and ending orientation provided
 void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int safeThreshold) {
+
+    driveReset();
 
     float insideSet = (2 * MATH_PI * radius) * (orientation / 360) * TICKS_PER_CM2;
     float outsideSet = (2 * MATH_PI * (radius + DRIVETRAIN_WIDTH)) * (orientation / 360) * TICKS_PER_CM2;
@@ -158,6 +162,9 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 
 // Approaches the target and breaks when the cable has been connected
 void ultrasonicApproach() {
+
+    driveReset();
+
     float photosensorDefaultValue = SensorValue[lightSensor];
     while(!(isCableDetached(photosensorDefaultValue))) {
 
@@ -178,6 +185,8 @@ void ultrasonicApproach() {
 
 // Rotates in place for the given number of degrees
 void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
+
+    driveReset();
 
     float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (degrees / 360);
 

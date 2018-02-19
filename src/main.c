@@ -39,7 +39,7 @@ task main() {
             driveOneMeter();
             break;
         case STATE_TURN:
-            testPeriodic();
+            turn90Degs();
             break;
         case STATE_APPROACH:
             approachTarget();

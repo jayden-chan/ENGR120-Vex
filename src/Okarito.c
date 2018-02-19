@@ -50,7 +50,7 @@ void approachTarget() {
 
 void departTarget() {
     driveReset();
-    driveStraight(-50, 25, 10, 250);
+    driveStraight(-50, 38, 10, 250);
     driveReset();
     arcTurn(25, -90, false, 20, 250);
 
