@@ -46,7 +46,7 @@ void approachTarget() {
 
 void departTarget() {
     driveStraight(-50, 38, 10, 250);
-    arcTurn(25, -90, false, 20, 250);
+    arcTurn(25, -90, true, 20, 250);
 
     currentState = STATE_WAITING;
 }
