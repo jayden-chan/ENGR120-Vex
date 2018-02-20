@@ -48,13 +48,13 @@ void driveReset() {
 
 // Simply sets the values for the left and right side of the drivetrain
 void setRaw(float left, float right) {
-    motor[leftMotor] = left;
+    motor[leftMotor]  = left;
     motor[rightMotor] = right;
 }
 
 // Stops the motors
 void stopMotors() {
-    motor[leftMotor] = 0;
+    motor[leftMotor]  = 0;
     motor[rightMotor] = 0;
 }
 
@@ -68,8 +68,8 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
     driveReset();
 
     int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+    int time     = 0;
+    int dTime    = 0;
 
     while(true) {
 
@@ -115,8 +115,8 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     float outsideError, slaveError;
 
     int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+    int time     = 0;
+    int dTime    = 0;
 
     while(true) {
         dTime = nSysTime - time;
@@ -191,8 +191,8 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
     float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (degrees / 360);
 
     int safeTime = 0;
-    int time = 0;
-    int dTime = 0;
+    int time     = 0;
+    int dTime    = 0;
 
     while(true) {
 

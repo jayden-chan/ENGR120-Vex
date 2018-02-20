@@ -32,10 +32,10 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
 
 // Resets the error values for the provided PID controller
 void PIDReset(PID &pid) {
-    pid.error = 0;
-    pid.lastTime = 0;
-    pid.dTime = 0;
-    pid.errorSum = 0;
+    pid.error     = 0;
+    pid.lastTime  = 0;
+    pid.dTime     = 0;
+    pid.errorSum  = 0;
     pid.lastError = 0;
 }
 

@@ -70,7 +70,7 @@ void init() {
 void cleanup() {
 
     motor[rightMotor] = 0;
-    motor[leftMotor] = 0;
+    motor[leftMotor]  = 0;
     motor[towerMotor] = 0;
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
