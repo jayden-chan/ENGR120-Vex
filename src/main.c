@@ -30,7 +30,7 @@ task main() {
             currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
-            waitingForButtons();
+            waitingForApproach();
             break;
         case STATE_DRIVE:
             driveOneMeter();
@@ -39,6 +39,7 @@ task main() {
             turn90Degs();
             break;
         case STATE_APPROACH:
+            wait1Msec(250);
             approachTarget();
             break;
         case STATE_DEPART:

@@ -19,13 +19,13 @@ PID ultrasonicPID;
 
 void driveInit() {
 
-    PIDInit(masterPID, 3, 0, 10, 127, 0, true);
+    PIDInit(masterPID, MASTER_kP, MASTER_kI, MASTER_kD, 127, 0, true);
     PIDReset(masterPID);
 
-    PIDInit(slavePID, 1, 0.25, 6, 100, 0, true);
+    PIDInit(slavePID, SLAVE_kP, SLAVE_kI, SLAVE_kD, 100, 0, true);
     PIDReset(slavePID);
 
-    PIDInit(ultrasonicPID, 2, 0.1, 0, 127, 0, true);
+    PIDInit(ultrasonicPID, ULTRASONIC_kP, ULTRASONIC_kI, ULTRASONIC_kD, 127, 0, true);
     PIDReset(ultrasonicPID);
 
     resetMotorEncoder(rightMotor);

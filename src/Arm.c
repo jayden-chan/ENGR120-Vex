@@ -7,5 +7,5 @@
 
 bool isCableDetached(float defaultValue) {
     float sensorDelta = abs(SensorValue[lightSensor] - defaultValue);
-    return sensorDelta > 15;
+    return sensorDelta > CABLE_SENSOR_DELTA;
 }

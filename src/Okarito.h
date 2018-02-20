@@ -13,7 +13,7 @@ void turn90Degs();
 void approachTarget();
 void departTarget();
 
-RobotState currentState = STATE_DISABLED;
+RobotState currentState = STATE_ENABLED;
 float last[5];
 float average;
 
