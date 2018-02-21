@@ -34,7 +34,7 @@ void driveOneMeter() {
 }
 
 void turn90Degs() {
-    rotate(90, 50, 10, 250);
+    rotate(90, 30, 10, 250);
     currentState = STATE_WAITING;
 }
 
