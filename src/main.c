@@ -56,19 +56,11 @@ task main() {
 void init() {
     clearDebugStream();
     driveInit();
-
-    last[0] = 0;
-    last[1] = 0;
-    last[2] = 0;
-    last[3] = 0;
-    last[4] = 0;
-
     wait1Msec(250);
 }
 
 // General cleanup and safety code
 void cleanup() {
-
     motor[rightMotor] = 0;
     motor[leftMotor]  = 0;
     motor[towerMotor] = 0;

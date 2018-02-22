@@ -1,4 +1,4 @@
-/*
+/* 
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
     Last Modified: Feb 19 2018
@@ -49,16 +49,4 @@ void departTarget() {
     arcTurn(25, -90, true, 20, 250);
 
     currentState = STATE_WAITING;
-}
-
-float averageLightSensor(){
-
-    last[0] = last[1];
-    last[1] = last[2];
-    last[2] = last[3];
-    last[3] = last[4];
-    last[4] = SensorValue[lightSensor];
-
-    average = (last[0] + last[1] + last[2] + last[3] + last[4]) / 5;
-    return average;
 }

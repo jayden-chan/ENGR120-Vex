@@ -5,7 +5,6 @@
 #include "RobotStates.h"
 
 void testPeriodic();
-float averageLightSensor();
 void waitingForButtons();
 void waitingForApproach();
 void driveOneMeter();
@@ -14,7 +13,5 @@ void approachTarget();
 void departTarget();
 
 RobotState currentState = STATE_ENABLED;
-float last[5];
-float average;
 
 #endif
