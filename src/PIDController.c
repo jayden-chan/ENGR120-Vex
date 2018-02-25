@@ -12,6 +12,7 @@ typedef struct {
     float P, I, D;
     float error;
     float errorSum, lastError;
+    float output, lastOutput;
     int lastTime;
     bool zeroOnCross;
     float integralLimit, epsilon;
@@ -32,11 +33,13 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
 
 // Resets the error values for the provided PID controller
 void PIDReset(PID &pid) {
-    pid.error     = 0;
-    pid.lastTime  = 0;
-    pid.dTime     = 0;
-    pid.errorSum  = 0;
-    pid.lastError = 0;
+    pid.error      = 0;
+    pid.lastTime   = 0;
+    pid.dTime      = 0;
+    pid.errorSum   = 0;
+    pid.lastError  = 0;
+    pid.output     = 0;
+    pid.lastOutput = 0;
 }
 
 float PIDCalculate(PID &pid, float error) {
@@ -49,6 +52,9 @@ float PIDCalculate(PID &pid, float error) {
     pid.lastError = pid.error;
     pid.error = error;
 
+    // Update output
+    pid.lastOutput = pid.output;
+
     // Calculate the change in error if the elapsed time is not zero
     float changeInError = pid.dTime != 0 ? (pid.error - pid.lastError) / pid.dTime : 0;
 
@@ -58,9 +64,9 @@ float PIDCalculate(PID &pid, float error) {
     }
 
     // Add the P and D values to the output sum
-    float output = pid.P * pid.error + pid.D * changeInError;
+    float pid.output = pid.P * pid.error + pid.D * changeInError;
 
-    if(abs(output) < MAX_SPEED) {
+    if(abs(pid.output) < MAX_SPEED) {
         // Calculate the integral of error if it is above the epsilon threshold
         pid.errorSum = abs(pid.error) > pid.epsilon ? pid.errorSum + pid.error * pid.dTime : 0;
     }
@@ -69,8 +75,8 @@ float PIDCalculate(PID &pid, float error) {
     pid.errorSum = clamp(pid.errorSum, pid.integralLimit);
 
     // Add the I term to the sum
-    output += pid.I * pid.errorSum;
+    pid.output += pid.I * pid.errorSum;
 
     // Return the sum
-    return output;
+    return pid.output;
 }
