@@ -17,10 +17,11 @@ typedef struct {
     bool zeroOnCross;
     float integralLimit, epsilon;
     float dTime;
+    float slewRate;
 } PID;
 
 // "Constructor" for the PID controller
-void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float epsilon, bool zeroOnCross) {
+void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float epsilon, float slewRate, bool zeroOnCross) {
 
     pid.P = kP;
     pid.I = kI;
@@ -29,6 +30,7 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
     pid.integralLimit = integralLimit;
     pid.epsilon = epsilon;
     pid.zeroOnCross = zeroOnCross;
+    pid.slewRate = slewRate;
 }
 
 // Resets the error values for the provided PID controller
@@ -40,6 +42,24 @@ void PIDReset(PID &pid) {
     pid.lastError  = 0;
     pid.output     = 0;
     pid.lastOutput = 0;
+}
+
+float PIDFilter(PID &pid) {
+    float toReturn = pid.output;
+
+    if(pid.dTime != 0) {
+        if(abs(pid.output - pid.lastOutput) / pid.dTime > pid.slewRate) {
+            toReturn = pid.lastOutput + pid.slewRate * pid.dTime * sign(pid.output);
+        }
+        else {
+            toReturn = pid.output;
+        }
+    }
+
+    toReturn = toReturn > 127 ? 127 : toReturn;
+
+    pid.lastOutput = toReturn;
+    return toReturn;
 }
 
 float PIDCalculate(PID &pid, float error) {
@@ -64,7 +84,7 @@ float PIDCalculate(PID &pid, float error) {
     }
 
     // Add the P and D values to the output sum
-    float pid.output = pid.P * pid.error + pid.D * changeInError;
+    pid.output = pid.P * pid.error + pid.D * changeInError;
 
     if(abs(pid.output) < MAX_SPEED) {
         // Calculate the integral of error if it is above the epsilon threshold
@@ -78,5 +98,5 @@ float PIDCalculate(PID &pid, float error) {
     pid.output += pid.I * pid.errorSum;
 
     // Return the sum
-    return pid.output;
+    return PIDFilter(pid);
 }
