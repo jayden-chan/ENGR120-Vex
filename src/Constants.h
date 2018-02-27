@@ -19,13 +19,16 @@ const int CABLE_SENSOR_DELTA = 30; // n/a
 const float MASTER_kP = 0.8;
 const float MASTER_kI = 0;
 const float MASTER_kD = 10;
+const float MASTER_SLEW = 999;
 
 const float SLAVE_kP = 0.9;
 const float SLAVE_kI = 0.25;
 const float SLAVE_kD = 10;
+const float SLAVE_SLEW = 999;
 
 const float ULTRASONIC_kP = 3;
 const float ULTRASONIC_kI = 0.08;
 const float ULTRASONIC_kD = 3;
+const float ULTRASONIC_SLEW = 999;
 
 #endif
