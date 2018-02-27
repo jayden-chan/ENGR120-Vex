@@ -5,4 +5,6 @@ RobotC source code for my team's ENGR 120 Vex robot. The robot's objective is to
 Group members: Cobey Hollier, Gabe Goerzen, Jayden Chan
 
 ## Images
-TBA
+
+"Okarito" after Milestone 2. Milestone 2 was the mechanical test involving the robot's driving mechanism and cable connection mechanism.
+![alt-text](/img/M2.jpg "Okarito")
