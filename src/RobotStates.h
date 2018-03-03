@@ -8,7 +8,8 @@ typedef enum RobotStateEnum {
     STATE_TURN,
     STATE_DRIVE,
     STATE_APPROACH,
-    STATE_DEPART
+    STATE_DEPART,
+    STATE_TEST
 } RobotState;
 
 #endif

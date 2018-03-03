@@ -19,13 +19,13 @@ PID ultrasonicPID;
 
 void driveInit() {
 
-    PIDInit(masterPID, MASTER_kP, MASTER_kI, MASTER_kD, 127, 0, MASTER_kS, true);
+    PIDInit(masterPID, MASTER_kP, MASTER_kI, MASTER_kD, 127, 0, MASTER_kS, true, MASTER_kR);
     PIDReset(masterPID);
 
-    PIDInit(slavePID, SLAVE_kP, SLAVE_kI, SLAVE_kD, 100, 0, SLAVE_kS, true);
+    PIDInit(slavePID, SLAVE_kP, SLAVE_kI, SLAVE_kD, 100, 0, SLAVE_kS, true, SLAVE_kR);
     PIDReset(slavePID);
 
-    PIDInit(ultrasonicPID, ULTRASONIC_kP, ULTRASONIC_kI, ULTRASONIC_kD, 127, 0, ULTRASONIC_kS, true);
+    PIDInit(ultrasonicPID, ULTRASONIC_kP, ULTRASONIC_kI, ULTRASONIC_kD, 127, 0, ULTRASONIC_kS, true, ULTRASONIC_kR);
     PIDReset(ultrasonicPID);
 
     resetMotorEncoder(rightMotor);
@@ -87,12 +87,12 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
-        writeDebugStreamLine("driveError: %f", driveError);
-        writeDebugStreamLine("slaveError: %f", slaveError);
+        //writeDebugStreamLine("driveError: %f", driveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
 
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 
-        writeDebugStreamLine("safeTime: %d", safeTime);
+        //writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;

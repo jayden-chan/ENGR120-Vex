@@ -18,10 +18,12 @@ typedef struct {
     float integralLimit, epsilon;
     float dTime;
     float slewRate;
+    int iterations;
+    int refreshRate;
 } PID;
 
 // "Constructor" for the PID controller
-void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float epsilon, float slewRate, bool zeroOnCross) {
+void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float epsilon, float slewRate, bool zeroOnCross, int refreshRate) {
 
     pid.P = kP;
     pid.I = kI;
@@ -31,17 +33,21 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
     pid.epsilon = epsilon;
     pid.zeroOnCross = zeroOnCross;
     pid.slewRate = slewRate;
+
+    pid.iterations = 0;
+    pid.refreshRate = refreshRate;
 }
 
 // Resets the error values for the provided PID controller
 void PIDReset(PID &pid) {
     pid.error      = 0;
     pid.lastTime   = 0;
-    pid.dTime      = 0;
+    pid.dTime      = 10;
     pid.errorSum   = 0;
     pid.lastError  = 0;
     pid.output     = 0;
     pid.lastOutput = 0;
+    pid.iterations = 0;
 }
 
 float PIDFilter(PID &pid) {
@@ -56,7 +62,7 @@ float PIDFilter(PID &pid) {
         }
     }
 
-    toReturn = toReturn > 127 ? 127 : toReturn;
+    toReturn = clamp(toReturn, 127);
 
     pid.lastOutput = toReturn;
     return toReturn;
@@ -65,15 +71,17 @@ float PIDFilter(PID &pid) {
 float PIDCalculate(PID &pid, float error) {
 
     // Update time
-    pid.dTime = nSysTime - pid.lastTime;
-    pid.lastTime = nSysTime;
+    pid.dTime = nPgmTime - pid.lastTime;
+    pid.lastTime = nPgmTime;
 
     // Update error
     pid.lastError = pid.error;
     pid.error = error;
 
+    wait1Msec(pid.refreshRate);
+
     // Update output
-    pid.lastOutput = pid.output;
+    //pid.lastOutput = pid.output;
 
     // Calculate the change in error if the elapsed time is not zero
     float changeInError = pid.dTime != 0 ? (pid.error - pid.lastError) / pid.dTime : 0;
@@ -97,6 +105,13 @@ float PIDCalculate(PID &pid, float error) {
     // Add the I term to the sum
     pid.output += pid.I * pid.errorSum;
 
+    pid.iterations++;
+
     // Return the sum
-    return PIDFilter(pid);
+    if(pid.iterations > 4) {
+        return PIDFilter(pid);
+    }
+    else {
+        return 0;
+    }
 }

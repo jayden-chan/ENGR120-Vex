@@ -1,6 +1,6 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
-#pragma config(Sensor, in1,    lightSensor,    sensorReflection)
 #pragma config(Sensor, in2,    lightSensor2,   sensorReflection)
+#pragma config(Sensor, in7,    lightSensor,    sensorReflection)
 #pragma config(Sensor, in8,    towerPot,       sensorPotentiometer)
 #pragma config(Sensor, dgtl1,  topButton,      sensorTouch)
 #pragma config(Sensor, dgtl2,  ultrasonic,     sensorSONAR_cm)
@@ -30,7 +30,7 @@ task main() {
             currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
-            waitingForApproach();
+            waitingForButtons();
             break;
         case STATE_DRIVE:
             driveOneMeter();
@@ -45,6 +45,9 @@ task main() {
         case STATE_DEPART:
             departTarget();
             break;
+        case STATE_TEST:
+        	testPeriodic();
+        	break;
          default:
             writeDebugStreamLine("Inside default switch block");
         }

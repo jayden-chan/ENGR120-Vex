@@ -17,19 +17,22 @@ const int   CABLE_SENSOR_DELTA   = 30;                                       // 
 
 // PID Constants
 
-const float MASTER_kP = 0.8;
-const float MASTER_kI = 0;
-const float MASTER_kD = 10;
-const float MASTER_kS = 999;
+const float MASTER_kP = 0.15;
+const float MASTER_kI = 0.0;
+const float MASTER_kD = 100;
+const float MASTER_kS = 0.2;
+const float MASTER_kR = 10;
 
-const float SLAVE_kP = 0.9;
-const float SLAVE_kI = 0.25;
+const float SLAVE_kP = 0.1;
+const float SLAVE_kI = 0.1;
 const float SLAVE_kD = 10;
-const float SLAVE_kS = 999;
+const float SLAVE_kS = 99999;
+const int   SLAVE_kR = 1;
 
 const float ULTRASONIC_kP = 3;
 const float ULTRASONIC_kI = 0.08;
 const float ULTRASONIC_kD = 3;
 const float ULTRASONIC_kS = 999;
+const int   ULTRASONIC_kR = 1;
 
 #endif

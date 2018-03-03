@@ -1,4 +1,4 @@
-/* 
+/*
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
     Last Modified: Feb 19 2018
@@ -8,14 +8,15 @@
 #include "Okarito.h"
 
 void testPeriodic() {
-    arcTurn(30, 90, false, 20, 250);
+    wait10Msec(30);
+    driveStraight(50, 70, 20, 250);
 
-    currentState = STATE_DISABLED;
+    currentState = STATE_WAITING;
 }
 
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_DRIVE;
+        currentState = STATE_TEST;
     }
     if(SensorValue[button2]) {
         currentState = STATE_TURN;
