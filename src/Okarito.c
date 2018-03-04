@@ -31,7 +31,7 @@ void testPeriodic() {
 //*********************************************
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_TEST;
+        currentState = STATE_DRIVE;
     }
     if(SensorValue[button2]) {
         currentState = STATE_TURN;

@@ -29,7 +29,7 @@ const float SLAVE_kD = 10;
 const float SLAVE_kS = 99999;
 const int   SLAVE_kR = 1;
 
-const float ULTRASONIC_kP = 3;
+const float ULTRASONIC_kP = 2.5;
 const float ULTRASONIC_kI = 0.08;
 const float ULTRASONIC_kD = 3;
 const float ULTRASONIC_kS = 999;

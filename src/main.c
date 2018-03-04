@@ -5,6 +5,7 @@
 #pragma config(Sensor, dgtl1,  topButton,      sensorTouch)
 #pragma config(Sensor, dgtl2,  ultrasonic,     sensorSONAR_cm)
 #pragma config(Sensor, dgtl4,  button2,        sensorTouch)
+#pragma config(Sensor, dgtl6,  redLED,         sensorDigitalOut)
 #pragma config(Sensor, I2C_1,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port1,           rightMotor,    tmotorVex393_HBridge, openLoop, reversed, encoderPort, I2C_1)
@@ -31,7 +32,7 @@ task main() {
             currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
-            waitingForButtons();
+            waitingForApproach();
             break;
         case STATE_DRIVE:
             driveOneMeter();
