@@ -4,6 +4,7 @@
 #include "DriveBase.c"
 #include "RobotStates.h"
 #include "LEDController.c"
+#include "LightHouse.c"
 
 void testPeriodic();
 void waitingForButtons();
@@ -12,6 +13,7 @@ void driveOneMeter();
 void turn90Degs();
 void approachTarget();
 void departTarget();
+void scanForBeacon();
 
 RobotState currentState = STATE_ENABLED;
 

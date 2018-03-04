@@ -4,5 +4,6 @@
 #include "Constants.h"
 
 int highestValue = 0;
+int pos = 0;
 
 #endif

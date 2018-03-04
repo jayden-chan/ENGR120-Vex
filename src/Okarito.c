@@ -20,6 +20,21 @@ void testPeriodic() {
     currentState = STATE_WAITING;
 }
 
+void waitingForScan() {
+    if(SensorValue[topButton]) {
+        currentState = STATE_SCAN;
+    }
+}
+
+void scanForBeacon() {
+    performScan();
+    currentState = STATE_DISABLED;
+}
+
+void rotateTowardsBeacon() {
+
+}
+
 //*********************************************
 // Checks the two buttons on the robot to see
 // if they have been pressed. When a button is
