@@ -12,6 +12,7 @@
 PID masterPID;
 PID slavePID;
 PID ultrasonicPID;
+PID turnPID;
 
 /****************************************************************/
 /*                   Init and reset functions                   */
@@ -28,6 +29,9 @@ void driveInit() {
     PIDInit(ultrasonicPID, ULTRASONIC_kP, ULTRASONIC_kI, ULTRASONIC_kD, 127, 0, ULTRASONIC_kS, true, ULTRASONIC_kR);
     PIDReset(ultrasonicPID);
 
+    PIDInit(turnPID, TURN_kP, TURN_kI, TURN_kD, 1227, 0, TURN_kS, true, TURN_kR);
+    PIDReset(turnPID);
+
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
 }
@@ -40,6 +44,7 @@ void driveReset() {
     PIDReset(masterPID);
     PIDReset(slavePID);
     PIDReset(ultrasonicPID);
+    PIDReset(turnPID);
 }
 
 /****************************************************************/
@@ -187,8 +192,9 @@ void ultrasonicApproach() {
 void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 
     driveReset();
+    float arcLength;
 
-    float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (degrees / 360);
+    arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (abs(degrees) / 360);
 
     int safeTime = 0;
     int time     = 0;
@@ -199,23 +205,36 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
         dTime = nSysTime - time;
         time = nSysTime;
 
-        float driveError = (arcLength * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
+        float driveError;
+
+        if(degrees > 0) {
+            driveError = (arcLength * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
+        }
+        else {
+            driveError = (arcLength * TICKS_PER_CM2) + getMotorEncoder(rightMotor);
+        }
+
         float slaveError = abs(getMotorEncoder(rightMotor)) - abs(getMotorEncoder(leftMotor));
 
-        float driveOut = PIDCalculate(masterPID, driveError);
+        float driveOut = PIDCalculate(turnPID, driveError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
         slaveOut = clamp(slaveOut, maxSpeed);
 
-        setRaw(-(driveOut + slaveOut), (driveOut - slaveOut));
+        if(degrees > 0) {
+            setRaw(-(driveOut + slaveOut), (driveOut - slaveOut));
+        }
+        else {
+            setRaw((driveOut + slaveOut), -(driveOut - slaveOut));
+        }
 
-        writeDebugStreamLine("driveError: %f", driveError);
-        writeDebugStreamLine("slaveError: %f", slaveError);
+        //writeDebugStreamLine("driveError: %f", driveError);
+        /writeDebugStreamLine("slaveError: %f", slaveError);
 
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 
-        writeDebugStreamLine("safeTime: %d", safeTime);
+        //writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;

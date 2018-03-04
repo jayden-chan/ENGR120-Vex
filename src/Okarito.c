@@ -1,8 +1,8 @@
 /*
-    Author: Jayden Chan, Cobey Hollier
-    Date Created: Feb 16 2018
-    Last Modified: Feb 19 2018
-    Details: Main robot code for 'Okarito'
+Author: Jayden Chan, Cobey Hollier
+Date Created: Feb 16 2018
+Last Modified: Feb 19 2018
+Details: Main robot code for 'Okarito'
 */
 
 #include "Okarito.h"
@@ -31,9 +31,32 @@ void scanForBeacon() {
     currentState = STATE_ROTATE;
 }
 
+void scanForBeaconAgain() {
+    performReverseScan();
+    currentState = STATE_ROTATE;
+}
+
+void getClose() {
+    driveStraight(30, 30, 30, 250);
+    currentState = STATE_SCAN2;
+}
+
 void rotateTowardsBeacon() {
-    rotate(posInDegs - 180, 50, 20, 250);
-    currentState = STATE_DISABLED;
+    writeDebugStreamLine("Rotating: %f", 180-posInDegs);
+    rotate(((180-posInDegs)*1.01), 30, 15, 250);
+    if(scanned) {
+        currentState = STATE_APPROACH;
+    }
+    else {
+        scanned = true;
+        currentState = STATE_GETCLOSE;
+    }
+}
+
+void checkForDisable() {
+    if(SensorValue[button2]) {
+        currentState = STATE_DISABLED;
+    }
 }
 
 //*********************************************
@@ -89,7 +112,7 @@ void driveOneMeter() {
 // @RETURN none
 //*********************************************
 void turn90Degs() {
-    rotate(90, 30, 10, 250);
+    rotate(-90, 30, 10, 250);
     currentState = STATE_WAITING;
 }
 
@@ -116,7 +139,7 @@ void approachTarget() {
 //*********************************************
 void departTarget() {
     driveStraight(-50, 38, 10, 250);
-    arcTurn(25, -90, true, 20, 250);
+    //arcTurn(25, -90, true, 20, 250);
 
     currentState = STATE_WAITING;
 }

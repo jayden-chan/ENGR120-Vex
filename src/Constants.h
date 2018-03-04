@@ -12,7 +12,7 @@ const float MATH_PI              = 3.14159265359;                            // 
 const int   ULTRASONIC_THRESH    = 3;                                        // cm
 const int   CABLE_SENSOR_DELTA   = 30;                                       // n/a
 const int   LIGHTHOUSE_UPPER     = 3950;                                     // ticks
-const int   LIGHTHOUSE_LOWER     = 75;                                      // ticks
+const int   LIGHTHOUSE_LOWER     = 0;                                      // ticks
 
 // PID Constants
 
@@ -20,7 +20,7 @@ const float MASTER_kP = 0.15;
 const float MASTER_kI = 0.0;
 const float MASTER_kD = 100;
 const float MASTER_kS = 0.2;
-const float MASTER_kR = 10;
+const int   MASTER_kR = 10;
 
 const float SLAVE_kP = 0.1;
 const float SLAVE_kI = 0.1;
@@ -35,10 +35,16 @@ const float ULTRASONIC_kS = 999;
 const int   ULTRASONIC_kR = 1;
 
 const float LIGHTHOUSE_kP = 0.09;
-const float LIGHTHOUSE_kI = 0;
+const float LIGHTHOUSE_kI = 0.0;
 const float LIGHTHOUSE_kD = 0;
 const float LIGHTHOUSE_kS = 999;
 const float LIGHTHOUSE_kR = 10;
+
+const float TURN_kP = 3;
+const float TURN_kI = 0;
+const float TURN_kD = 10;
+const float TURN_kS = 999999;
+const int   TURN_kR = 1;
 
 
 #endif

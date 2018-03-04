@@ -16,7 +16,9 @@ typedef enum RobotStateEnum {
     STATE_DEPART,
     STATE_TEST,
     STATE_SCAN,
-    STATE_ROTATE
+    STATE_SCAN2,
+    STATE_ROTATE,
+    STATE_GETCLOSE
 } RobotState;
 
 #endif

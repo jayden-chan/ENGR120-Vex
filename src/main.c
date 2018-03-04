@@ -46,6 +46,12 @@ task main() {
         case STATE_TURN:
             turn90Degs();
             break;
+        case STATE_GETCLOSE:
+            getClose();
+            break;
+        case STATE_SCAN2:
+            scanForBeaconAgain();
+            break;
         case STATE_APPROACH:
             wait1Msec(250);
             approachTarget();

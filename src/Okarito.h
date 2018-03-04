@@ -16,5 +16,6 @@ void departTarget();
 void scanForBeacon();
 
 RobotState currentState = STATE_ENABLED;
+bool scanned = false;
 
 #endif
