@@ -28,11 +28,12 @@ void waitingForScan() {
 
 void scanForBeacon() {
     performScan();
-    currentState = STATE_DISABLED;
+    currentState = STATE_ROTATE;
 }
 
 void rotateTowardsBeacon() {
-
+    rotate(posInDegs - 180, 50, 20, 250);
+    currentState = STATE_DISABLED;
 }
 
 //*********************************************

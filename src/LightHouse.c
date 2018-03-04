@@ -27,6 +27,8 @@ void performScan() {
     writeDebugStreamLine("pos: %d", pos);
     writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
 
+    posInDegs = (float)pos / TICKS_PER_DEG;
+
     rotateToDeg((float)pos/TICKS_PER_DEG, 20, 20, 250);
 
     motor[towerMotor] = 0;
