@@ -77,6 +77,7 @@ task main() {
 void init() {
     clearDebugStream();
     driveInit();
+    lightHouseInit();
     wait1Msec(250);
 }
 
