@@ -3,6 +3,7 @@
 
 #include "DriveBase.c"
 #include "RobotStates.h"
+#include "LEDController.c"
 
 void testPeriodic();
 void waitingForButtons();

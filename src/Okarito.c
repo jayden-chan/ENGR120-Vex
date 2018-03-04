@@ -14,8 +14,8 @@
 // @RETURN none
 //*********************************************
 void testPeriodic() {
-    wait10Msec(30);
-    driveStraight(50, 70, 20, 250);
+
+    toggleRed();
 
     currentState = STATE_WAITING;
 }
