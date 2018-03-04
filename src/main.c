@@ -19,6 +19,7 @@ void init();
 
 /****************************************************************/
 /*    DO NOT MODIFY THIS FILE EXCEPT TO ADD NEW ROBOT STATES    */
+/*              SEE OKATIRO.C FOR MAIN ROBOT CODE               */
 /****************************************************************/
 
 task main() {
@@ -46,8 +47,8 @@ task main() {
             departTarget();
             break;
         case STATE_TEST:
-        	testPeriodic();
-        	break;
+            testPeriodic();
+            break;
          default:
             writeDebugStreamLine("Inside default switch block");
         }
@@ -56,13 +57,30 @@ task main() {
     cleanup();
 }
 
+//*********************************************
+// Initialization code for the robot to execute
+// when it begins its routine. Clears the debug
+// stream, initializes the drivebase, and waits
+// for a small amount of time to let any sensor
+// values settle.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void init() {
     clearDebugStream();
     driveInit();
     wait1Msec(250);
 }
 
-// General cleanup and safety code
+//*********************************************
+// Cleanup code for the robot to execute when
+// it is finished it's routine. Simply turns
+// off all the motors and resets the encoders.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void cleanup() {
     motor[rightMotor] = 0;
     motor[leftMotor]  = 0;

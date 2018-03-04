@@ -1,3 +1,8 @@
+//**************************************
+// List of all possible states for the
+// robot's Finite State Machine.
+//**************************************
+
 #ifndef ROBOTSTATES_H
 #define ROBOTSTATES_H
 
