@@ -14,6 +14,8 @@ const float DRIVETRAIN_WIDTH     = 21.78;                                    // 
 const float MATH_PI              = 3.14159265359;                            // n/a
 const int   ULTRASONIC_THRESH    = 3;                                        // cm
 const int   CABLE_SENSOR_DELTA   = 30;                                       // n/a
+const int   LIGHTHOUSE_LOWER     = 3950;                                     // ticks
+const int   LIGHTHOUSE_UPPER     = 200;                                      // ticks
 
 // PID Constants
 
