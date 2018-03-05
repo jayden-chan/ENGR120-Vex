@@ -7,6 +7,11 @@
 #include "Utils.c"
 #include "Constants.h"
 
+//*********************************************
+// This is the struct for creating new PID
+// controllers, it enables "pseudo OOP" in
+// RobotC
+//*********************************************
 typedef struct {
     float P, I, D;
     float error;
@@ -21,7 +26,23 @@ typedef struct {
     int refreshRate;
 } PID;
 
-// "Constructor" for the PID controller
+//*********************************************
+// Initializes the PID controller with the
+// provided values. There are many.
+//
+// @PARAM pid The PID controller to initialize.
+// @PARAM kP  The P value for the controller.
+// @PARAM kI  The I value for the controller.
+// @PARAM kD  The D value for the controller.
+// @PARAM integralLimit The integral limit.
+// @PARAM epsilon The epsilon value.
+// @PARAM slewRate The slew rate.
+// @PARAM zeroOnCross Whether or not to reset
+// the integral term when the error changes
+// signs.
+// @PARAM refreshRate The delay between loops
+// @RETURN none
+//*********************************************
 void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float epsilon, float slewRate, bool zeroOnCross, int refreshRate) {
 
     pid.P = kP;
@@ -37,7 +58,13 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
     pid.refreshRate = refreshRate;
 }
 
-// Resets the error values for the provided PID controller
+//*********************************************
+// Resets all critical values for the PID
+// controller provided.
+//
+// @PARAM pid The controller to reset.
+// @RETURN none
+//*********************************************
 void PIDReset(PID &pid) {
     pid.error      = 0;
     pid.lastTime   = 0;
@@ -49,6 +76,15 @@ void PIDReset(PID &pid) {
     pid.iterations = 0;
 }
 
+//*********************************************
+// Filters the PID output. This includes
+// limiting the rate of change of the output
+// (slew rate) and ensuring that the output
+// does not exceed 127, the max value.
+//
+// @PARAM pid The controller to filter.
+// @RETURN The filtered output.
+//*********************************************
 float PIDFilter(PID &pid) {
     float toReturn = pid.output;
 
@@ -67,6 +103,17 @@ float PIDFilter(PID &pid) {
     return toReturn;
 }
 
+//*********************************************
+// Computes the overall PID output using the
+// provided error. This function is pretty
+// complicated so I have included some extra
+// comments to explain what's going on.
+//
+// @PARAM pid   The PID controller to use.
+// @PARAM error The error to use for the
+// calculation.
+// @RETURN The output value of the PID controller
+//*********************************************
 float PIDCalculate(PID &pid, float error) {
 
     // Update time
