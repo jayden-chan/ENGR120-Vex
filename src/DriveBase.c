@@ -166,7 +166,7 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
 }
 
 // Approaches the target and breaks when the cable has been connected
-void ultrasonicApproach() {
+void cableApproach() {
 
     driveReset();
 
@@ -183,6 +183,29 @@ void ultrasonicApproach() {
         slaveOut = clamp(slaveOut, 30);
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
+    }
+
+    stopMotors();
+}
+
+void ultrasonicApproach() {
+
+    driveReset();
+
+    while(true) {
+
+        float driveError = getUltraSonic() - ULTRASONIC_THRESH_2;
+        float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
+
+        float driveOut = PIDCalculate(ultrasonicPID, driveError);
+        float slaveOut = PIDCalculate(slavePID, slaveError);
+
+        driveOut = clamp(driveOut, 30);
+        slaveOut = clamp(slaveOut, 30);
+
+        setRaw((driveOut + slaveOut), (driveOut - slaveOut));
+
+        if(driveError < 5) break;
     }
 
     stopMotors();
@@ -230,7 +253,7 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
         }
 
         //writeDebugStreamLine("driveError: %f", driveError);
-        /writeDebugStreamLine("slaveError: %f", slaveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
 
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
 

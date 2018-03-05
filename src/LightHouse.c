@@ -15,6 +15,7 @@ void lightHouseInit() {
 }
 
 void performScan() {
+    highestValue = 0;
     while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
         if(SensorValue[lightSensor2] > highestValue) {
             highestValue = SensorValue[lightSensor2];
@@ -23,18 +24,19 @@ void performScan() {
         motor[towerMotor] = 20;
     }
 
-    writeDebugStreamLine("val: %d", highestValue);
-    writeDebugStreamLine("pos: %d", pos);
-    writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
+    //writeDebugStreamLine("val: %d", highestValue);
+    //writeDebugStreamLine("pos: %d", pos);
+    //writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
 
     posInDegs = (float)(pos+531) / TICKS_PER_DEG;
 
-    rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
+    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
 
     motor[towerMotor] = 0;
 }
 
 void performReverseScan() {
+    highestValue = 0;
     while(SensorValue[towerPot] > LIGHTHOUSE_LOWER) {
         if(SensorValue[lightSensor2] > highestValue) {
             highestValue = SensorValue[lightSensor2];
@@ -43,13 +45,13 @@ void performReverseScan() {
         motor[towerMotor] = -20;
     }
 
-    writeDebugStreamLine("val: %d", highestValue);
-    writeDebugStreamLine("pos: %d", pos);
-    writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
+    //writeDebugStreamLine("val: %d", highestValue);
+    //writeDebugStreamLine("pos: %d", pos);
+    //writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
 
     posInDegs = (float)(pos+531) / TICKS_PER_DEG;
 
-    rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
+    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
 
     motor[towerMotor] = 0;
 }

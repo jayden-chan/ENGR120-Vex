@@ -1,8 +1,8 @@
 /*
-Author: Jayden Chan, Cobey Hollier
-Date Created: Feb 16 2018
-Last Modified: Feb 19 2018
-Details: Main robot code for 'Okarito'
+    Author: Jayden Chan, Cobey Hollier
+    Date Created: Feb 16 2018
+    Last Modified: Feb 19 2018
+    Details: Main robot code for 'Okarito'
 */
 
 #include "Okarito.h"
@@ -65,7 +65,7 @@ void scanForBeaconAgain() {
 // @RETURN none
 //*********************************************
 void getClose() {
-    driveStraight(30, 30, 30, 250);
+    ultrasonicApproach();
     currentState = STATE_SCAN2;
 }
 
@@ -79,7 +79,7 @@ void getClose() {
 void rotateTowardsBeacon() {
     writeDebugStreamLine("Rotating: %f", 180-posInDegs);
 
-    rotate(((180-posInDegs)*1.015), 30, 15, 250);
+    rotate(((180-posInDegs)*1.0), 30, 15, 250);
 
     if(scanned) {
         currentState = STATE_APPROACH;
@@ -156,7 +156,7 @@ void turn90Degs() {
 // @RETURN none
 //*********************************************
 void approachTarget() {
-    ultrasonicApproach();
+    cableApproach();
 
     currentState = STATE_DEPART;
 }
