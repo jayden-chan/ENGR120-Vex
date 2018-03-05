@@ -5,6 +5,12 @@
     Details: LED controller for the robot
 */
 
+//*********************************************
+// Toggles the red LED on or off
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void toggleRed() {
     if(SensorValue[redLED]) {
         SensorValue[redLED] = 0;

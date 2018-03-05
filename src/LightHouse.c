@@ -15,10 +15,6 @@ void lightHouseInit() {
 }
 
 void performScan() {
-    while(SensorValue[towerPot] > LIGHTHOUSE_LOWER) {
-        motor[towerMotor] = -20;
-    }
-
     while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
         if(SensorValue[lightSensor2] > highestValue) {
             highestValue = SensorValue[lightSensor2];
@@ -58,6 +54,18 @@ void performReverseScan() {
     motor[towerMotor] = 0;
 }
 
+//*********************************************
+// Rotates the lighthouse assembly to a
+// specific angle relative to the back of the
+// robot using a PID loop.
+//
+// @PARAM degrees       The angle to rotate to
+// @PARAM maxSpeed      The max allowed speed
+// @PARAM safeRange     The range tollerance
+// @PARAM safeThreshold The time needed to be
+// in the safe zone before finishing
+// @RETURN none
+//*********************************************
 void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
     PIDReset(lightPID);
 

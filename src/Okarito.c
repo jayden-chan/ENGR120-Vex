@@ -14,48 +14,79 @@ Details: Main robot code for 'Okarito'
 // @RETURN none
 //*********************************************
 void testPeriodic() {
-
     toggleRed();
-
     currentState = STATE_WAITING;
 }
 
+//*********************************************
+// Begins the scan process when the top button
+// has been pressed.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void waitingForScan() {
     if(SensorValue[topButton]) {
         currentState = STATE_SCAN;
     }
 }
 
+//*********************************************
+// Performs the scan for the target object
+// then changes the state of the robot to
+// rotate towards the found object.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void scanForBeacon() {
     performScan();
     currentState = STATE_ROTATE;
 }
 
+//*********************************************
+// Scans for the beacon in the opposite
+// direction after finding the initial angle.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void scanForBeaconAgain() {
     performReverseScan();
     currentState = STATE_ROTATE;
 }
 
+//*********************************************
+// After the robot has rotated toward the
+// beacon, drive a little closer in order to
+// get a more accurate scan.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void getClose() {
     driveStraight(30, 30, 30, 250);
     currentState = STATE_SCAN2;
 }
 
+//*********************************************
+// Takes the rotation value from the lighthouse
+// scan and rotates the robot to face it.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void rotateTowardsBeacon() {
     writeDebugStreamLine("Rotating: %f", 180-posInDegs);
-    rotate(((180-posInDegs)*1.01), 30, 15, 250);
+
+    rotate(((180-posInDegs)*1.015), 30, 15, 250);
+
     if(scanned) {
         currentState = STATE_APPROACH;
     }
     else {
         scanned = true;
         currentState = STATE_GETCLOSE;
-    }
-}
-
-void checkForDisable() {
-    if(SensorValue[button2]) {
-        currentState = STATE_DISABLED;
     }
 }
 
