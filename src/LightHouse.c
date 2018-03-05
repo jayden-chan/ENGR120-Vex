@@ -7,13 +7,28 @@
 
 #include "LightHouse.h"
 
-PID lightPID;
 
+//*********************************************
+// Initialization code for the lighthouse
+// assembly PID controller.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void lightHouseInit() {
     PIDInit(lightPID, LIGHTHOUSE_kP, LIGHTHOUSE_kI, LIGHTHOUSE_kD, 127, 0, LIGHTHOUSE_kS, true, LIGHTHOUSE_kR);
     PIDReset(lightPID);
 }
 
+//*********************************************
+// Scans for the beacon by rotating the light/
+// sensor assembly 360 degrees and choosing
+// the highest recorded value from the light
+// sensor.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void performScan() {
     highestValue = 0;
     while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
@@ -35,6 +50,15 @@ void performScan() {
     motor[towerMotor] = 0;
 }
 
+//*********************************************
+// Scans for the beacon in the opposite
+// direction. Used to get a more precise
+// measurement after the first scan / drive
+// sequence is finished.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void performReverseScan() {
     highestValue = 0;
     while(SensorValue[towerPot] > LIGHTHOUSE_LOWER) {

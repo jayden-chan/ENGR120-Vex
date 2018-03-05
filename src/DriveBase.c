@@ -18,6 +18,13 @@ PID turnPID;
 /*                   Init and reset functions                   */
 /****************************************************************/
 
+//*********************************************
+// Initialization code for all of the PID
+// controllers associated with the drivebase.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void driveInit() {
 
     PIDInit(masterPID, MASTER_kP, MASTER_kI, MASTER_kD, 127, 0, MASTER_kS, true, MASTER_kR);
@@ -36,7 +43,12 @@ void driveInit() {
     resetMotorEncoder(leftMotor);
 }
 
-// Resets critical drivebase components to prepare for the next manoeuvre
+//*********************************************
+// Resets all encoders and PID loops.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void driveReset() {
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
@@ -51,13 +63,26 @@ void driveReset() {
 /*                       Helper functions                       */
 /****************************************************************/
 
-// Simply sets the values for the left and right side of the drivetrain
+//*********************************************
+// Sets the values for the left and right side
+// of the drivetrain. Written to simplify
+// drive functions.
+//
+// @PARAM left  Power level for the left side.
+// @PARAM right Power level for the right side.
+// @RETURN none
+//*********************************************
 void setRaw(float left, float right) {
     motor[leftMotor]  = left;
     motor[rightMotor] = right;
 }
 
-// Stops the motors
+//*********************************************
+// Stops the motors.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void stopMotors() {
     motor[leftMotor]  = 0;
     motor[rightMotor] = 0;
@@ -67,7 +92,19 @@ void stopMotors() {
 /*                        Drive functions                       */
 /****************************************************************/
 
-// Drives perfectly straight for the distance given (in cm)
+//*********************************************
+// Drives in a perfectly straight line using
+// distance PID and L-R compensation PID.
+//
+// @PARAM distance The distance in cm.
+// @PARAM maxSpeed The max allowed speed.
+// @param safeRange The acceptable range around
+// the target to finish in.
+// @PARAM safeThreshold The time required to be
+// inside the safe zone before exiting the
+// function.
+// @RETURN none
+//*********************************************
 void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold) {
 
     driveReset();
@@ -107,7 +144,22 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
     stopMotors();
 }
 
-// Performs an arc turn with the radius and ending orientation provided
+//*********************************************
+// Performs an arc turn with the specified
+// radius and max speed. Radius is measured
+// from the INSIDE wheel.
+//
+// @PARAM radius The radius for the arc.
+// @PARAM orientation The ending orientation
+// for the arc.
+// @PARAM turnRight Whether to turn right
+// @PARAM safeRange The acceptable range to
+// end in.
+// @PARAM safeThreshold The time required to be
+// inside the safe zone before exiting the
+// function.
+// @RETURN none
+//*********************************************
 void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int safeThreshold) {
 
     driveReset();
@@ -165,7 +217,14 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     stopMotors();
 }
 
-// Approaches the target and breaks when the cable has been connected
+//*********************************************
+// Approaches the target using the ultrasonic
+// sensor and terminates when the cable has
+// been connected successfully.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void cableApproach() {
 
     driveReset();
@@ -188,6 +247,14 @@ void cableApproach() {
     stopMotors();
 }
 
+//*********************************************
+// Drives until the ultrasonic sensor has a
+// value of 40 cm. Used for getting close to
+// the beacon for a second scan.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void ultrasonicApproach() {
 
     driveReset();
@@ -211,7 +278,13 @@ void ultrasonicApproach() {
     stopMotors();
 }
 
-// Rotates in place for the given number of degrees
+//*********************************************
+// Rotates in place for the specified number of
+// degrees.
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
 void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 
     driveReset();
