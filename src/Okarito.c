@@ -1,7 +1,6 @@
 /*
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
-    Last Modified: Feb 19 2018
     Details: Main robot code for 'Okarito'
 */
 

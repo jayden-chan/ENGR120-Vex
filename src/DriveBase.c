@@ -1,7 +1,6 @@
 /*
     Author: Jayden Chan
     Date Created: Jan 13 2018
-    Last Modified: Feb 22 2018
     Details: DriveBase controller for the robot
 */
 

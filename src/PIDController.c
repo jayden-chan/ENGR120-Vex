@@ -1,7 +1,6 @@
 /*
     Author: Jayden Chan
     Date Created: Jan 12 2018
-    Last Modified: Feb 18 2018
     Details: PID Controller
 */
 

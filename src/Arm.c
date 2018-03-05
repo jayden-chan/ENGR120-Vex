@@ -1,7 +1,6 @@
 /*
     Author: Jayden Chan, Cobey Hollier
     Date Created: Feb 16 2018
-    Last Modified: Feb 22 2018
     Details: Wrapper class for arm mechanism
 */
 
