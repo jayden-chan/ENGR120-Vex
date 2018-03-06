@@ -38,13 +38,13 @@ void performScan() {
         motor[towerMotor] = 20;
     }
 
-    //writeDebugStreamLine("val: %d", highestValue);
-    //writeDebugStreamLine("pos: %d", pos);
-    //writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
+    writeDebugStreamLine("val: %d", highestValue);
+    writeDebugStreamLine("pos: %d", pos);
+    writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
 
-    posInDegs = (float)(pos+531) / TICKS_PER_DEG;
+    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 
-    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
+    rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
 
     motor[towerMotor] = 0;
 }
@@ -72,9 +72,9 @@ void performReverseScan() {
     //writeDebugStreamLine("pos: %d", pos);
     //writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
 
-    posInDegs = (float)(pos+531) / TICKS_PER_DEG;
+    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 
-    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
+    rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
 
     motor[towerMotor] = 0;
 }

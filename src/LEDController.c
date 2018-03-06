@@ -11,10 +11,25 @@
 // @RETURN none
 //*********************************************
 void toggleRed() {
-    if(SensorValue[redLED]) {
-        SensorValue[redLED] = 0;
+    if(SensorValue[LED1]) {
+        SensorValue[LED1] = 0;
     }
     else {
-        SensorValue[redLED] = 1;
+        SensorValue[LED1] = 1;
+    }
+}
+
+//*********************************************
+// Toggles the rainbow LED on or off
+//
+// @PARAM none
+// @RETURN none
+//*********************************************
+void toggleRainbow() {
+    if(SensorValue[LED2]) {
+        SensorValue[LED2] = 0;
+    }
+    else {
+        SensorValue[LED2] = 1;
     }
 }
