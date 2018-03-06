@@ -18,7 +18,8 @@ typedef enum RobotStateEnum {
     STATE_SCAN,
     STATE_SCAN2,
     STATE_ROTATE,
-    STATE_GETCLOSE
+    STATE_GETCLOSE,
+    STATE_RECALLIBRATE
 } RobotState;
 
 #endif

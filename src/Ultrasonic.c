@@ -4,6 +4,8 @@
     Details: Wrapper class for the ultrasonic sensor.
 */
 
+int lastValue = 0;
+
 //*********************************************
 // Returns the value of the ultrasonic sensor
 // after doing some processing to avoid getting
@@ -14,5 +16,10 @@
 // @RETURN The value of the ultrasonic sensor.
 //*********************************************
 float getUltraSonic() {
+    if(SensorValue[ultrasonic] == -1) {
+        return 200;
+    }
+
+    lastValue = SensorValue[ultrasonic];
     return clamp2((float) SensorValue[ultrasonic], 0, 100);
 }

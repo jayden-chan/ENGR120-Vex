@@ -26,8 +26,18 @@ void testPeriodic() {
 //*********************************************
 void waitingForScan() {
     if(SensorValue[topButton]) {
+        scanned = false;
         currentState = STATE_SCAN;
     }
+    if(SensorValue[button2]) {
+        currentState = STATE_RECALLIBRATE;
+    }
+}
+
+void callibrate() {
+    POT_OFFSET = 1075 - SensorValue[towerPot];
+    writeDebugStreamLine("offset: %d", POT_OFFSET);
+    currentState = STATE_WAITING;
 }
 
 //*********************************************
@@ -81,7 +91,9 @@ void rotateTowardsBeacon() {
     rotate(((180-posInDegs)*1.0), 30, 15, 250);
 
     if(scanned) {
-        currentState = STATE_APPROACH;
+        toggleRed();
+        currentState = STATE_DISABLED;
+        return;
     }
     else {
         scanned = true;
@@ -157,7 +169,7 @@ void turn90Degs() {
 void approachTarget() {
     cableApproach();
 
-    currentState = STATE_DEPART;
+    currentState = STATE_DISABLED;
 }
 
 //*********************************************

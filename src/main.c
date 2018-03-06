@@ -30,10 +30,15 @@ task main() {
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
+            SensorValue[LED1] = 0;
+            SensorValue[LED2] = 0;
             currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
-            waitingForScan();
+            waitingForApproach();
+            break;
+        case STATE_RECALLIBRATE:
+            callibrate();
             break;
         case STATE_SCAN:
             scanForBeacon();

@@ -7,6 +7,7 @@
 #include "PIDController.c"
 #include "Ultrasonic.c"
 #include "Arm.c"
+#include "LEDController.c"
 
 PID masterPID;
 PID slavePID;
@@ -243,6 +244,7 @@ void cableApproach() {
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
     }
 
+    toggleRainbow();
     stopMotors();
 }
 

@@ -44,7 +44,7 @@ void performScan() {
 
     posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 
-    rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
+    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
 
     motor[towerMotor] = 0;
 }
@@ -74,7 +74,7 @@ void performReverseScan() {
 
     posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 
-    rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
+    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
 
     motor[towerMotor] = 0;
 }
