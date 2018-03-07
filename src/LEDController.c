@@ -4,12 +4,9 @@
     Details: LED controller for the robot
 */
 
-//*********************************************
-// Toggles the red LED on or off
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Toggles the red LED on or off
+ */
 void toggleRed() {
     if(SensorValue[LED1]) {
         SensorValue[LED1] = 0;
@@ -19,12 +16,9 @@ void toggleRed() {
     }
 }
 
-//*********************************************
-// Toggles the rainbow LED on or off
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Toggles the rainbow LED on or off
+ */
 void toggleRainbow() {
     if(SensorValue[LED2]) {
         SensorValue[LED2] = 0;

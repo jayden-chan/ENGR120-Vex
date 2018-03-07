@@ -76,16 +76,13 @@ task main() {
     cleanup();
 }
 
-//*********************************************
-// Initialization code for the robot to execute
-// when it begins its routine. Clears the debug
-// stream, initializes the drivebase, and waits
-// for a small amount of time to let any sensor
-// values settle.
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Initialization code for the robot to execute
+ * when it begins its routine. Clears the debug
+ * stream, initializes the drivebase, and waits
+ * for a small amount of time to let any sensor
+ * values settle.
+ */
 void init() {
     clearDebugStream();
     driveInit();
@@ -93,14 +90,11 @@ void init() {
     wait1Msec(250);
 }
 
-//*********************************************
-// Cleanup code for the robot to execute when
-// it is finished it's routine. Simply turns
-// off all the motors and resets the encoders.
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Cleanup code for the robot to execute when
+ * it is finished it's routine. Simply turns
+ * off all the motors and resets the encoders.
+ */
 void cleanup() {
     motor[rightMotor] = 0;
     motor[leftMotor]  = 0;

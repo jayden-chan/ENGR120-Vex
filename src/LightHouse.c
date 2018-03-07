@@ -7,27 +7,21 @@
 #include "LightHouse.h"
 
 
-//*********************************************
-// Initialization code for the lighthouse
-// assembly PID controller.
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Initialization code for the lighthouse
+ * assembly PID controller.
+ */
 void lightHouseInit() {
     PIDInit(lightPID, LIGHTHOUSE_kP, LIGHTHOUSE_kI, LIGHTHOUSE_kD, 127, 0, LIGHTHOUSE_kS, true, LIGHTHOUSE_kR);
     PIDReset(lightPID);
 }
 
-//*********************************************
-// Scans for the beacon by rotating the light/
-// sensor assembly 360 degrees and choosing
-// the highest recorded value from the light
-// sensor.
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Scans for the beacon by rotating the light/
+ * sensor assembly 360 degrees and choosing
+ * the highest recorded value from the light
+ * sensor.
+ */
 void performScan() {
     highestValue = 0;
     while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
@@ -49,15 +43,12 @@ void performScan() {
     motor[towerMotor] = 0;
 }
 
-//*********************************************
-// Scans for the beacon in the opposite
-// direction. Used to get a more precise
-// measurement after the first scan / drive
-// sequence is finished.
-//
-// @PARAM none
-// @RETURN none
-//*********************************************
+/**
+ * Scans for the beacon in the opposite
+ * direction. Used to get a more precise
+ * measurement after the first scan / drive
+ * sequence is finished.
+ */
 void performReverseScan() {
     highestValue = 0;
     while(SensorValue[towerPot] > LIGHTHOUSE_LOWER) {
@@ -79,18 +70,17 @@ void performReverseScan() {
     motor[towerMotor] = 0;
 }
 
-//*********************************************
-// Rotates the lighthouse assembly to a
-// specific angle relative to the back of the
-// robot using a PID loop.
-//
-// @PARAM degrees       The angle to rotate to
-// @PARAM maxSpeed      The max allowed speed
-// @PARAM safeRange     The range tollerance
-// @PARAM safeThreshold The time needed to be
-// in the safe zone before finishing
-// @RETURN none
-//*********************************************
+/**
+ * Rotates the lighthouse assembly to a
+ * specific angle relative to the back of the
+ * robot using a PID loop.
+ *
+ * @param degrees       The angle to rotate to
+ * @param maxSpeed      The max allowed speed
+ * @param safeRange     The range tollerance
+ * @param safeThreshold The time needed to be
+ * in the safe zone before finishing
+ */
 void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
     PIDReset(lightPID);
 

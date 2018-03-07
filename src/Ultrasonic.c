@@ -6,15 +6,14 @@
 
 int lastValue = 0;
 
-//*********************************************
-// Returns the value of the ultrasonic sensor
-// after doing some processing to avoid getting
-// weird values such as negative distance or
-// spikes to over 100.
-//
-// @PARAM none
-// @RETURN The value of the ultrasonic sensor.
-//*********************************************
+/**
+ * Returns the value of the ultrasonic sensor
+ * after doing some processing to avoid getting
+ * weird values such as negative distance or
+ * spikes to over 100.
+ *
+ * @return The value of the ultrasonic sensor.
+ */
 float getUltraSonic() {
     if(SensorValue[ultrasonic] == -1) {
         return 200;
