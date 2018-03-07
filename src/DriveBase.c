@@ -1,8 +1,15 @@
-/*
-    Author: Jayden Chan
-    Date Created: Jan 13 2018
-    Details: DriveBase controller for the robot
-*/
+/**
+ * Class for controlling the robot's drivetrain.
+ * This file combines code from several other files
+ * in order to tell the drivetrain what to do in
+ * specific circumstances. All driving functions
+ * are controlled with closed-loop PID controllers.
+ * Most of them are also using L-R compensation PID
+ * to ensure that the robot stays on its intended course.
+ *
+ * @author Jayden Chan
+ * @date January 13, 2018
+ */
 
 #include "PIDController.c"
 #include "Ultrasonic.c"

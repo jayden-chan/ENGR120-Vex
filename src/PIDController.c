@@ -1,17 +1,16 @@
-/*
-    Author: Jayden Chan
-    Date Created: Jan 12 2018
-    Details: PID Controller
-*/
+/**
+ * This class contains all the code needed
+ * for the PID controllers on the robot. It
+ * includes a struct typedef to enable "pseudo
+ * object oriented" code in RobotC.
+ *
+ * @author Jayden Chan
+ * @date January 16, 2018
+ */
 
 #include "Utils.c"
 #include "Constants.h"
 
-/**
- * This is the struct for creating new PID
- * controllers, it enables "pseudo OOP" in
- * RobotC
- */
 typedef struct {
     float P, I, D;
     float error;

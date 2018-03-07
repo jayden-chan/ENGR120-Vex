@@ -1,8 +1,13 @@
-/*
-    Author: Jayden Chan, Cobey Hollier
-    Date Created: Feb 16 2018
-    Details: Main robot code for 'Okarito'
-*/
+/**
+ * This is the file which contains the
+ * main robot code for the robot. All functions
+ * from other files come together here to make
+ * the robot actually perform the functions it
+ * needs to.
+ *
+ * @author Jayden Chan, Cobey Hollier
+ * @date February 16, 2018
+ */
 
 #include "Okarito.h"
 

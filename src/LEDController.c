@@ -1,8 +1,11 @@
-/*
-    Author: Jayden Chan
-    Date Created: Mar 3 2018
-    Details: LED controller for the robot
-*/
+/**
+ * This class is for controlling the robot's
+ * LEDs. It includes functions for easily
+ * toggling the state of the robot's LEDs.
+ *
+ * @author Jayden Chan
+ * @date March 3, 2018
+ */
 
 /**
  * Toggles the red LED on or off

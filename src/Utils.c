@@ -1,8 +1,13 @@
-/*
-    Author: Jayden Chan
-    Date Created: Jan 12 2018
-    Details: Utility class to support PIDController and other files
-*/
+/**
+ * This is a utility class that is designed
+ * to support other parts of the code such
+ * as the PID controller and ultrasonic
+ * filtering class. It includes mostly
+ * mathematical functions.
+ *
+ * @author Jayden Chan
+ * @date January 12, 2018
+ */
 
 /**
  * Returns the sign of the input. If the input

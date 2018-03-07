@@ -1,8 +1,12 @@
-/*
-    Author: Jayden Chan, Cobey Hollier
-    Date Created: Feb 16 2018
-    Details: Wrapper class for arm mechanism
-*/
+/**
+ * Wrapper class for the arm mechanism.
+ * This code is used to easily determine
+ * information about the state of the
+ * robot's arm.
+ *
+ * @author Jayden Chan, Cobey Hollier
+ * @date February 16, 2018
+ */
 
 /**
  * Returns true or false depending on whether

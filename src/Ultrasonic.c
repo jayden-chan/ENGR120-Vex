@@ -1,10 +1,14 @@
-/*
-    Author: Jayden Chan
-    Date Created: Feb 16 2018
-    Details: Wrapper class for the ultrasonic sensor.
-*/
+/**
+ * This is a wrapper class for the ultrasonic
+ * sensor. It is responsible for filtering the
+ * bad values from the sensor and making it easy
+ * for us to get a clean value.
+ *
+ * @author Jayden Chan
+ * @date February 16, 2018
+ */
 
-int lastValue = 0;
+#include "Utils.c"
 
 /**
  * Returns the value of the ultrasonic sensor

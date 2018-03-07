@@ -1,11 +1,16 @@
-/*
-    Author: Jayden Chan
-    Date Created: Mar 4 2018
-    Details: LED controller for the robot
-*/
+/**
+ * This class is responsible for controlling
+ * the robot's "Lighthouse" assembly, which
+ * includes a flashlight and visible light
+ * (540 nm) phototransistor. It includes
+ * functions for finding the beacon and
+ * rotating the assembly to face it.
+ *
+ * @author Jayden Chan
+ * @date March 4, 2018
+ */
 
 #include "LightHouse.h"
-
 
 /**
  * Initialization code for the lighthouse
