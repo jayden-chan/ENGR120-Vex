@@ -19,8 +19,8 @@
  * connected successfully.
  *
  * @param defaultValue The sensor value when
- * the cable is still being held by the robot
- * @return Whether the cable is connected or not
+ * the cable is still being held by the robot.
+ * @return Whether the cable is connected or not.
  */
 bool isCableDetached(float defaultValue) {
     float sensorDelta = abs(SensorValue[lightSensor] - defaultValue);

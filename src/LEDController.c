@@ -8,7 +8,7 @@
  */
 
 /**
- * Toggles the red LED on or off
+ * Toggles the red LED on or off.
  */
 void toggleRed() {
     if(SensorValue[LED1]) {
@@ -20,7 +20,7 @@ void toggleRed() {
 }
 
 /**
- * Toggles the rainbow LED on or off
+ * Toggles the rainbow LED on or off.
  */
 void toggleRainbow() {
     if(SensorValue[LED2]) {

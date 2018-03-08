@@ -39,7 +39,7 @@ typedef struct {
  * @param zeroOnCross Whether or not to reset
  * the integral term when the error changes
  * signs.
- * @param refreshRate The delay between loops
+ * @param refreshRate The delay between loops.
  */
 void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float epsilon, float slewRate, bool zeroOnCross, int refreshRate) {
 
@@ -106,10 +106,10 @@ float PIDFilter(PID &pid) {
  * complicated so I have included some extra
  * comments to explain what's going on.
  *
- * @param pid   The PID controller to use.
+ * @param pid The PID controller to use.
  * @param error The error to use for the
  * calculation.
- * @return The output value of the PID controller
+ * @return The output value of the PID controller.
  */
 float PIDCalculate(PID &pid, float error) {
 

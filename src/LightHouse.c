@@ -80,11 +80,11 @@ void performReverseScan() {
  * specific angle relative to the back of the
  * robot using a PID loop.
  *
- * @param degrees       The angle to rotate to
- * @param maxSpeed      The max allowed speed
- * @param safeRange     The range tollerance
+ * @param degrees The angle to rotate to.
+ * @param maxSpeed The max allowed speed.
+ * @param safeRange The range tollerance.
  * @param safeThreshold The time needed to be
- * in the safe zone before finishing
+ * in the safe zone before finishing.
  */
 void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
     PIDReset(lightPID);

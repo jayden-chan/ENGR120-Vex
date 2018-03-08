@@ -148,7 +148,7 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
  * @param radius The radius for the arc.
  * @param orientation The ending orientation
  * for the arc.
- * @param turnRight Whether to turn right
+ * @param turnRight Whether to turn right.
  * @param safeRange The acceptable range to
  * end in.
  * @param safeThreshold The time required to be
@@ -271,6 +271,13 @@ void ultrasonicApproach() {
 /**
  * Rotates in place for the specified number of
  * degrees.
+ *
+ * @param degrees The number of degrees to turn.
+ * @param maxSpeed The max allowed speed during the turn.
+ * @param safeRange The acceptable range to around the target to
+ * finish the turn in.
+ * @param safeThreshold The amount of time neede to be inside
+ * the safe zone before exiting the function.
  */
 void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 
