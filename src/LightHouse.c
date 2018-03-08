@@ -10,7 +10,14 @@
  * @date March 4, 2018
  */
 
-#include "LightHouse.h"
+#include "Constants.h"
+#include "PIDController.c"
+#include "Utils.c"
+
+PID lightPID;
+int highestValue = 0;
+int pos = 0;
+int posInDegs = 0;
 
 /**
  * Initialization code for the lighthouse

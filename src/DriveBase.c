@@ -15,15 +15,13 @@
 #include "Ultrasonic.c"
 #include "Arm.c"
 #include "LEDController.c"
+#include "Constants.h"
+#include "Constants.h"
 
 PID masterPID;
 PID slavePID;
 PID ultrasonicPID;
 PID turnPID;
-
-/****************************************************************/
-/*                   Init and reset functions                   */
-/****************************************************************/
 
 /**
  * Initialization code for all of the PID
@@ -60,10 +58,6 @@ void driveReset() {
     PIDReset(turnPID);
 }
 
-/****************************************************************/
-/*                       Helper functions                       */
-/****************************************************************/
-
 /**
  * Sets the values for the left and right side
  * of the drivetrain. Written to simplify
@@ -84,10 +78,6 @@ void stopMotors() {
     motor[leftMotor]  = 0;
     motor[rightMotor] = 0;
 }
-
-/****************************************************************/
-/*                        Drive functions                       */
-/****************************************************************/
 
 /**
  * Drives in a perfectly straight line using

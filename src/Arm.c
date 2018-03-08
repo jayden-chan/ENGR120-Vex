@@ -8,6 +8,8 @@
  * @date February 16, 2018
  */
 
+#include "Constants.h"
+
 /**
  * Returns true or false depending on whether
  * or not the cable has been successfully

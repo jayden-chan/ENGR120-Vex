@@ -9,7 +9,13 @@
  * @date February 16, 2018
  */
 
-#include "Okarito.h"
+#include "DriveBase.c"
+#include "RobotStates.h"
+#include "LEDController.c"
+#include "LightHouse.c"
+
+RobotState currentState = STATE_ENABLED;
+bool scanned = false;
 
 /**
  * Function used for testing only.
