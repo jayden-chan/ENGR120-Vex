@@ -1,4 +1,6 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
+#pragma config(Sensor, in4,    testing,        sensorPotentiometer)
+#pragma config(Sensor, in5,    rightLightSensor, sensorReflection)
 #pragma config(Sensor, in6,    lightSensor2,   sensorReflection)
 #pragma config(Sensor, in7,    lightSensor,    sensorReflection)
 #pragma config(Sensor, in8,    towerPot,       sensorPotentiometer)
