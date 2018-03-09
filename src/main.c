@@ -1,3 +1,14 @@
+/**
+ * This file contains the robot's configuration
+ * settings as well as the main entry point
+ * for the code. It contains the finite state
+ * machine code that determines the robot's
+ * actions at any given point in time.
+ *
+ * @author Jayden Chan, Cobey Hollier
+ * @date January 10, 2018
+ */
+
 #pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, in4,    testing,        sensorPotentiometer)
 #pragma config(Sensor, in5,    rightLightSensor, sensorReflection)
@@ -21,11 +32,16 @@
 void cleanup();
 void init();
 
-/****************************************************************/
-/*    DO NOT MODIFY THIS FILE EXCEPT TO ADD NEW ROBOT STATES    */
-/*              SEE OKARITO.C FOR MAIN ROBOT CODE               */
-/****************************************************************/
+//===============================================================
+//    DO NOT MODIFY THIS FILE EXCEPT TO ADD NEW ROBOT STATES
+//              SEE OKARITO.C FOR MAIN ROBOT CODE
+//===============================================================
 
+/**
+ * The main method for the program. Contains
+ * the finite state machine to control the
+ * robot's actions.
+ */
 task main() {
     init();
 
