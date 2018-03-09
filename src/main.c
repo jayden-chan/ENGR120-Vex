@@ -37,7 +37,7 @@ task main() {
             currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
-            waitingForApproach();
+            waitingForScan();
             break;
         case STATE_RECALLIBRATE:
             callibrate();

@@ -12,7 +12,7 @@ const float MATH_PI              = 3.14159265359;                            // 
 const int   ULTRASONIC_THRESH    = 3;                                        // cm
 const int   ULTRASONIC_THRESH_2  = 50;                                       // cm
 const int   CABLE_SENSOR_DELTA   = 30;                                       // n/a
-const int   LIGHTHOUSE_UPPER     = 4090;                                     // ticks
+const int   LIGHTHOUSE_UPPER     = 2300;                                     // ticks
 const int   LIGHTHOUSE_LOWER     = 0;                                        // ticks
       int   POT_OFFSET           = -215;                                      // n/a
 
