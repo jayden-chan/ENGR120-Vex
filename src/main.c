@@ -62,12 +62,6 @@ task main() {
         case STATE_ROTATE:
             rotateTowardsBeacon();
             break;
-        case STATE_DRIVE:
-            driveOneMeter();
-            break;
-        case STATE_TURN:
-            turn90Degs();
-            break;
         case STATE_GETCLOSE:
             getClose();
             break;

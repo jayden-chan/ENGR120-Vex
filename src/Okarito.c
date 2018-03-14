@@ -21,16 +21,15 @@ bool scanned = false;
  * Function used for testing only.
  */
 void testPeriodic() {
-    float diff = getSensorLeft() - getSensorRight();
+    //fastScan();
+    //motor[towerMotor] = -20;
+    //wait1Msec(40);
+    //motor[towerMotor] = 0;
 
-    if(abs(diff) > 100) {
-        motor[towerMotor] = sign(diff) * -15;
-    }
-    else {
-        motor[towerMotor] = 0;
-    }
+    cableApproach();
+    currentState = STATE_DISABLED;
 
-//motor[towerMotor] = -20;
+    //motor[towerMotor] = -20;
 }
 
 /**

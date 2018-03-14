@@ -87,7 +87,7 @@ float PIDFilter(PID &pid) {
 
     if(pid.dTime != 0) {
         if(abs(pid.output - pid.lastOutput) / pid.dTime > pid.slewRate) {
-            toReturn = pid.lastOutput + pid.slewRate * pid.dTime * sign(pid.output);
+            toReturn = pid.lastOutput + pid.slewRate * pid.dTime * sign(pid.output - pid.lastOutput);
         }
         else {
             toReturn = pid.output;

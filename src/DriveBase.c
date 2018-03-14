@@ -219,8 +219,8 @@ void cableApproach() {
         float driveOut = PIDCalculate(ultrasonicPID, driveError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
-        driveOut = clamp(driveOut, 30);
-        slaveOut = clamp(slaveOut, 30);
+        driveOut = clamp(driveOut, 127);
+        slaveOut = clamp(slaveOut, 127);
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
     }

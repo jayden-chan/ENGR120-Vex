@@ -87,6 +87,42 @@ void performScan() {
 }
 
 /**
+ * Scans for the target object less methodically
+ * by simply stopping when the light sensors
+ * exceed a certain threshold. This is much faster
+ * than scanning the entire field of view but can
+ * sometimes result in some error.
+ */
+void fastScan() {
+    while(getSensorLeft() < 3200 && getSensorRight() < 3200) {
+        motor[towerMotor] = 40;
+    }
+    motor[towerMotor] = 0;
+}
+
+/**
+ * Automatically aligns the lighthouse assembly
+ * with the beacon. The rotation value of the
+ * lighthouse can then be used to automatically
+ * adjust the heading of the robot to make sure
+ * it stays on track at all times. This function
+ * only works if the sensor is already mostly
+ * aligned with the beacon; it's used mainly
+ * for fine adjustment, not finding the beacon
+ * from a dead start.
+ */
+void autoTrackBeacon() {
+    float diff = getSensorLeft() - getSensorRight();
+
+    if(abs(diff) > 100) {
+        motor[towerMotor] = sign(diff) * -15;
+    }
+    else {
+        motor[towerMotor] = 0;
+    }
+}
+
+/**
  * Scans for the beacon in the opposite
  * direction. Used to get a more precise
  * measurement after the first scan / drive
