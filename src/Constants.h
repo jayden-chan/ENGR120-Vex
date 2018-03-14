@@ -14,7 +14,9 @@ const int   ULTRASONIC_THRESH_2  = 50;                                       // 
 const int   CABLE_SENSOR_DELTA   = 30;                                       // n/a
 const int   LIGHTHOUSE_UPPER     = 2300;                                     // ticks
 const int   LIGHTHOUSE_LOWER     = 0;                                        // ticks
-      int   POT_OFFSET           = -215;                                      // n/a
+const int   POT_TRACKING_THRESH  = 2100;                                     // ticks
+const int   L_SENSOR_DIFF        = -38;                                       // n/a
+      int   POT_OFFSET           = -215;                                     // ticks
 
 // PID Constants
 

@@ -21,8 +21,16 @@ bool scanned = false;
  * Function used for testing only.
  */
 void testPeriodic() {
-    toggleRed();
-    currentState = STATE_WAITING;
+    float diff = getSensorLeft() - getSensorRight();
+
+    if(abs(diff) > 100) {
+        motor[towerMotor] = sign(diff) * -15;
+    }
+    else {
+        motor[towerMotor] = 0;
+    }
+
+//motor[towerMotor] = -20;
 }
 
 /**

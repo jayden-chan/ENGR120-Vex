@@ -18,6 +18,37 @@ PID lightPID;
 int highestValue = 0;
 int pos = 0;
 int posInDegs = 0;
+float averageOne[3];
+float averageTwo[3];
+int numAverages = 3;
+
+float getSensorLeft() {
+    for(int i = numAverages-1; i > 0; i--) {
+        averageOne[i] = averageOne[i-1];
+    }
+    averageOne[0] = SensorValue[lightSensor2];
+
+    float sum = 0;
+    for(int i = 0; i < numAverages; i++) {
+        sum += averageOne[i];
+    }
+
+    return sum / numAverages;
+}
+
+float getSensorRight() {
+    for(int i = numAverages-1; i > 0; i--) {
+        averageTwo[i] = averageTwo[i-1];
+    }
+    averageTwo[0] = SensorValue[rightLightSensor];
+
+    float sum = 0;
+    for(int i = 0; i < numAverages; i++) {
+        sum += averageTwo[i];
+    }
+
+    return sum / numAverages;
+}
 
 /**
  * Initialization code for the lighthouse
@@ -102,11 +133,10 @@ void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) 
 
     while(true) {
 
-        dTime = nSysTime - time;
-        time = nSysTime;
+        dTime = nPgmTime - time;
+        time = nPgmTime;
 
         float error = ((degrees * TICKS_PER_DEG)) - SensorValue[towerPot];
-
         float out = PIDCalculate(lightPID, error);
 
         writeDebugStreamLine("Error: %f", error);

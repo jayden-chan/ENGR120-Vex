@@ -30,3 +30,13 @@ void toggleRainbow() {
         SensorValue[LED2] = 1;
     }
 }
+
+/**
+ * Turns off all LEDs on the robot.
+ * Used in the initialization code for
+ * the robot.
+ */
+void turnOffAll() {
+    SensorValue[LED1] = 0;
+    SensorValue[LED2] = 0;
+}

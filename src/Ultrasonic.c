@@ -23,6 +23,5 @@ float getUltraSonic() {
         return 200;
     }
 
-
     return clamp2((float) SensorValue[ultrasonic], 0, 100);
 }

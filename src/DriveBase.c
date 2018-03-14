@@ -16,7 +16,6 @@
 #include "Arm.c"
 #include "LEDController.c"
 #include "Constants.h"
-#include "Constants.h"
 
 PID masterPID;
 PID slavePID;
@@ -101,8 +100,8 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
 
     while(true) {
 
-        dTime = nSysTime - time;
-        time = nSysTime;
+        dTime = nPgmTime - time;
+        time = nPgmTime;
 
         float driveError = (distance * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
@@ -161,8 +160,8 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
     int dTime    = 0;
 
     while(true) {
-        dTime = nSysTime - time;
-        time = nSysTime;
+        dTime = nPgmTime - time;
+        time = nPgmTime;
 
         if(turnRight) {
             outsideError = outsideSet - getMotorEncoder(leftMotor);
@@ -282,8 +281,8 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 
     while(true) {
 
-        dTime = nSysTime - time;
-        time = nSysTime;
+        dTime = nPgmTime - time;
+        time = nPgmTime;
 
         float driveError;
 
@@ -308,6 +307,58 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
         else {
             setRaw((driveOut + slaveOut), -(driveOut - slaveOut));
         }
+
+        //writeDebugStreamLine("driveError: %f", driveError);
+        //writeDebugStreamLine("slaveError: %f", slaveError);
+
+        safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
+
+        //writeDebugStreamLine("safeTime: %d", safeTime);
+
+        if(safeTime > safeThreshold) {
+            break;
+        }
+    }
+
+    stopMotors();
+}
+
+/**
+ * Tracks the beacon in real time using the
+ * lighthouse assembly as a slave PID controller
+ * for the drivetrain and the ultrasonic sensor
+ * as the primary error.
+ *
+ * @param maxSpeed The maximum speed allowed.
+ * @param safeRange The acceptable range to around the target to
+ * finish the turn in.
+ * @param safeThreshold The amount of time neede to be inside
+ * the safe zone before exiting the function.
+ */
+void realTimeTrack(int maxSpeed, int safeRange, int safeThreshold) {
+
+    driveReset();
+
+    int safeTime = 0;
+    int time     = 0;
+    int dTime    = 0;
+
+    while(true) {
+
+        dTime = nPgmTime - time;
+        time = nPgmTime;
+
+        float driveError = getUltraSonic() - ULTRASONIC_THRESH;
+        float slaveError = SensorValue[towerPot] - POT_TRACKING_THRESH;
+        slaveError *= 0.008;
+
+        float driveOut = PIDCalculate(masterPID, driveError);
+        float slaveOut = PIDCalculate(slavePID, slaveError);
+
+        driveOut = clamp(driveOut, maxSpeed);
+        slaveOut = clamp(slaveOut, maxSpeed);
+
+        setRaw((driveOut + slaveOut), (driveOut - slaveOut));
 
         //writeDebugStreamLine("driveError: %f", driveError);
         //writeDebugStreamLine("slaveError: %f", slaveError);
