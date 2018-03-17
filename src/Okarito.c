@@ -21,29 +21,7 @@ bool scanned = false;
  * Function used for testing only.
  */
 void testPeriodic() {
-    //autoTrackBeacon();
-    //motor[towerMotor] = -20;
-    //wait1Msec(40);
-    //motor[towerMotor] = 0;
-
-    //realTimeTrack(40);
-    //currentState = STATE_DISABLED;
-
-    motor[towerMotor] = -20;
-}
-
-/**
- * Begins the scan process when the top button
- * has been pressed.
- */
-void waitingForScan() {
-    if(SensorValue[topButton]) {
-        scanned = false;
-        currentState = STATE_SCAN;
-    }
-    if(SensorValue[button2]) {
-        currentState = STATE_RECALLIBRATE;
-    }
+    autoTrackBeacon();
 }
 
 /**
@@ -52,7 +30,7 @@ void waitingForScan() {
  */
 void callibrate() {
     if(SensorValue[button2]) {
-        motor[towerMotor] = -20;
+        motor[towerMotor] = 20;
     }
     else {
         motor[towerMotor] = 0;
@@ -66,27 +44,8 @@ void callibrate() {
  * rotate towards the found object.
  */
 void scanForBeacon() {
-    fastScan();
-    currentState = STATE_ROTATE;
-}
-
-/**
- * Scans for the beacon in the opposite
- * direction after finding the initial angle.
- */
-void scanForBeaconAgain() {
-    performReverseScan();
-    currentState = STATE_ROTATE;
-}
-
-/**
- * After the robot has rotated toward the
- * beacon, drive a little closer in order to
- * get a more accurate scan.
- */
-void getClose() {
-    ultrasonicApproach();
-    currentState = STATE_SCAN2;
+    performScan();
+    currentState = STATE_APPROACH;
 }
 
 /**
@@ -125,42 +84,12 @@ void waitingForButtons() {
 }
 
 /**
- * Checks if the button has been pressed, and
- * when it is, changes the robot state to
- * approach mode.
- */
-void waitingForApproach() {
-    if(SensorValue[topButton]) {
-        currentState = STATE_APPROACH;
-    }
-}
-
-/**
- * Drives exactly one meter using distance PID
- * and L-R compensation PID algorithms.
- */
-void driveOneMeter() {
-    driveStraight(100, 70, 10, 250);
-    currentState = STATE_WAITING;
-}
-
-/**
- * Rotates exactly 90 degrees in place using
- * distance PID and L-R compensation PID
- * algorithms.
- */
-void turn90Degs() {
-    rotate(-90, 30, 10, 250);
-    currentState = STATE_WAITING;
-}
-
-/**
  * Approaches the beacon using an ultrasonic
  * sensor and terminates the approach when
  * the cable has been connected successfully.
  */
 void approachTarget() {
-    realTimeTrack(40);
+    realTimeTrack(20);
 
     currentState = STATE_DISABLED;
 }

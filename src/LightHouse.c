@@ -13,6 +13,7 @@
 #include "Constants.h"
 #include "PIDController.c"
 #include "Utils.c"
+#include "DriveBase.c"
 
 PID lightPID;
 int highestValue = 0;
@@ -61,32 +62,6 @@ void lightHouseInit() {
     PIDReset(lightPID);
 }
 
-/**
- * Scans for the beacon by rotating the light/
- * sensor assembly 360 degrees and choosing
- * the highest recorded value from the light
- * sensor.
- */
-void performScan() {
-    highestValue = 0;
-    while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
-        if(SensorValue[lightSensor2] > highestValue) {
-            highestValue = SensorValue[lightSensor2];
-            pos = SensorValue[towerPot];
-        }
-        motor[towerMotor] = 20;
-    }
-
-    writeDebugStreamLine("val: %d", highestValue);
-    writeDebugStreamLine("pos: %d", pos);
-    writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
-
-    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
-
-    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
-
-    motor[towerMotor] = 0;
-}
 
 /**
  * Scans for the target object less methodically
@@ -127,7 +102,7 @@ void autoTrackBeacon() {
 
     writeDebugStreamLine("Angle: %f", SensorValue[towerPot] - POT_TRACKING_THRESH);
 
-    if(abs(diff) > 100) {
+    if(abs(diff) > 50) {
         motor[towerMotor] = sign(diff) * -20;
     }
     else {

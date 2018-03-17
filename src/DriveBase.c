@@ -360,3 +360,18 @@ void realTimeTrack(int maxSpeed) {
     toggleRainbow();
     stopMotors();
 }
+
+/**
+ * Scans for the beacon by rotating the light/
+ * sensor assembly 360 degrees and choosing
+ * the highest recorded value from the light
+ * sensor.
+ */
+void performScan() {
+    while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
+        setRaw(30, -30);
+    }
+    setRaw(-20, 20);
+    wait1Msec(20);
+    stopMotors();
+}

@@ -15,9 +15,9 @@ const int   CABLE_SENSOR_DELTA   = 30;                                       // 
 const int   LIGHTHOUSE_UPPER     = 2300;                                     // ticks
 const int   LIGHTHOUSE_LOWER     = 0;                                        // ticks
 const int   POT_TRACKING_THRESH  = 1300;                                     // ticks
-const int   BEACON_FOUND_THRESH  = 2000;
+const int   BEACON_FOUND_THRESH  = 1800;
 const int   L_SENSOR_DIFF        = -50;                                        // n/a
-      int   POT_OFFSET           = 70;                                     // ticks
+      int   POT_OFFSET           = -25;                                     // ticks
 
 // PID Constants
 
@@ -27,8 +27,8 @@ const float MASTER_kD = 100;
 const float MASTER_kS = 0.2;
 const int   MASTER_kR = 10;
 
-const float SLAVE_kP = 0.04;
-const float SLAVE_kI = 0.0005;
+const float SLAVE_kP = 0.05;
+const float SLAVE_kI = 0.005;
 const float SLAVE_kD = 10;
 const float SLAVE_kS = 99999;
 const int   SLAVE_kR = 1;
@@ -39,15 +39,15 @@ const float ULTRASONIC_kD = 175;
 const float ULTRASONIC_kS = 0.2;
 const int   ULTRASONIC_kR = 10;
 
-const float LIGHTHOUSE_kP = 0.1;
-const float LIGHTHOUSE_kI = 0.01;
-const float LIGHTHOUSE_kD = 0;
+const float LIGHTHOUSE_kP = 0.15;
+const float LIGHTHOUSE_kI = 0.0;
+const float LIGHTHOUSE_kD = 20;
 const float LIGHTHOUSE_kS = 999;
 const float LIGHTHOUSE_kR = 10;
 
-const float TURN_kP = 2;
+const float TURN_kP = 4;
 const float TURN_kI = 0;
-const float TURN_kD = 10;
+const float TURN_kD = 20;
 const float TURN_kS = 5;
 const int   TURN_kR = 1;
 
