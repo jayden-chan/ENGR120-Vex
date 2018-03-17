@@ -48,10 +48,10 @@ task main() {
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
-            currentState = STATE_TEST;
+            currentState = STATE_WAITING;
             break;
         case STATE_WAITING:
-            waitingForScan();
+            waitingForButtons();
             break;
         case STATE_RECALLIBRATE:
             callibrate();

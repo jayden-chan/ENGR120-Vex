@@ -22,6 +22,8 @@ float averageOne[3];
 float averageTwo[3];
 int numAverages = 3;
 
+void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold);
+
 float getSensorLeft() {
     for(int i = numAverages-1; i > 0; i--) {
         averageOne[i] = averageOne[i-1];
@@ -94,10 +96,19 @@ void performScan() {
  * sometimes result in some error.
  */
 void fastScan() {
-    while(getSensorLeft() < 3200 && getSensorRight() < 3200) {
+    while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
         motor[towerMotor] = 40;
     }
+    motor[towerMotor] = -20;
+
+    wait1Msec(40);
     motor[towerMotor] = 0;
+
+    pos = SensorValue[towerPot];
+    writeDebugStreamLine("offset: %d", POT_OFFSET);
+    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
+
+    rotateToDeg(180, 30, 80, 400);
 }
 
 /**
@@ -112,10 +123,12 @@ void fastScan() {
  * from a dead start.
  */
 void autoTrackBeacon() {
-    float diff = getSensorLeft() - getSensorRight();
+    float diff = getSensorLeft() - (getSensorRight() + L_SENSOR_DIFF);
+
+    writeDebugStreamLine("Angle: %f", SensorValue[towerPot] - POT_TRACKING_THRESH);
 
     if(abs(diff) > 100) {
-        motor[towerMotor] = sign(diff) * -15;
+        motor[towerMotor] = sign(diff) * -20;
     }
     else {
         motor[towerMotor] = 0;
@@ -175,7 +188,7 @@ void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) 
         float error = ((degrees * TICKS_PER_DEG)) - SensorValue[towerPot];
         float out = PIDCalculate(lightPID, error);
 
-        writeDebugStreamLine("Error: %f", error);
+        //writeDebugStreamLine("Error: %f", error);
 
         out = clamp(out, maxSpeed);
 

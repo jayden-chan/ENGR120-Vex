@@ -16,6 +16,7 @@
 #include "Arm.c"
 #include "LEDController.c"
 #include "Constants.h"
+#include "Lighthouse.c"
 
 PID masterPID;
 PID slavePID;
@@ -335,42 +336,27 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
  * @param safeThreshold The amount of time neede to be inside
  * the safe zone before exiting the function.
  */
-void realTimeTrack(int maxSpeed, int safeRange, int safeThreshold) {
+void realTimeTrack(int maxSpeed) {
 
     driveReset();
 
-    int safeTime = 0;
-    int time     = 0;
-    int dTime    = 0;
+    float photosensorDefaultValue = SensorValue[lightSensor];
+    while(!(isCableDetached(photosensorDefaultValue))) {
 
-    while(true) {
-
-        dTime = nPgmTime - time;
-        time = nPgmTime;
+        autoTrackBeacon();
 
         float driveError = getUltraSonic() - ULTRASONIC_THRESH;
         float slaveError = SensorValue[towerPot] - POT_TRACKING_THRESH;
-        slaveError *= 0.008;
 
-        float driveOut = PIDCalculate(masterPID, driveError);
+        float driveOut = PIDCalculate(ultrasonicPID, driveError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
         slaveOut = clamp(slaveOut, maxSpeed);
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
-
-        //writeDebugStreamLine("driveError: %f", driveError);
-        //writeDebugStreamLine("slaveError: %f", slaveError);
-
-        safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
-
-        //writeDebugStreamLine("safeTime: %d", safeTime);
-
-        if(safeTime > safeThreshold) {
-            break;
-        }
     }
 
+    toggleRainbow();
     stopMotors();
 }

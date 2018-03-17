@@ -21,15 +21,15 @@ bool scanned = false;
  * Function used for testing only.
  */
 void testPeriodic() {
-    //fastScan();
+    //autoTrackBeacon();
     //motor[towerMotor] = -20;
     //wait1Msec(40);
     //motor[towerMotor] = 0;
 
-    cableApproach();
-    currentState = STATE_DISABLED;
+    //realTimeTrack(40);
+    //currentState = STATE_DISABLED;
 
-    //motor[towerMotor] = -20;
+    motor[towerMotor] = -20;
 }
 
 /**
@@ -51,9 +51,13 @@ void waitingForScan() {
  * so that it reads the correct values every time.
  */
 void callibrate() {
-    POT_OFFSET = 1075 - SensorValue[towerPot];
-    writeDebugStreamLine("offset: %d", POT_OFFSET);
-    currentState = STATE_WAITING;
+    if(SensorValue[button2]) {
+        motor[towerMotor] = -20;
+    }
+    else {
+        motor[towerMotor] = 0;
+        currentState = STATE_WAITING;
+    }
 }
 
 /**
@@ -62,7 +66,7 @@ void callibrate() {
  * rotate towards the found object.
  */
 void scanForBeacon() {
-    performScan();
+    fastScan();
     currentState = STATE_ROTATE;
 }
 
@@ -101,7 +105,7 @@ void rotateTowardsBeacon() {
     }
     else {
         scanned = true;
-        currentState = STATE_GETCLOSE;
+        currentState = STATE_DISABLED;
     }
 }
 
@@ -113,10 +117,10 @@ void rotateTowardsBeacon() {
  */
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_DRIVE;
+        currentState = STATE_SCAN;
     }
     if(SensorValue[button2]) {
-        currentState = STATE_TURN;
+        currentState = STATE_RECALLIBRATE;
     }
 }
 
@@ -156,7 +160,7 @@ void turn90Degs() {
  * the cable has been connected successfully.
  */
 void approachTarget() {
-    cableApproach();
+    realTimeTrack(40);
 
     currentState = STATE_DISABLED;
 }
