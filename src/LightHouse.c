@@ -23,8 +23,12 @@ float averageOne[3];
 float averageTwo[3];
 int numAverages = 3;
 
-void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold);
-
+/**
+ * Gets the value of the left light sensor
+ * after averaging the last few values.
+ *
+ * @return The value of the sensor.
+ */
 float getSensorLeft() {
     for(int i = numAverages-1; i > 0; i--) {
         averageOne[i] = averageOne[i-1];
@@ -39,6 +43,12 @@ float getSensorLeft() {
     return sum / numAverages;
 }
 
+/**
+ * Gets the value of the right light sensor
+ * after averaging the last few values.
+ *
+ * @return The value of the sensor.
+ */
 float getSensorRight() {
     for(int i = numAverages-1; i > 0; i--) {
         averageTwo[i] = averageTwo[i-1];
@@ -51,6 +61,48 @@ float getSensorRight() {
     }
 
     return sum / numAverages;
+}
+
+/**
+ * Rotates the lighthouse assembly to a
+ * specific angle relative to the back of the
+ * robot using a PID loop.
+ *
+ * @param degrees The angle to rotate to.
+ * @param maxSpeed The max allowed speed.
+ * @param safeRange The range tollerance.
+ * @param safeThreshold The time needed to be
+ * in the safe zone before finishing.
+ */
+void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
+    PIDReset(lightPID);
+
+    int safeTime = 0;
+    int time     = 0;
+    int dTime    = 0;
+
+    while(true) {
+
+        dTime = nPgmTime - time;
+        time = nPgmTime;
+
+        float error = ((degrees * TICKS_PER_DEG)) - SensorValue[towerPot];
+        float out = PIDCalculate(lightPID, error);
+
+        //writeDebugStreamLine("Error: %f", error);
+
+        out = clamp(out, maxSpeed);
+
+        motor[towerMotor] = out;
+
+        safeTime = abs(error) < safeRange ? safeTime + dTime : 0;
+
+        if(safeTime > safeThreshold) {
+            break;
+        }
+    }
+
+    motor[towerMotor] = 0;
 }
 
 /**
@@ -133,48 +185,6 @@ void performReverseScan() {
     posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 
     //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
-
-    motor[towerMotor] = 0;
-}
-
-/**
- * Rotates the lighthouse assembly to a
- * specific angle relative to the back of the
- * robot using a PID loop.
- *
- * @param degrees The angle to rotate to.
- * @param maxSpeed The max allowed speed.
- * @param safeRange The range tollerance.
- * @param safeThreshold The time needed to be
- * in the safe zone before finishing.
- */
-void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
-    PIDReset(lightPID);
-
-    int safeTime = 0;
-    int time     = 0;
-    int dTime    = 0;
-
-    while(true) {
-
-        dTime = nPgmTime - time;
-        time = nPgmTime;
-
-        float error = ((degrees * TICKS_PER_DEG)) - SensorValue[towerPot];
-        float out = PIDCalculate(lightPID, error);
-
-        //writeDebugStreamLine("Error: %f", error);
-
-        out = clamp(out, maxSpeed);
-
-        motor[towerMotor] = out;
-
-        safeTime = abs(error) < safeRange ? safeTime + dTime : 0;
-
-        if(safeTime > safeThreshold) {
-            break;
-        }
-    }
 
     motor[towerMotor] = 0;
 }

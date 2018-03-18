@@ -331,10 +331,6 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
  * as the primary error.
  *
  * @param maxSpeed The maximum speed allowed.
- * @param safeRange The acceptable range to around the target to
- * finish the turn in.
- * @param safeThreshold The amount of time neede to be inside
- * the safe zone before exiting the function.
  */
 void realTimeApproach(int maxSpeed) {
 
