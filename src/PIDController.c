@@ -121,7 +121,8 @@ float PIDCalculate(PID &pid, float error) {
     pid.lastError = pid.error;
     pid.error = error;
 
-    wait1Msec(pid.refreshRate);
+    if(pid.refreshRate != 0)
+        wait1Msec(pid.refreshRate);
 
     // Update output
     //pid.lastOutput = pid.output;

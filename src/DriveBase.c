@@ -18,8 +18,8 @@
 #include "Constants.h"
 #include "Lighthouse.c"
 
-PID masterPID;
 PID slavePID;
+PID slave2PID;
 PID ultrasonicPID;
 PID turnPID;
 
@@ -29,11 +29,11 @@ PID turnPID;
  */
 void driveInit() {
 
-    PIDInit(masterPID, MASTER_kP, MASTER_kI, MASTER_kD, 127, 0, MASTER_kS, true, MASTER_kR);
-    PIDReset(masterPID);
-
     PIDInit(slavePID, SLAVE_kP, SLAVE_kI, SLAVE_kD, 100, 0, SLAVE_kS, true, SLAVE_kR);
     PIDReset(slavePID);
+
+    PIDInit(slave2PID, SLAVE_2_kP, SLAVE_2_kI, SLAVE_2_kD, 127, 0, SLAVE_2_kS, true, SLAVE_2_kR);
+    PIDReset(slave2PID);
 
     PIDInit(ultrasonicPID, ULTRASONIC_kP, ULTRASONIC_kI, ULTRASONIC_kD, 127, 0, ULTRASONIC_kS, true, ULTRASONIC_kR);
     PIDReset(ultrasonicPID);
@@ -52,8 +52,8 @@ void driveReset() {
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
 
-    PIDReset(masterPID);
     PIDReset(slavePID);
+    PIDReset(slave2PID);
     PIDReset(ultrasonicPID);
     PIDReset(turnPID);
 }
@@ -107,7 +107,7 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
         float driveError = (distance * TICKS_PER_CM2) - getMotorEncoder(rightMotor);
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
 
-        float driveOut = PIDCalculate(masterPID, driveError);
+        float driveOut = PIDCalculate(slave2PID, driveError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
@@ -176,7 +176,7 @@ void arcTurn(float radius, float orientation, bool turnRight, int safeRange, int
             writeDebugStreamLine("Slave Error: %d", slaveError);
         }
 
-        float driveOut = PIDCalculate(masterPID, outsideError);
+        float driveOut = PIDCalculate(slave2PID, outsideError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, 70);
@@ -218,10 +218,10 @@ void cableApproach() {
         float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
 
         float driveOut = PIDCalculate(ultrasonicPID, driveError);
-        float slaveOut = PIDCalculate(slavePID, slaveError);
+        float slaveOut = PIDCalculate(slave2PID, slaveError);
 
-        driveOut = clamp(driveOut, 127);
-        slaveOut = clamp(slaveOut, 127);
+        driveOut = clamp(driveOut, 40);
+        slaveOut = clamp(slaveOut, 40);
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
     }
@@ -336,28 +336,63 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
  * @param safeThreshold The amount of time neede to be inside
  * the safe zone before exiting the function.
  */
-void realTimeTrack(int maxSpeed) {
+void realTimeApproach(int maxSpeed) {
 
     driveReset();
+
+    float outsideError, slaveError;
+    float turnMagnitude = 1000;
+    bool lastDir;
 
     float photosensorDefaultValue = SensorValue[lightSensor];
     while(!(isCableDetached(photosensorDefaultValue))) {
 
         autoTrackBeacon();
+        float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
+        if(sensorAngle != 0) {
+            turnMagnitude = 700 /  sqrt(abs(sensorAngle);
+        }
 
-        float driveError = getUltraSonic() - ULTRASONIC_THRESH;
-        float slaveError = SensorValue[towerPot] - POT_TRACKING_THRESH;
+        bool turnRight = sign(sensorAngle) > 0;
+        if(turnRight != lastDir) {
+            PIDReset(slave2PID);
+            PIDReset(slavePID);
+        }
+        lastDir = turnRight;
 
-        float driveOut = PIDCalculate(ultrasonicPID, driveError);
+        writeDebugStreamLine("Turn Mag: %f", turnMagnitude);
+
+        float insideSet = (2 * MATH_PI * turnMagnitude) * TICKS_PER_CM2;
+        float outsideSet = (2 * MATH_PI * (turnMagnitude + DRIVETRAIN_WIDTH)) * TICKS_PER_CM2;
+
+        if(insideSet != 0)
+            float ratio = outsideSet / insideSet;
+
+        outsideError = getUltraSonic() * 10;
+
+        if(turnRight) {
+            //outsideError = outsideSet - getMotorEncoder(leftMotor);
+            slaveError = getMotorEncoder(leftMotor) - getMotorEncoder(rightMotor) * ratio;
+        }
+        else {
+            //outsideError = outsideSet - getMotorEncoder(rightMotor);
+            slaveError = getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor) * ratio;
+        }
+
+        float driveOut = PIDCalculate(slave2PID, outsideError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
         slaveOut = clamp(slaveOut, maxSpeed);
 
-        setRaw((driveOut + slaveOut), (driveOut - slaveOut));
+        if(turnRight) {
+            setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
+        }
+        else {
+            setRaw(((driveOut / ratio) + slaveOut), (driveOut - slaveOut));
+        }
     }
 
-    toggleRainbow();
     stopMotors();
 }
 

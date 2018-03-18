@@ -30,7 +30,7 @@ void testPeriodic() {
  */
 void callibrate() {
     if(SensorValue[button2]) {
-        motor[towerMotor] = 20;
+        motor[towerMotor] = -20;
     }
     else {
         motor[towerMotor] = 0;
@@ -76,7 +76,7 @@ void rotateTowardsBeacon() {
  */
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_SCAN;
+        currentState = STATE_APPROACH;
     }
     if(SensorValue[button2]) {
         currentState = STATE_RECALLIBRATE;
@@ -89,7 +89,7 @@ void waitingForButtons() {
  * the cable has been connected successfully.
  */
 void approachTarget() {
-    realTimeTrack(20);
+    realTimeApproach(30);
 
     currentState = STATE_DISABLED;
 }

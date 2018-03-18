@@ -103,7 +103,7 @@ void autoTrackBeacon() {
     writeDebugStreamLine("Angle: %f", SensorValue[towerPot] - POT_TRACKING_THRESH);
 
     if(abs(diff) > 50) {
-        motor[towerMotor] = sign(diff) * -20;
+        motor[towerMotor] = sign(diff) * -17;
     }
     else {
         motor[towerMotor] = 0;
