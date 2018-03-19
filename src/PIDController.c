@@ -152,7 +152,7 @@ float PIDCalculate(PID &pid, float error) {
     pid.iterations++;
 
     // Return the sum
-    if(pid.iterations > 4) {
+    if(pid.iterations > 5) {
         return PIDFilter(pid);
     }
     else {

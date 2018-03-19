@@ -86,7 +86,7 @@ void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) 
         dTime = nPgmTime - time;
         time = nPgmTime;
 
-        float error = ((degrees * TICKS_PER_DEG)) - SensorValue[towerPot];
+        float error = ((degrees * TICKS_PER_DEG)) - (SensorValue[towerPot] + POT_OFFSET);
         float out = PIDCalculate(lightPID, error);
 
         //writeDebugStreamLine("Error: %f", error);
@@ -126,15 +126,15 @@ void fastScan() {
     while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
         motor[towerMotor] = 40;
     }
-    motor[towerMotor] = -20;
+    //motor[towerMotor] = -20;
 
-    wait1Msec(40);
+    //wait1Msec(20);
     motor[towerMotor] = 0;
 
     pos = SensorValue[towerPot];
-    writeDebugStreamLine("offset: %d", POT_OFFSET);
-    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
+    posInDegs = (float)(pos-400) / TICKS_PER_DEG;
 
+    rotateToDeg(200, 30, 100, 100);
     rotateToDeg(180, 30, 80, 400);
 }
 
@@ -154,7 +154,7 @@ void autoTrackBeacon() {
 
     writeDebugStreamLine("Angle: %f", SensorValue[towerPot] - POT_TRACKING_THRESH);
 
-    if(abs(diff) > 50) {
+    if(abs(diff) > 0) {
         motor[towerMotor] = sign(diff) * -17;
     }
     else {

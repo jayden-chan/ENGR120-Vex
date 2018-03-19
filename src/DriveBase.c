@@ -331,40 +331,62 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
  * as the primary error.
  *
  * @param maxSpeed The maximum speed allowed.
+ * @return Whether or not the connection was successful.
  */
-void realTimeApproach(int maxSpeed) {
+bool realTimeApproach(int maxSpeed) {
 
     driveReset();
 
     float outsideError, slaveError;
     float turnMagnitude = 1000;
     bool lastDir;
+    float ratio;
+    int failTime = 0;
 
     float photosensorDefaultValue = SensorValue[lightSensor];
     while(!(isCableDetached(photosensorDefaultValue))) {
 
+        if(getSensorLeft() < 1500 && getSensorRight() < 1500) {
+            failTime++;
+            if(failTime > 75) {
+                stopMotors();
+                return false;
+            }
+        }
+        else {
+            failTime = 0;
+        }
+
         autoTrackBeacon();
+
         float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
-        if(sensorAngle != 0) {
-            turnMagnitude = 700 /  sqrt(abs(sensorAngle);
+        if(abs(sensorAngle) > 10) {
+            turnMagnitude = 1000 /  sqrt(abs(sensorAngle);
+        }
+        else {
+            turnMagnitude = -1;
         }
 
         bool turnRight = sign(sensorAngle) > 0;
-        if(turnRight != lastDir) {
-            PIDReset(slave2PID);
-            PIDReset(slavePID);
-        }
-        lastDir = turnRight;
+        //if(turnRight != lastDir) {
+        //    PIDReset(ultrasonicPID);
+        //    PIDReset(slavePID);
+        //}
+        //lastDir = turnRight;
 
-        writeDebugStreamLine("Turn Mag: %f", turnMagnitude);
+        //writeDebugStreamLine("Turn Mag: %f", turnMagnitude);
 
         float insideSet = (2 * MATH_PI * turnMagnitude) * TICKS_PER_CM2;
         float outsideSet = (2 * MATH_PI * (turnMagnitude + DRIVETRAIN_WIDTH)) * TICKS_PER_CM2;
 
-        if(insideSet != 0)
-            float ratio = outsideSet / insideSet;
+        if(insideSet != 0) {
+            ratio = outsideSet / insideSet;
+        }
+        else if (turnMagnitude == -1) {
+            ratio = 1;
+        }
 
-        outsideError = getUltraSonic() * 10;
+        outsideError = getUltraSonic();
 
         if(turnRight) {
             //outsideError = outsideSet - getMotorEncoder(leftMotor);
@@ -375,11 +397,13 @@ void realTimeApproach(int maxSpeed) {
             slaveError = getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor) * ratio;
         }
 
-        float driveOut = PIDCalculate(slave2PID, outsideError);
+        float driveOut = PIDCalculate(ultrasonicPID, outsideError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
         driveOut = clamp(driveOut, maxSpeed);
         slaveOut = clamp(slaveOut, maxSpeed);
+
+        writeDebugStreamLine("Drive out: %f", driveOut);
 
         if(turnRight) {
             setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
@@ -390,6 +414,7 @@ void realTimeApproach(int maxSpeed) {
     }
 
     stopMotors();
+    return true;
 }
 
 /**

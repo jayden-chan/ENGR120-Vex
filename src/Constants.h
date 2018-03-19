@@ -14,10 +14,10 @@ const int   ULTRASONIC_THRESH_2  = 50;                                       // 
 const int   CABLE_SENSOR_DELTA   = 30;                                       // n/a
 const int   LIGHTHOUSE_UPPER     = 2300;                                     // ticks
 const int   LIGHTHOUSE_LOWER     = 0;                                        // ticks
-const int   POT_TRACKING_THRESH  = 1400;                                     // ticks
-const int   BEACON_FOUND_THRESH  = 1800;
+const int   POT_TRACKING_THRESH  = 1350;                                     // ticks
+const int   BEACON_FOUND_THRESH  = 3100;
 const int   L_SENSOR_DIFF        = 0;                                        // n/a
-      int   POT_OFFSET           = -25;                                     // ticks
+      int   POT_OFFSET           = -570;                                     // ticks
 
 // PID Constants
 
@@ -39,9 +39,9 @@ const float ULTRASONIC_kD = 175;
 const float ULTRASONIC_kS = 0.2;
 const int   ULTRASONIC_kR = 10;
 
-const float LIGHTHOUSE_kP = 0.15;
+const float LIGHTHOUSE_kP = 0.5;
 const float LIGHTHOUSE_kI = 0.0;
-const float LIGHTHOUSE_kD = 20;
+const float LIGHTHOUSE_kD = 50;
 const float LIGHTHOUSE_kS = 999;
 const float LIGHTHOUSE_kR = 10;
 

@@ -21,7 +21,12 @@ bool scanned = false;
  * Function used for testing only.
  */
 void testPeriodic() {
-    autoTrackBeacon();
+    rotateToDeg(0, 30, 40, 250);
+    fastScan();
+    writeDebugStreamLine("degs: %f", 180-posInDegs);
+    rotate(180-posInDegs, 40, 40, 250);
+
+    currentState = STATE_DISABLED;
 }
 
 /**
@@ -30,7 +35,7 @@ void testPeriodic() {
  */
 void callibrate() {
     if(SensorValue[button2]) {
-        motor[towerMotor] = -20;
+        motor[towerMotor] = 20;
     }
     else {
         motor[towerMotor] = 0;
@@ -44,6 +49,8 @@ void callibrate() {
  * rotate towards the found object.
  */
 void scanForBeacon() {
+    wait1Msec(500);
+    rotateToDeg(180, 20, 30, 300);
     performScan();
     currentState = STATE_APPROACH;
 }
@@ -76,7 +83,7 @@ void rotateTowardsBeacon() {
  */
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_APPROACH;
+        currentState = STATE_TEST;
     }
     if(SensorValue[button2]) {
         currentState = STATE_RECALLIBRATE;
@@ -89,9 +96,14 @@ void waitingForButtons() {
  * the cable has been connected successfully.
  */
 void approachTarget() {
-    realTimeApproach(30);
+    bool success = realTimeApproach(60);
 
-    currentState = STATE_DISABLED;
+    if(!success) {
+        currentState = STATE_SCAN;
+    }
+    else {
+        currentState = STATE_DEPART;
+    }
 }
 
 /**
@@ -99,8 +111,17 @@ void approachTarget() {
  * the cable has successfully been connected.
  */
 void departTarget() {
-    driveStraight(-50, 38, 10, 250);
-    //arcTurn(25, -90, true, 20, 250);
+    motor[towerMotor] = 0;
+    driveStraight(-22, 30, 40, 250);
+    motor[cableMotor] = 20;
+    wait1Msec(340);
+    motor[cableMotor] = 0;
+    rotate(30, 40, 70, 250);
+    driveStraight(-22, 30, 40, 250);
 
-    currentState = STATE_WAITING;
+    motor[cableMotor] = -20;
+    wait1Msec(340);
+    motor[cableMotor] = 0;
+
+    currentState = STATE_DISABLED;
 }
