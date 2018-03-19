@@ -20,7 +20,7 @@
  */
 float getUltraSonic() {
     if(SensorValue[ultrasonic] == -1) {
-        return 150;
+        return 15;
     }
 
     return clamp2((float) SensorValue[ultrasonic], 0, 150);

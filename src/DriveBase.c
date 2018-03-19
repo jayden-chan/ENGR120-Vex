@@ -361,32 +361,26 @@ bool realTimeApproach(int maxSpeed) {
 
         float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
         if(abs(sensorAngle) > 10) {
-            turnMagnitude = 1000 /  sqrt(abs(sensorAngle);
+            turnMagnitude = 700 /  sqrt(abs(sensorAngle);
         }
         else {
             turnMagnitude = -1;
         }
 
         bool turnRight = sign(sensorAngle) > 0;
-        //if(turnRight != lastDir) {
-        //    PIDReset(ultrasonicPID);
-        //    PIDReset(slavePID);
-        //}
-        //lastDir = turnRight;
-
-        //writeDebugStreamLine("Turn Mag: %f", turnMagnitude);
 
         float insideSet = (2 * MATH_PI * turnMagnitude) * TICKS_PER_CM2;
         float outsideSet = (2 * MATH_PI * (turnMagnitude + DRIVETRAIN_WIDTH)) * TICKS_PER_CM2;
 
-        if(insideSet != 0) {
-            ratio = outsideSet / insideSet;
-        }
-        else if (turnMagnitude == -1) {
+        if (turnMagnitude == -1) {
             ratio = 1;
         }
+        else if(insideSet != 0) {
+            ratio = outsideSet / insideSet;
+        }
 
-        outsideError = getUltraSonic();
+
+        outsideError = getUltraSonic() - ULTRASONIC_THRESH;
 
         if(turnRight) {
             //outsideError = outsideSet - getMotorEncoder(leftMotor);

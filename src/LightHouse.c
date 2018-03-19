@@ -124,7 +124,7 @@ void lightHouseInit() {
  */
 void fastScan() {
     while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
-        motor[towerMotor] = 40;
+        motor[towerMotor] = 20;
     }
     //motor[towerMotor] = -20;
 
@@ -132,7 +132,7 @@ void fastScan() {
     motor[towerMotor] = 0;
 
     pos = SensorValue[towerPot];
-    posInDegs = (float)(pos-400) / TICKS_PER_DEG;
+    posInDegs = (float)(pos-745) / TICKS_PER_DEG;
 
     rotateToDeg(200, 30, 100, 100);
     rotateToDeg(180, 30, 80, 400);

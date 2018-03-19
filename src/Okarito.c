@@ -35,7 +35,7 @@ void testPeriodic() {
  */
 void callibrate() {
     if(SensorValue[button2]) {
-        motor[towerMotor] = 20;
+        motor[towerMotor] = -20;
     }
     else {
         motor[towerMotor] = 0;
@@ -49,9 +49,10 @@ void callibrate() {
  * rotate towards the found object.
  */
 void scanForBeacon() {
-    wait1Msec(500);
-    rotateToDeg(180, 20, 30, 300);
-    performScan();
+    rotateToDeg(0, 30, 40, 250);
+    fastScan();
+    writeDebugStreamLine("degs: %f", 180-posInDegs);
+    rotate(180-posInDegs, 40, 40, 250);
     currentState = STATE_APPROACH;
 }
 
@@ -83,7 +84,7 @@ void rotateTowardsBeacon() {
  */
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_TEST;
+        currentState = STATE_SCAN;
     }
     if(SensorValue[button2]) {
         currentState = STATE_RECALLIBRATE;
@@ -96,7 +97,7 @@ void waitingForButtons() {
  * the cable has been connected successfully.
  */
 void approachTarget() {
-    bool success = realTimeApproach(60);
+    bool success = realTimeApproach(40);
 
     if(!success) {
         currentState = STATE_SCAN;

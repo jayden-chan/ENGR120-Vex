@@ -9,15 +9,15 @@ const float WHEEL_CIRC           = 31.91858136;                              // 
 const float TICKS_PER_CM2        = (TICKS_PER_ROT / WHEEL_CIRC);             // ticks
 const float DRIVETRAIN_WIDTH     = 21.78;                                    // cm
 const float MATH_PI              = 3.14159265359;                            // n/a
-const int   ULTRASONIC_THRESH    = 0;                                        // cm
+const float ULTRASONIC_THRESH    = -4;                                        // cm
 const int   ULTRASONIC_THRESH_2  = 50;                                       // cm
 const int   CABLE_SENSOR_DELTA   = 30;                                       // n/a
 const int   LIGHTHOUSE_UPPER     = 2300;                                     // ticks
 const int   LIGHTHOUSE_LOWER     = 0;                                        // ticks
-const int   POT_TRACKING_THRESH  = 1350;                                     // ticks
-const int   BEACON_FOUND_THRESH  = 3100;
+const int   POT_TRACKING_THRESH  = 2150;                                     // ticks
+const int   BEACON_FOUND_THRESH  = 2200;
 const int   L_SENSOR_DIFF        = 0;                                        // n/a
-      int   POT_OFFSET           = -570;                                     // ticks
+      int   POT_OFFSET           = -885;                                     // ticks
 
 // PID Constants
 
@@ -33,8 +33,8 @@ const float SLAVE_kD = 10;
 const float SLAVE_kS = 99999;
 const int   SLAVE_kR = 1;
 
-const float ULTRASONIC_kP = 1.5;
-const float ULTRASONIC_kI = 0.02;
+const float ULTRASONIC_kP = 1.51;
+const float ULTRASONIC_kI = 0.03;
 const float ULTRASONIC_kD = 175;
 const float ULTRASONIC_kS = 0.2;
 const int   ULTRASONIC_kR = 10;
