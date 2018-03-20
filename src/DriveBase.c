@@ -23,6 +23,8 @@ PID slave2PID;
 PID ultrasonicPID;
 PID turnPID;
 
+float photosensorDefaultValue = 0;
+
 /**
  * Initialization code for all of the PID
  * controllers associated with the drivebase.
@@ -40,6 +42,8 @@ void driveInit() {
 
     PIDInit(turnPID, TURN_kP, TURN_kI, TURN_kD, 1227, 0, TURN_kS, true, TURN_kR);
     PIDReset(turnPID);
+
+    photosensorDefaultValue = SensorValue[lightSensor];
 
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
@@ -343,7 +347,6 @@ bool realTimeApproach(int maxSpeed) {
     float ratio;
     int failTime = 0;
 
-    float photosensorDefaultValue = SensorValue[lightSensor];
     while(!(isCableDetached(photosensorDefaultValue))) {
 
         if(getSensorLeft() < 1500 && getSensorRight() < 1500) {
@@ -361,7 +364,7 @@ bool realTimeApproach(int maxSpeed) {
 
         float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
         if(abs(sensorAngle) > 10) {
-            turnMagnitude = 700 /  sqrt(abs(sensorAngle);
+            turnMagnitude = 800 /  sqrt(abs(sensorAngle);
         }
         else {
             turnMagnitude = -1;

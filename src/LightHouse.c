@@ -168,9 +168,9 @@ void autoTrackBeacon() {
  * measurement after the first scan / drive
  * sequence is finished.
  */
-void performReverseScan() {
+void performFullScan() {
     highestValue = 0;
-    while(SensorValue[towerPot] > LIGHTHOUSE_LOWER) {
+    while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
         if(SensorValue[lightSensor2] > highestValue) {
             highestValue = SensorValue[lightSensor2];
             pos = SensorValue[towerPot];
@@ -178,13 +178,8 @@ void performReverseScan() {
         motor[towerMotor] = -20;
     }
 
-    //writeDebugStreamLine("val: %d", highestValue);
-    //writeDebugStreamLine("pos: %d", pos);
-    //writeDebugStreamLine("in degs: %f", (float)pos / TICKS_PER_DEG);
+    posInDegs = (float)(pos-745) / TICKS_PER_DEG;
 
-    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
-
-    //rotateToDeg((float)pos/TICKS_PER_DEG, 20, 60, 250);
-
+    rotateToDeg(0, 20, 60, 250);
     motor[towerMotor] = 0;
 }
