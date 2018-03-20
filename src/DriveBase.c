@@ -351,7 +351,7 @@ bool realTimeApproach(int maxSpeed) {
 
         if(getSensorLeft() < 1500 && getSensorRight() < 1500) {
             failTime++;
-            if(failTime > 75) {
+            if(failTime > 65) {
                 stopMotors();
                 return false;
             }
@@ -364,7 +364,7 @@ bool realTimeApproach(int maxSpeed) {
 
         float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
         if(abs(sensorAngle) > 10) {
-            turnMagnitude = 800 /  sqrt(abs(sensorAngle);
+            turnMagnitude = 1200 /  sqrt(abs(sensorAngle);
         }
         else {
             turnMagnitude = -1;

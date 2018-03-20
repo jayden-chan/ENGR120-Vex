@@ -21,12 +21,7 @@ bool scanned = false;
  * Function used for testing only.
  */
 void testPeriodic() {
-    rotateToDeg(0, 30, 40, 250);
-    fastScan();
-    writeDebugStreamLine("degs: %f", 180-posInDegs);
-    rotate(180-posInDegs, 40, 40, 250);
-
-    currentState = STATE_DISABLED;
+    autoTrackBeacon();
 }
 
 /**
@@ -35,7 +30,7 @@ void testPeriodic() {
  */
 void callibrate() {
     if(SensorValue[button2]) {
-        motor[towerMotor] = -20;
+        motor[towerMotor] = 20;
     }
     else {
         motor[towerMotor] = 0;
@@ -52,7 +47,8 @@ void scanForBeacon() {
     rotateToDeg(0, 30, 40, 250);
     fastScan();
     writeDebugStreamLine("degs: %f", 180-posInDegs);
-    rotate(180-posInDegs, 40, 40, 250);
+    wait1Msec(200);
+    rotate(180-posInDegs, 30, 40, 250);
     currentState = STATE_APPROACH;
 }
 
