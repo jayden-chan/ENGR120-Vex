@@ -46,6 +46,9 @@ void init();
 task main() {
     init();
 
+    // Finite state machine implementation
+    // All functions here can be found in
+    // Okarito.c
     while(currentState != STATE_DISABLED) {
         switch(currentState) {
         case STATE_ENABLED:
@@ -59,9 +62,6 @@ task main() {
             break;
         case STATE_SCAN:
             scanForBeacon();
-            break;
-        case STATE_ROTATE:
-            rotateTowardsBeacon();
             break;
         case STATE_APPROACH:
             wait1Msec(250);

@@ -12,15 +12,13 @@ const float MATH_PI              = 3.14159265359;                            // 
 const float ULTRASONIC_THRESH    = 0;                                        // cm
 const int   ULTRASONIC_THRESH_2  = 50;                                       // cm
 const int   CABLE_SENSOR_DELTA   = 200;                                       // n/a
-const int   LIGHTHOUSE_UPPER     = 3470;                                     // ticks
-const int   LIGHTHOUSE_LOWER     = 0;                                        // ticks
 const int   POT_TRACKING_THRESH  = 2090;                                     // ticks
 const int   BEACON_FOUND_THRESH  = 2200;
 const int   L_SENSOR_DIFF        = 0;                                        // n/a
       int   POT_OFFSET           = -885;                                     // ticks
 
-// PID Constants
 
+// PID Constants
 const float SLAVE_2_kP = 0.1;
 const float SLAVE_2_kI = 0.1;
 const float SLAVE_2_kD = 10;

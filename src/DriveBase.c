@@ -118,13 +118,7 @@ void driveStraight(int distance, int maxSpeed, int safeRange, int safeThreshold)
         slaveOut = clamp(slaveOut, maxSpeed);
 
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
-
-        //writeDebugStreamLine("driveError: %f", driveError);
-        //writeDebugStreamLine("slaveError: %f", slaveError);
-
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
-
-        //writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;
@@ -313,12 +307,7 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
             setRaw((driveOut + slaveOut), -(driveOut - slaveOut));
         }
 
-        //writeDebugStreamLine("driveError: %f", driveError);
-        //writeDebugStreamLine("slaveError: %f", slaveError);
-
         safeTime = abs(driveError) < safeRange ? safeTime + dTime : 0;
-
-        //writeDebugStreamLine("safeTime: %d", safeTime);
 
         if(safeTime > safeThreshold) {
             break;
@@ -386,11 +375,9 @@ bool realTimeApproach(int maxSpeed) {
         outsideError = getUltraSonic() - ULTRASONIC_THRESH;
 
         if(turnRight) {
-            //outsideError = outsideSet - getMotorEncoder(leftMotor);
             slaveError = getMotorEncoder(leftMotor) - getMotorEncoder(rightMotor) * ratio;
         }
         else {
-            //outsideError = outsideSet - getMotorEncoder(rightMotor);
             slaveError = getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor) * ratio;
         }
 

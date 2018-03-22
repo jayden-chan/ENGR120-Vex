@@ -13,9 +13,9 @@
 #include "RobotStates.h"
 #include "LEDController.c"
 #include "LightHouse.c"
+#include "CableGuide.c"
 
 RobotState currentState = STATE_ENABLED;
-bool scanned = false;
 
 /**
  * Function used for testing only.
@@ -46,30 +46,9 @@ void callibrate() {
 void scanForBeacon() {
     rotateToDeg(0, 30, 40, 250);
     fastScan();
-    writeDebugStreamLine("degs: %f", 180-posInDegs);
     wait1Msec(200);
     rotate(180-posInDegs, 30, 40, 250);
     currentState = STATE_APPROACH;
-}
-
-/**
- * Takes the rotation value from the lighthouse
- * scan and rotates the robot to face it.
- */
-void rotateTowardsBeacon() {
-    writeDebugStreamLine("Rotating: %f", 180-posInDegs);
-
-    rotate(((180-posInDegs)*1.0), 30, 15, 250);
-
-    if(scanned) {
-        toggleRed();
-        currentState = STATE_DISABLED;
-        return;
-    }
-    else {
-        scanned = true;
-        currentState = STATE_DISABLED;
-    }
 }
 
 /**
@@ -109,16 +88,12 @@ void approachTarget() {
  */
 void departTarget() {
     motor[towerMotor] = 0;
+
     driveStraight(-22, 30, 40, 250);
-    motor[cableMotor] = 20;
-    wait1Msec(340);
-    motor[cableMotor] = 0;
+    cableGuideDown();
     rotate(30, 40, 70, 250);
     driveStraight(-22, 30, 40, 250);
-
-    motor[cableMotor] = -20;
-    wait1Msec(340);
-    motor[cableMotor] = 0;
+    cableGuideUp();
 
     currentState = STATE_DISABLED;
 }

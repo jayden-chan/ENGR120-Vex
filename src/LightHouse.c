@@ -89,10 +89,7 @@ void rotateToDeg(float degrees, int maxSpeed, int safeRange, int safeThreshold) 
         float error = ((degrees * TICKS_PER_DEG)) - (SensorValue[towerPot] + POT_OFFSET);
         float out = PIDCalculate(lightPID, error);
 
-        //writeDebugStreamLine("Error: %f", error);
-
         out = clamp(out, maxSpeed);
-
         motor[towerMotor] = out;
 
         safeTime = abs(error) < safeRange ? safeTime + dTime : 0;
@@ -126,9 +123,6 @@ void fastScan() {
     while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
         motor[towerMotor] = 20;
     }
-    //motor[towerMotor] = -20;
-
-    //wait1Msec(20);
     motor[towerMotor] = 0;
 
     pos = SensorValue[towerPot];
@@ -160,26 +154,4 @@ void autoTrackBeacon() {
     else {
         motor[towerMotor] = 0;
     }
-}
-
-/**
- * Scans for the beacon in the opposite
- * direction. Used to get a more precise
- * measurement after the first scan / drive
- * sequence is finished.
- */
-void performFullScan() {
-    highestValue = 0;
-    while(SensorValue[towerPot] < LIGHTHOUSE_UPPER) {
-        if(SensorValue[lightSensor2] > highestValue) {
-            highestValue = SensorValue[lightSensor2];
-            pos = SensorValue[towerPot];
-        }
-        motor[towerMotor] = -20;
-    }
-
-    posInDegs = (float)(pos-745) / TICKS_PER_DEG;
-
-    rotateToDeg(0, 20, 60, 250);
-    motor[towerMotor] = 0;
 }

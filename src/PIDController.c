@@ -121,11 +121,9 @@ float PIDCalculate(PID &pid, float error) {
     pid.lastError = pid.error;
     pid.error = error;
 
-    if(pid.refreshRate != 0)
+    if(pid.refreshRate != 0) {
         wait1Msec(pid.refreshRate);
-
-    // Update output
-    //pid.lastOutput = pid.output;
+    }
 
     // Calculate the change in error if the elapsed time is not zero
     float changeInError = pid.dTime != 0 ? (pid.error - pid.lastError) / pid.dTime : 0;
