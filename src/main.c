@@ -92,7 +92,7 @@ task main() {
  */
 void init() {
     clearDebugStream();
-    turnOffAll();
+    turnOffAllLED();
     driveInit();
     lightHouseInit();
     wait1Msec(250);
@@ -110,4 +110,5 @@ void cleanup() {
     motor[cableMotor] = 0;
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
+    turnOffAllLED();
 }

@@ -10,7 +10,7 @@
 /**
  * Toggles the red LED on or off.
  */
-void toggleRed() {
+void toggleRedLED() {
     if(SensorValue[LED1]) {
         SensorValue[LED1] = 0;
     }
@@ -22,7 +22,7 @@ void toggleRed() {
 /**
  * Toggles the rainbow LED on or off.
  */
-void toggleRainbow() {
+void toggleRainbowLED() {
     if(SensorValue[LED2]) {
         SensorValue[LED2] = 0;
     }
@@ -36,7 +36,7 @@ void toggleRainbow() {
  * Used in the initialization code for
  * the robot.
  */
-void turnOffAll() {
+void turnOffAllLED() {
     SensorValue[LED1] = 0;
     SensorValue[LED2] = 0;
 }

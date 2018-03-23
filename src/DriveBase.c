@@ -31,6 +31,7 @@ float photosensorDefaultValue = 0;
  */
 void driveInit() {
 
+    // Initialize all of the PID controllers.
     PIDInit(slavePID, SLAVE_kP, SLAVE_kI, SLAVE_kD, 100, 0, SLAVE_kS, true, SLAVE_kR);
     PIDReset(slavePID);
 
@@ -43,8 +44,10 @@ void driveInit() {
     PIDInit(turnPID, TURN_kP, TURN_kI, TURN_kD, 1227, 0, TURN_kS, true, TURN_kR);
     PIDReset(turnPID);
 
+    // Set the default value for the cable attachment sensor
     photosensorDefaultValue = SensorValue[lightSensor];
 
+    // Reset encoders.
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
 }
@@ -310,7 +313,9 @@ bool realTimeApproach(int maxSpeed) {
 
     while(!(isCableDetached(photosensorDefaultValue))) {
 
-        if(getSensorLeft() < 1500 && getSensorRight() < 1500) {
+        // If the light sensors have been away from the beacon for
+        // too long, abort the approach sequence and return false.
+        if(getLeftLight() < 1500 && getRightLight() < 1500) {
             failTime++;
             if(failTime > 65) {
                 stopMotors();
@@ -321,8 +326,12 @@ bool realTimeApproach(int maxSpeed) {
             failTime = 0;
         }
 
+        // Rotate the lighthouse assembly to automatically face the
+        // target object.
         autoTrackBeacon();
 
+        // Compute the turning radius based on the rotational value
+        // of the lighthouse assembly.
         float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
         if(abs(sensorAngle) > 10) {
             turnMagnitude = 1200 /  sqrt(abs(sensorAngle);
@@ -331,11 +340,15 @@ bool realTimeApproach(int maxSpeed) {
             turnMagnitude = -1;
         }
 
+        // Check to see if we are going to be turning right.
         bool turnRight = sign(sensorAngle) > 0;
 
+        // Compute the relative arc lengths for each side of the
+        // drivetrain.
         float insideSet = (2 * MATH_PI * turnMagnitude) * TICKS_PER_CM2;
         float outsideSet = (2 * MATH_PI * (turnMagnitude + DRIVETRAIN_WIDTH)) * TICKS_PER_CM2;
 
+        // Compute the ration between the two sides of the drivetrain.
         if (turnMagnitude == -1) {
             ratio = 1;
         }
@@ -343,9 +356,10 @@ bool realTimeApproach(int maxSpeed) {
             ratio = outsideSet / insideSet;
         }
 
-
         outsideError = getUltraSonic() - ULTRASONIC_THRESH;
 
+        // Calculate the slave error (difference between the motors)
+        // Helps to keep the robot on track.
         if(turnRight) {
             slaveError = getMotorEncoder(leftMotor) - getMotorEncoder(rightMotor) * ratio;
         }
@@ -353,14 +367,16 @@ bool realTimeApproach(int maxSpeed) {
             slaveError = getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor) * ratio;
         }
 
+        // Calculate the motor outputs using the PID controllers.
         float driveOut = PIDCalculate(ultrasonicPID, outsideError);
         float slaveOut = PIDCalculate(slavePID, slaveError);
 
+        // Limit the output of the PID controllers to the
+        // specified max speed.
         driveOut = clamp(driveOut, maxSpeed);
         slaveOut = clamp(slaveOut, maxSpeed);
 
-        writeDebugStreamLine("Drive out: %f", driveOut);
-
+        // Apply the power to the motors.
         if(turnRight) {
             setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
         }
@@ -369,21 +385,8 @@ bool realTimeApproach(int maxSpeed) {
         }
     }
 
+    // Stop motors and return true because we know
+    // we reached the beacon successfully.
     stopMotors();
     return true;
-}
-
-/**
- * Scans for the beacon by rotating the light/
- * sensor assembly 360 degrees and choosing
- * the highest recorded value from the light
- * sensor.
- */
-void performScan() {
-    while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
-        setRaw(30, -30);
-    }
-    setRaw(-20, 20);
-    wait1Msec(20);
-    stopMotors();
 }

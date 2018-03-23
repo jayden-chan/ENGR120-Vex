@@ -16,7 +16,7 @@
 #include "DriveBase.c"
 
 PID lightPID;
-int highestValue = 0;
+
 int pos = 0;
 int posInDegs = 0;
 float averageOne[3];
@@ -29,7 +29,7 @@ int numAverages = 3;
  *
  * @return The value of the sensor.
  */
-float getSensorLeft() {
+float getLeftLight() {
     for(int i = numAverages-1; i > 0; i--) {
         averageOne[i] = averageOne[i-1];
     }
@@ -49,7 +49,7 @@ float getSensorLeft() {
  *
  * @return The value of the sensor.
  */
-float getSensorRight() {
+float getRightLight() {
     for(int i = numAverages-1; i > 0; i--) {
         averageTwo[i] = averageTwo[i-1];
     }
@@ -120,7 +120,7 @@ void lightHouseInit() {
  * sometimes result in some error.
  */
 void fastScan() {
-    while(getSensorLeft() < BEACON_FOUND_THRESH && getSensorRight() < BEACON_FOUND_THRESH) {
+    while(getLeftLight() < BEACON_FOUND_THRESH && getRightLight() < BEACON_FOUND_THRESH) {
         motor[towerMotor] = 20;
     }
     motor[towerMotor] = 0;
@@ -144,7 +144,7 @@ void fastScan() {
  * from a dead start.
  */
 void autoTrackBeacon() {
-    float diff = getSensorLeft() - (getSensorRight() + L_SENSOR_DIFF);
+    float diff = getLeftLight() - (getRightLight() + L_SENSOR_DIFF);
 
     if(abs(diff) > 0) {
         motor[towerMotor] = sign(diff) * -17;

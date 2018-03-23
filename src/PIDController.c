@@ -65,7 +65,7 @@ void PIDInit(PID &pid, float kP, float kI, float kD, float integralLimit, float 
 void PIDReset(PID &pid) {
     pid.error      = 0;
     pid.lastTime   = 0;
-    pid.dTime      = 10;
+    pid.dTime      = 10; // dt is set to 10 to avoid divide by 0 error
     pid.errorSum   = 0;
     pid.lastError  = 0;
     pid.output     = 0;
