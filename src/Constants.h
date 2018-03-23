@@ -10,12 +10,11 @@ const float TICKS_PER_CM2       = (TICKS_PER_ROT / WHEEL_CIRC); // ticks
 const float DRIVETRAIN_WIDTH    = 21.78;                        // cm
 const float MATH_PI             = 3.14159265359;                // n/a
 const float ULTRASONIC_THRESH   = 0;                            // cm
-const int   ULTRASONIC_THRESH_2 = 50;                           // cm
 const int   CABLE_SENSOR_DELTA  = 200;                          // n/a
 const int   POT_TRACKING_THRESH = 2090;                         // ticks
 const int   BEACON_FOUND_THRESH = 2200;
 const int   L_SENSOR_DIFF       = 0;                            // n/a
-      int   POT_OFFSET          = -885;                         // ticks
+const int   POT_OFFSET          = -885;                         // ticks
 
 
 // PID Constants

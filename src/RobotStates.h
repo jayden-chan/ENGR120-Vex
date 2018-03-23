@@ -12,6 +12,7 @@ typedef enum RobotStateEnum {
     STATE_WAITING,
     STATE_RECALLIBRATE,
     STATE_SCAN,
+    STATE_ROTATE,
     STATE_APPROACH,
     STATE_DEPART,
     STATE_TEST

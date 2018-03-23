@@ -63,6 +63,9 @@ task main() {
         case STATE_SCAN:
             scanForBeacon();
             break;
+        case STATE_ROTATE:
+            rotateToBeacon();
+            break;
         case STATE_APPROACH:
             wait1Msec(250);
             approachTarget();

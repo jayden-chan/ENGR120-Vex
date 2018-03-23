@@ -5,6 +5,9 @@
  * getting caught in the drivetrain as well as
  * to separate the cable from the robot at the
  * end of the connection sequence.
+ *
+ * @author Jayden Chan
+ * @date March 22, 2018
  */
 
 /**

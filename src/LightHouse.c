@@ -146,8 +146,6 @@ void fastScan() {
 void autoTrackBeacon() {
     float diff = getSensorLeft() - (getSensorRight() + L_SENSOR_DIFF);
 
-    writeDebugStreamLine("Angle: %f", SensorValue[towerPot] - POT_TRACKING_THRESH);
-
     if(abs(diff) > 0) {
         motor[towerMotor] = sign(diff) * -17;
     }

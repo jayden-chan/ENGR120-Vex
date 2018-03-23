@@ -39,19 +39,6 @@ void callibrate() {
 }
 
 /**
- * Performs the scan for the target object
- * then changes the state of the robot to
- * rotate towards the found object.
- */
-void scanForBeacon() {
-    rotateToDeg(0, 30, 40, 250);
-    fastScan();
-    wait1Msec(200);
-    rotate(180-posInDegs, 30, 40, 250);
-    currentState = STATE_APPROACH;
-}
-
-/**
  * Checks the two buttons on the robot to see
  * if they have been pressed. When a button is
  * pressed the function will change the state
@@ -64,6 +51,28 @@ void waitingForButtons() {
     if(SensorValue[button2]) {
         currentState = STATE_RECALLIBRATE;
     }
+}
+
+/**
+ * Performs the scan for the target object
+ * then changes the state of the robot to
+ * rotate towards the found object.
+ */
+void scanForBeacon() {
+    rotateToDeg(0, 30, 40, 250);
+    fastScan();
+    currentState = STATE_ROTATE;
+}
+
+/**
+ * Rotates the robot towards the beacon
+ * using the sensor value obtained from
+ * the scanForBeacon function.
+ */
+void rotateToBeacon() {
+    wait1Msec(200);
+    rotate(180-posInDegs, 30, 40, 250);
+    currentState = STATE_APPROACH;
 }
 
 /**

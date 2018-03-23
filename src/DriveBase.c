@@ -229,34 +229,6 @@ void cableApproach() {
 }
 
 /**
- * Drives until the ultrasonic sensor has a
- * value of 40 cm. Used for getting close to
- * the beacon for a second scan.
- */
-void ultrasonicApproach() {
-
-    driveReset();
-
-    while(true) {
-
-        float driveError = getUltraSonic() - ULTRASONIC_THRESH_2;
-        float slaveError = (getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor));
-
-        float driveOut = PIDCalculate(ultrasonicPID, driveError);
-        float slaveOut = PIDCalculate(slavePID, slaveError);
-
-        driveOut = clamp(driveOut, 30);
-        slaveOut = clamp(slaveOut, 30);
-
-        setRaw((driveOut + slaveOut), (driveOut - slaveOut));
-
-        if(driveError < 5) break;
-    }
-
-    stopMotors();
-}
-
-/**
  * Rotates in place for the specified number of
  * degrees.
  *
