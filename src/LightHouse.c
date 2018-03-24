@@ -23,6 +23,8 @@ float averageOne[3];
 float averageTwo[3];
 int numAverages = 3;
 
+float highestValue = 0;
+
 /**
  * Gets the value of the left light sensor
  * after averaging the last few values.
@@ -152,4 +154,19 @@ void autoTrackBeacon() {
     else {
         motor[towerMotor] = 0;
     }
+}
+
+void fastCheck() {
+    while(SensorValue[towerPot] < POT_TRACKING_THRESH) {
+        float val = getLeftLight();
+        if(val > highestValue) {
+            highestValue = val;
+            pos = SensorValue[towerPot];
+        }
+        motor[towerMotor] = 127;
+    }
+    motor[towerMotor] = -127;
+    wait1Msec(37);
+    motor[towerMotor] = 0;
+    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 }

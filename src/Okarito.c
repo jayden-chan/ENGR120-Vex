@@ -32,6 +32,9 @@ void callibrate() {
     if(SensorValue[button2]) {
         motor[towerMotor] = 20;
     }
+    else if(SensorValue[limitSwitch]) {
+        motor[towerMotor] = -20;
+    }
     else {
         motor[towerMotor] = 0;
         currentState = STATE_WAITING;
@@ -48,6 +51,9 @@ void waitingForButtons() {
     if(SensorValue[topButton]) {
         currentState = STATE_SCAN;
     }
+    if(SensorValue[limitSwitch]) {
+        currentState = STATE_RECALLIBRATE;
+    }
     if(SensorValue[button2]) {
         currentState = STATE_RECALLIBRATE;
     }
@@ -59,8 +65,9 @@ void waitingForButtons() {
  * rotate towards the found object.
  */
 void scanForBeacon() {
-    rotateToDeg(0, 30, 40, 250);
-    fastScan();
+    //rotateToDeg(0, 30, 40, 250);
+    //fastScan();
+    fastCheck();
     currentState = STATE_ROTATE;
 }
 
@@ -70,9 +77,8 @@ void scanForBeacon() {
  * the scanForBeacon function.
  */
 void rotateToBeacon() {
-    wait1Msec(200);
-    rotate(180-posInDegs, 30, 40, 250);
-    currentState = STATE_APPROACH;
+    rotate(180-posInDegs, 127, 40, 250);
+    currentState = STATE_DISABLED;
 }
 
 /**

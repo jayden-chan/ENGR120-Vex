@@ -390,3 +390,18 @@ bool realTimeApproach(int maxSpeed) {
     stopMotors();
     return true;
 }
+
+void superFastScan() {
+    float mult = 1;
+    //if(SensorValue[towerPot] > POT_TRACKING_THRESH) {
+    //    mult = -1;
+    //}
+    wait1Msec(1000);
+    while(getLeftLight() < BEACON_FOUND_THRESH && getRightLight() < BEACON_FOUND_THRESH) {
+       setRaw(127 * mult, 127 * -mult);
+   }
+
+   setRaw(60 * -mult, 60 * mult);
+   wait1Msec(30);
+   stopMotors();
+}

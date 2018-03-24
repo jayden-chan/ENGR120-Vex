@@ -42,10 +42,10 @@ const float LIGHTHOUSE_kD = 50;
 const float LIGHTHOUSE_kS = 999;
 const float LIGHTHOUSE_kR = 10;
 
-const float TURN_kP = 4;
+const float TURN_kP = 1;
 const float TURN_kI = 0;
-const float TURN_kD = 20;
-const float TURN_kS = 5;
+const float TURN_kD = 200;
+const float TURN_kS = 1;
 const int   TURN_kR = 1;
 
 #endif
