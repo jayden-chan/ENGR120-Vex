@@ -302,6 +302,11 @@ bool realTimeApproachNew(int maxSpeed) {
     while(!(isCableDetached(photosensorDefaultValue))) {
         float driveError = getUltraSonic() - ULTRASONIC_THRESH;
 
+        turnRight = SensorValue[towerPot] > POT_TRACKING_THRESH;
+
+        ratio = 1 + (abs(SensorValue[towerPot] - POT_TRACKING_THRESH)) / TRACKING_TURN_SENS;
+        betterAutoTrack();
+
         if(turnRight) {
             slaveError = getMotorEncoder(leftMotor) - getMotorEncoder(rightMotor) * ratio;
         }

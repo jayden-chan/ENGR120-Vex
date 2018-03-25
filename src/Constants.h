@@ -11,13 +11,14 @@ static const float DRIVETRAIN_WIDTH    = 21.78;                        // cm
 static const float MATH_PI             = 3.14159265359;                // none
 static const float ULTRASONIC_THRESH   = 0;                            // cm
 static const int   CABLE_SENSOR_DELTA  = 200;                          // none
-static const int   POT_TRACKING_THRESH = 2090;                         // ticks
+static const int   POT_TRACKING_THRESH = 2120;                         // ticks
 static const int   BEACON_FOUND_THRESH = 2200;                         // none
 static const int   BEACON_LOST_THRESH  = 1500;                         // none
 static const int   L_SENSOR_DIFF       = -250;                         // none
 static const int   POT_OFFSET          = -885;                         // ticks
 static const float TRACKING_SLOPE      = 0.04;                         // none
 static const float TRACKING_MIN        = 11;                           // none
+static const float TRACKING_TURN_SENS  = 300;
 
 
 // PID Constants

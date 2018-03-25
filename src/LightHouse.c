@@ -156,6 +156,9 @@ void autoTrackBeacon() {
     }
 }
 
+/**
+ * it's like autoTrackBeacon.... but better...
+ */
 void betterAutoTrack() {
     float left = getLeftLight();
     float right = getRightLight();
@@ -169,7 +172,7 @@ void betterAutoTrack() {
     }
     else {
         // Activation function to get the motor to track
-        // the target object smoothly. Determined experimentally
+        // the target object smoothly. Determined experimentally.
         motor[towerMotor] = (diff * -TRACKING_SLOPE) - (TRACKING_MIN * sign(diff));
     }
 }
