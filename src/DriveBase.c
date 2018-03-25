@@ -295,6 +295,10 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 bool realTimeApproachNew(int maxSpeed) {
     driveReset();
 
+    bool turnRight;
+    float slaveError;
+    float ratio = 1;
+
     while(!(isCableDetached(photosensorDefaultValue))) {
         float driveError = getUltraSonic() - ULTRASONIC_THRESH;
 

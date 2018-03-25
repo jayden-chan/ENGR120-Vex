@@ -161,14 +161,16 @@ void betterAutoTrack() {
     float right = getRightLight();
     float diff = left - (right + L_SENSOR_DIFF);
 
-    if(left < 1500 || right < 1500) {
+    if(left < BEACON_LOST_THRESH && right < BEACON_LOST_THRESH) {
         motor[towerMotor] = 0;
     }
-    else if(abs(diff) < 50) {
+    else if(abs(diff) < 0) {
         motor[towerMotor] = 0;
     }
     else {
-        motor[towerMotor] = diff;
+        // Activation function to get the motor to track
+        // the target object smoothly. Determined experimentally
+        motor[towerMotor] = (diff * -TRACKING_SLOPE) - (TRACKING_MIN * sign(diff));
     }
 }
 

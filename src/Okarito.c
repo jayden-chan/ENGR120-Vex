@@ -21,7 +21,7 @@ RobotState currentState = STATE_ENABLED;
  * Function used for testing only.
  */
 void testPeriodic() {
-    autoTrackBeacon();
+    betterAutoTrack();
 }
 
 /**
@@ -49,7 +49,7 @@ void callibrate() {
  */
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_SCAN;
+        currentState = STATE_TEST;
     }
     if(SensorValue[limitSwitch]) {
         currentState = STATE_RECALLIBRATE;
