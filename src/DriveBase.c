@@ -292,6 +292,38 @@ void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
     stopMotors();
 }
 
+bool realTimeApproachNew(int maxSpeed) {
+    driveReset();
+
+    while(!(isCableDetached(photosensorDefaultValue))) {
+        float driveError = getUltraSonic() - ULTRASONIC_THRESH;
+
+        if(turnRight) {
+            slaveError = getMotorEncoder(leftMotor) - getMotorEncoder(rightMotor) * ratio;
+        }
+        else {
+            slaveError = getMotorEncoder(rightMotor) - getMotorEncoder(leftMotor) * ratio;
+        }
+
+        // Calculate the motor outputs using the PID controllers.
+        float driveOut = PIDCalculate(ultrasonicPID, driveError);
+        float slaveOut = PIDCalculate(slavePID, slaveError);
+
+        // Limit the output of the PID controllers to the
+        // specified max speed.
+        driveOut = clamp(driveOut, maxSpeed);
+        slaveOut = clamp(slaveOut, maxSpeed);
+
+        // Apply the power to the motors.
+        if(turnRight) {
+            setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
+        }
+        else {
+            setRaw(((driveOut / ratio) + slaveOut), (driveOut - slaveOut));
+        }
+    }
+}
+
 /**
  * Tracks the beacon in real time using the
  * lighthouse assembly as a slave PID controller
@@ -389,19 +421,4 @@ bool realTimeApproach(int maxSpeed) {
     // we reached the beacon successfully.
     stopMotors();
     return true;
-}
-
-void superFastScan() {
-    float mult = 1;
-    //if(SensorValue[towerPot] > POT_TRACKING_THRESH) {
-    //    mult = -1;
-    //}
-    wait1Msec(1000);
-    while(getLeftLight() < BEACON_FOUND_THRESH && getRightLight() < BEACON_FOUND_THRESH) {
-       setRaw(127 * mult, 127 * -mult);
-   }
-
-   setRaw(60 * -mult, 60 * mult);
-   wait1Msec(30);
-   stopMotors();
 }

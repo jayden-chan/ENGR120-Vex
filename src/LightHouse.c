@@ -156,6 +156,22 @@ void autoTrackBeacon() {
     }
 }
 
+void betterAutoTrack() {
+    float left = getLeftLight();
+    float right = getRightLight();
+    float diff = left - (right + L_SENSOR_DIFF);
+
+    if(left < 1500 || right < 1500) {
+        motor[towerMotor] = 0;
+    }
+    else if(abs(diff) < 50) {
+        motor[towerMotor] = 0;
+    }
+    else {
+        motor[towerMotor] = diff;
+    }
+}
+
 void fastCheck() {
     while(SensorValue[towerPot] < POT_TRACKING_THRESH) {
         float val = getLeftLight();
