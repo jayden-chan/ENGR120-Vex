@@ -10,11 +10,13 @@
 
 #include "Utils.c"
 
+float lastOutput;
+float dT;
+
 /**
- * Returns the value of the ultrasonic sensor
- * after doing some processing to avoid getting
- * weird values such as negative distance or
- * spikes to over 100.
+ * Prevents the ultrasonic sensor from
+ * returning negative values as well as
+ * clamping it to a set maximum.
  *
  * @return The value of the ultrasonic sensor.
  */
@@ -23,5 +25,25 @@ float getUltraSonic() {
         return 20;
     }
 
-    return clamp2((float)SensorValue[ultrasonic], 0, 150);
+    return clamp((float)SensorValue[ultrasonic], 150);
+}
+
+/**
+ * Applies slew rate filtering to the
+ * ultrasonic output to avoid it spiking
+ * like crazy.
+ *
+ * @return The filtered ultrasonic value.
+ */
+float getUltraSonicFiltered() {
+    float toReturn = getUltraSonic();
+
+    if(dT != 0) {
+        if(abs(toReturn - lastOutput) / dT > ULTRASONIC_SLEW) {
+            toReturn = lastOutput + slewRate * dT * sign(toReturn - lastOutput);
+        }
+    }
+
+    lastOutput = toReturn;
+    return toReturn;
 }

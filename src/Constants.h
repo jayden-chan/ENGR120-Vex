@@ -14,12 +14,12 @@ static const int   CABLE_SENSOR_DELTA  = 200;                          //
 static const int   POT_TRACKING_THRESH = 2120;                         // ticks
 static const int   BEACON_FOUND_THRESH = 2200;                         //
 static const int   BEACON_LOST_THRESH  = 1500;                         //
-static const int   L_SENSOR_DIFF       = 200;                         //
+static const int   L_SENSOR_DIFF       = 200;                          //
 static const int   POT_OFFSET          = -885;                         // ticks
 static const float TRACKING_SLOPE      = 0.01;                         //
-static const float TRACKING_MIN        = 14.5;                           //
+static const float TRACKING_MIN        = 14.5;                         //
 static const float TRACKING_TURN_SENS  = 300;                          //
-
+static const float ULTRASONIC_SLEW     = 1;                            //
 
 // PID Constants
 static const float SLAVE_2_kP = 0.1;

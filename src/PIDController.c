@@ -94,7 +94,7 @@ float PIDFilter(PID &pid) {
         }
     }
 
-    toReturn = clamp(toReturn, 127);
+    toReturn = clamp(toReturn, MAX_SPEED);
 
     pid.lastOutput = toReturn;
     return toReturn;
