@@ -227,7 +227,7 @@ void cableApproach() {
         setRaw((driveOut + slaveOut), (driveOut - slaveOut));
     }
 
-    toggleRainbow();
+    toggleRainbowLED();
     stopMotors();
 }
 
@@ -299,10 +299,29 @@ bool realTimeApproachNew(int maxSpeed) {
     float slaveError;
     float ratio = 1;
 
+    bool wasRight = false;
+
     while(!(isCableDetached(photosensorDefaultValue))) {
-        float driveError = getUltraSonic() - ULTRASONIC_THRESH;
+        float driveError = getUltraSonicFiltered() - ULTRASONIC_THRESH;
+
+        if(driveError < 40) {
+            L_SENSOR_DIFF = -300;
+        }
 
         turnRight = SensorValue[towerPot] > POT_TRACKING_THRESH;
+
+        if(turnRight && !wasRight) {
+            resetMotorEncoder(rightMotor);
+            resetMotorEncoder(leftMotor);
+            PIDReset(slavePID);
+            wasRight = true;
+        }
+        else if(!turnRight && wasRight) {
+            resetMotorEncoder(rightMotor);
+            resetMotorEncoder(leftMotor);
+            PIDReset(slavePID);
+            wasRight = false;
+        }
 
         ratio = (TRACKING_TURN_SENS + (abs(SensorValue[towerPot] - POT_TRACKING_THRESH))) / TRACKING_TURN_SENS;
         betterAutoTrack();
@@ -323,6 +342,8 @@ bool realTimeApproachNew(int maxSpeed) {
         driveOut = clamp(driveOut, maxSpeed);
         slaveOut = clamp(slaveOut, maxSpeed);
 
+        writeDebugStreamLine("Speed: %f", driveOut);
+
         // Apply the power to the motors.
         if(turnRight) {
             setRaw((driveOut - slaveOut), ((driveOut / ratio) + slaveOut));
@@ -331,6 +352,7 @@ bool realTimeApproachNew(int maxSpeed) {
             setRaw(((driveOut / ratio) + slaveOut), (driveOut - slaveOut));
         }
     }
+    return true;
 }
 
 /**
@@ -375,7 +397,7 @@ bool realTimeApproach(int maxSpeed) {
         // of the lighthouse assembly.
         float sensorAngle = SensorValue[towerPot] - POT_TRACKING_THRESH;
         if(abs(sensorAngle) > 10) {
-            turnMagnitude = 1200 /  sqrt(abs(sensorAngle);
+            turnMagnitude = 1200 /  sqrt(abs(sensorAngle));
         }
         else {
             turnMagnitude = -1;

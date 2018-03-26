@@ -40,7 +40,7 @@ float getUltraSonicFiltered() {
 
     if(dT != 0) {
         if(abs(toReturn - lastOutput) / dT > ULTRASONIC_SLEW) {
-            toReturn = lastOutput + slewRate * dT * sign(toReturn - lastOutput);
+            toReturn = lastOutput + ULTRASONIC_SLEW * dT * sign(toReturn - lastOutput);
         }
     }
 
