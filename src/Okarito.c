@@ -21,7 +21,8 @@ RobotState currentState = STATE_ENABLED;
  * Function used for testing only.
  */
 void testPeriodic() {
-    realTimeApproachNew(40);
+    realTimeApproachNew(127);
+    //betterAutoTrack();
     currentState = STATE_DISABLED;
 }
 

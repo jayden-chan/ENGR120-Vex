@@ -1,24 +1,24 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
-// Type     Name                Value                           Units
-static const int   MAX_SPEED           = 127;                          // none
+// Type            Name                Value                           Units
+static const int   MAX_SPEED           = 127;                          //
 static const float TICKS_PER_DEG       = 7.08333333333;                // ticks
 static const float TICKS_PER_ROT       = 627.2;                        // ticks
 static const float WHEEL_CIRC          = 31.91858136;                  // cm
 static const float TICKS_PER_CM2       = (TICKS_PER_ROT / WHEEL_CIRC); // ticks
 static const float DRIVETRAIN_WIDTH    = 21.78;                        // cm
-static const float MATH_PI             = 3.14159265359;                // none
+static const float MATH_PI             = 3.14159265359;                //
 static const float ULTRASONIC_THRESH   = 0;                            // cm
-static const int   CABLE_SENSOR_DELTA  = 200;                          // none
+static const int   CABLE_SENSOR_DELTA  = 200;                          //
 static const int   POT_TRACKING_THRESH = 2120;                         // ticks
-static const int   BEACON_FOUND_THRESH = 2200;                         // none
-static const int   BEACON_LOST_THRESH  = 1500;                         // none
-static const int   L_SENSOR_DIFF       = -250;                         // none
+static const int   BEACON_FOUND_THRESH = 2200;                         //
+static const int   BEACON_LOST_THRESH  = 1500;                         //
+static const int   L_SENSOR_DIFF       = 200;                         //
 static const int   POT_OFFSET          = -885;                         // ticks
-static const float TRACKING_SLOPE      = 0.04;                         // none
-static const float TRACKING_MIN        = 11;                           // none
-static const float TRACKING_TURN_SENS  = 300;
+static const float TRACKING_SLOPE      = 0.01;                         //
+static const float TRACKING_MIN        = 14.5;                           //
+static const float TRACKING_TURN_SENS  = 300;                          //
 
 
 // PID Constants
@@ -36,7 +36,7 @@ static const int   SLAVE_kR = 1;
 
 static const float ULTRASONIC_kP = 1.50;
 static const float ULTRASONIC_kI = 0.02;
-static const float ULTRASONIC_kD = 175;
+static const float ULTRASONIC_kD = 200;
 static const float ULTRASONIC_kS = 0.2;
 static const int   ULTRASONIC_kR = 10;
 
