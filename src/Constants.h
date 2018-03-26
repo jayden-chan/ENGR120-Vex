@@ -35,7 +35,7 @@ static const float SLAVE_kD = 10;
 static const float SLAVE_kS = 99999;
 static const int   SLAVE_kR = 1;
 
-static const float ULTRASONIC_kP = 2;
+static const float ULTRASONIC_kP = 1.7;
 static const float ULTRASONIC_kI = 0.02;
 static const float ULTRASONIC_kD = 7500;
 static const float ULTRASONIC_kS = 0.2;

@@ -231,6 +231,6 @@ void scanPID(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
         }
     }
 
-    posInDegs = (float)(pos+offset * 1.04) / TICKS_PER_DEG;
+    posInDegs = (float)(pos+offset) / TICKS_PER_DEG;
     motor[towerMotor] = 0;
 }

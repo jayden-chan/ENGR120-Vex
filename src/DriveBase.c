@@ -303,7 +303,7 @@ bool realTimeApproachNew(int maxSpeed) {
         float driveError = getUltraSonicFiltered() - ULTRASONIC_THRESH;
 
         if(driveError < 40) {
-            L_SENSOR_DIFF = -300;
+            L_SENSOR_DIFF = -150;
         }
 
         turnRight = SensorValue[towerPot] > POT_TRACKING_THRESH;
@@ -321,7 +321,12 @@ bool realTimeApproachNew(int maxSpeed) {
             wasRight = false;
         }
 
-        ratio = (TRACKING_TURN_SENS + (abs(SensorValue[towerPot] - POT_TRACKING_THRESH))) / TRACKING_TURN_SENS;
+        if(getUltraSonicFiltered() > 120) {
+            ratio = 1;
+        }
+        else {
+            ratio = (TRACKING_TURN_SENS + (abs(SensorValue[towerPot] - POT_TRACKING_THRESH))) / TRACKING_TURN_SENS;
+        }
         betterAutoTrack();
 
         if(turnRight) {
