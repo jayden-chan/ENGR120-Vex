@@ -245,9 +245,7 @@ void cableApproach() {
 void rotate(float degrees, float maxSpeed, int safeRange, int safeThreshold) {
 
     driveReset();
-    float arcLength;
-
-    arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (abs(degrees) / 360);
+    float arcLength = (MATH_PI * DRIVETRAIN_WIDTH) * (abs(degrees) / 360);
 
     int safeTime = 0;
     int time     = 0;

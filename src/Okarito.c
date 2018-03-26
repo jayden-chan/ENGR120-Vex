@@ -51,7 +51,7 @@ void callibrate() {
  */
 void waitingForButtons() {
     if(SensorValue[topButton]) {
-        currentState = STATE_TEST;
+        currentState = STATE_SCAN;
     }
     if(SensorValue[limitSwitch]) {
         currentState = STATE_RECALLIBRATE;
@@ -69,7 +69,8 @@ void waitingForButtons() {
 void scanForBeacon() {
     //rotateToDeg(0, 30, 40, 250);
     //fastScan();
-    fastCheck();
+    //fastCheck();
+    scanPID(180, 30, 40, 200);
     currentState = STATE_ROTATE;
 }
 
@@ -79,8 +80,8 @@ void scanForBeacon() {
  * the scanForBeacon function.
  */
 void rotateToBeacon() {
-    rotate(180-posInDegs, 127, 40, 250);
-    currentState = STATE_DISABLED;
+    rotate(180-posInDegs, 30, 20, 200);
+    currentState = STATE_APPROACH;
 }
 
 /**
@@ -89,7 +90,7 @@ void rotateToBeacon() {
  * the cable has been connected successfully.
  */
 void approachTarget() {
-    bool success = realTimeApproach(40);
+    bool success = realTimeApproachNew(127);
 
     if(!success) {
         currentState = STATE_SCAN;
@@ -106,11 +107,6 @@ void approachTarget() {
 void departTarget() {
     motor[towerMotor] = 0;
 
-    driveStraight(-22, 30, 40, 250);
-    cableGuideDown();
-    rotate(30, 40, 70, 250);
-    driveStraight(-22, 30, 40, 250);
-    cableGuideUp();
-
+    driveStraight(-12, 100, 40, 250);
     currentState = STATE_DISABLED;
 }

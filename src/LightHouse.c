@@ -191,3 +191,46 @@ void fastCheck() {
     motor[towerMotor] = 0;
     posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
 }
+
+void scanPID(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
+    PIDReset(lightPID);
+
+    int safeTime = 0;
+    int time     = 0;
+    int dTime    = 0;
+    int offset = 0;
+
+    if(SensorValue[towerPot] < POT_TRACKING_THRESH) {
+        offset = POT_OFFSET_LEFT;
+    }
+    else {
+        offset = POT_OFFSET;
+    }
+
+    while(true) {
+
+        dTime = nPgmTime - time;
+        time = nPgmTime;
+
+        float error = ((degrees * TICKS_PER_DEG)) - (SensorValue[towerPot] + offset);
+        float out = PIDCalculate(lightPID, error);
+
+        out = clamp(out, maxSpeed);
+        motor[towerMotor] = out;
+
+        safeTime = abs(error) < safeRange ? safeTime + dTime : 0;
+
+        float val = getLeftLight();
+        if(val > highestValue) {
+            highestValue = val;
+            pos = SensorValue[towerPot];
+        }
+
+        if(safeTime > safeThreshold) {
+            break;
+        }
+    }
+
+    posInDegs = (float)(pos+offset * 1.04) / TICKS_PER_DEG;
+    motor[towerMotor] = 0;
+}

@@ -14,12 +14,13 @@ static const int   CABLE_SENSOR_DELTA  = 200;                          //
 static const int   POT_TRACKING_THRESH = 2120;                         // ticks
 static const int   BEACON_FOUND_THRESH = 2200;                         //
 static const int   BEACON_LOST_THRESH  = 1500;                         //
-             int   L_SENSOR_DIFF       = 0;                          //
-static const int   POT_OFFSET          = -885;                         // ticks
+             int   L_SENSOR_DIFF       = 0;                            //
+static const int   POT_OFFSET          = -895;                         // ticks
+static const int   POT_OFFSET_LEFT     = -775;                         // ticks
 static const float TRACKING_SLOPE      = 0.01;                         //
 static const float TRACKING_MIN        = 14.5;                         //
 static const float TRACKING_TURN_SENS  = 200;                          //
-static const float ULTRASONIC_SLEW     = 0.8;                            //
+static const float ULTRASONIC_SLEW     = 0.8;                          //
 
 // PID Constants
 static const float SLAVE_2_kP = 0.1;
@@ -36,7 +37,7 @@ static const int   SLAVE_kR = 1;
 
 static const float ULTRASONIC_kP = 2;
 static const float ULTRASONIC_kI = 0.02;
-static const float ULTRASONIC_kD = 1500;
+static const float ULTRASONIC_kD = 7500;
 static const float ULTRASONIC_kS = 0.2;
 static const int   ULTRASONIC_kR = 10;
 
@@ -48,8 +49,8 @@ static const float LIGHTHOUSE_kR = 10;
 
 static const float TURN_kP = 1;
 static const float TURN_kI = 0;
-static const float TURN_kD = 200;
-static const float TURN_kS = 1;
+static const float TURN_kD = 100;
+static const float TURN_kS = 5;
 static const int   TURN_kR = 1;
 
 #endif
