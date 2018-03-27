@@ -24,6 +24,7 @@ float averageTwo[3];
 int numAverages = 3;
 bool recovering = false;
 float lastDir = 1;
+int timeout = 0;
 
 float highestValue = 0;
 
@@ -115,8 +116,6 @@ void lightHouseInit() {
     PIDReset(lightPID);
 }
 
-
-
 /**
  * Automatically aligns the lighthouse assembly
  * with the beacon. The rotation value of the
@@ -169,28 +168,56 @@ void betterAutoTrack() {
     }
 }
 
-void fastCheck() {
-    while(SensorValue[towerPot] < POT_TRACKING_THRESH) {
-        float val = getLeftLight();
-        if(val > highestValue) {
-            highestValue = val;
-            pos = SensorValue[towerPot];
+/**
+ * Same as betterAutoTrack but with a
+ * safety timeout in case it chooses the
+ * wrong direction to recover in.
+ * Experimental.
+ */
+void betterAutoTrackSafe() {
+    float left = getLeftLight();
+    float right = getRightLight();
+    float diff = left - (right + L_SENSOR_DIFF);
+
+    if(recovering) {
+        motor[towerMotor] = 15 * lastDir;
+        if(left > BEACON_FOUND_THRESH) {
+            recovering = false;
+            timeout++;
+            if(timeout > 150) {
+                lastDir *= -1;
+            }
         }
-        motor[towerMotor] = 127;
     }
-    motor[towerMotor] = -127;
-    wait1Msec(37);
-    motor[towerMotor] = 0;
-    posInDegs = (float)(pos+POT_OFFSET) / TICKS_PER_DEG;
+    else {
+        if(left < BEACON_LOST_THRESH && right < BEACON_LOST_THRESH) {
+            lastDir = sign(diff);
+            recovering = true;
+        }
+        else if(abs(diff) < 0) {
+            motor[towerMotor] = 0;
+        }
+        else {
+            // Activation function to get the motor to track
+            // the target object smoothly. Determined experimentally.
+            motor[towerMotor] = (diff * -TRACKING_SLOPE) - (TRACKING_MIN * sign(diff));
+        }
+    }
 }
 
+/**
+ * Scans for the beacon using a PID loop instead
+ * of just setting the motors for a certain amount
+ * of time. Needed to ensure that the beacon is
+ * exactly centered at the end of the scan.
+ */
 void scanPID(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
     PIDReset(lightPID);
 
     int safeTime = 0;
     int time     = 0;
     int dTime    = 0;
-    int offset = 0;
+    int offset   = 0;
 
     if(SensorValue[towerPot] < POT_TRACKING_THRESH) {
         offset = POT_OFFSET_LEFT;
