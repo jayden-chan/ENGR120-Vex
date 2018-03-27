@@ -68,7 +68,6 @@ task main() {
             rotateToBeacon();
             break;
         case STATE_APPROACH:
-            wait1Msec(250);
             approachTarget();
             break;
         case STATE_DEPART:
