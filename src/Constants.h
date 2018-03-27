@@ -19,7 +19,7 @@ static const int   POT_OFFSET          = -895;                         // ticks
 static const int   POT_OFFSET_LEFT     = -800;                         // ticks
 static const float TRACKING_SLOPE      = 0.007;                         //
 static const float TRACKING_MIN        = 13.5;                         //
-static const float TRACKING_TURN_SENS  = 300;                          //
+static const float TRACKING_TURN_SENS  = 400; // 170                          //
 static const float ULTRASONIC_SLEW     = 0.8;                          //
 
 // PID Constants

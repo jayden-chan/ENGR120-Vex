@@ -329,6 +329,7 @@ bool realTimeApproachNew(int maxSpeed) {
         //}
         //else {
             ratio = (TRACKING_TURN_SENS + (abs(SensorValue[towerPot] - POT_TRACKING_THRESH))) / TRACKING_TURN_SENS;
+            ratio = sqrt(ratio);
         //}
         betterAutoTrack();
 
