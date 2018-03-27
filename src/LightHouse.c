@@ -184,8 +184,9 @@ void betterAutoTrackSafe() {
         if(left > BEACON_FOUND_THRESH) {
             recovering = false;
             timeout++;
-            if(timeout > 150) {
+            if(timeout > 200) {
                 lastDir *= -1;
+                timeout = 0;
             }
         }
     }
