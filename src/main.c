@@ -110,5 +110,4 @@ void cleanup() {
     motor[cableMotor] = 0;
     resetMotorEncoder(rightMotor);
     resetMotorEncoder(leftMotor);
-    turnOffAllLED();
 }

@@ -476,3 +476,9 @@ bool realTimeApproach(int maxSpeed) {
     stopMotors();
     return true;
 }
+
+void quikBak() {
+    setRaw(-100, -100);
+    wait1Msec(175);
+    stopMotors();
+}

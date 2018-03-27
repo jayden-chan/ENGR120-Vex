@@ -21,8 +21,9 @@ RobotState currentState = STATE_ENABLED;
  * Function used for testing only.
  */
 void testPeriodic() {
-    betterAutoTrack();
-    //currentState = STATE_DISABLED;
+    toggleRainbowLED();
+    toggleRedLED();
+    currentState = STATE_DISABLED;
 }
 
 /**
@@ -104,6 +105,9 @@ void approachTarget() {
 void departTarget() {
     motor[towerMotor] = 0;
 
-    driveStraight(-12, 100, 40, 250);
+    //driveStraight(-12, 100, 40, 250);
+    quikBak();
+    toggleRedLED();
+    toggleRainbowLED();
     currentState = STATE_DISABLED;
 }
