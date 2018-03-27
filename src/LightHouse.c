@@ -22,6 +22,8 @@ int posInDegs = 0;
 float averageOne[3];
 float averageTwo[3];
 int numAverages = 3;
+bool recovering = false;
+float lastDir = 1;
 
 float highestValue = 0;
 
@@ -114,25 +116,6 @@ void lightHouseInit() {
 }
 
 
-/**
- * Scans for the target object less methodically
- * by simply stopping when the light sensors
- * exceed a certain threshold. This is much faster
- * than scanning the entire field of view but can
- * sometimes result in some error.
- */
-void fastScan() {
-    while(getLeftLight() < BEACON_FOUND_THRESH && getRightLight() < BEACON_FOUND_THRESH) {
-        motor[towerMotor] = 20;
-    }
-    motor[towerMotor] = 0;
-
-    pos = SensorValue[towerPot];
-    posInDegs = (float)(pos-745) / TICKS_PER_DEG;
-
-    rotateToDeg(200, 30, 100, 100);
-    rotateToDeg(180, 30, 80, 400);
-}
 
 /**
  * Automatically aligns the lighthouse assembly
@@ -164,16 +147,25 @@ void betterAutoTrack() {
     float right = getRightLight();
     float diff = left - (right + L_SENSOR_DIFF);
 
-    if(left < BEACON_LOST_THRESH && right < BEACON_LOST_THRESH) {
-        motor[towerMotor] = 0;
-    }
-    else if(abs(diff) < 0) {
-        motor[towerMotor] = 0;
+    if(recovering) {
+        motor[towerMotor] = 15 * lastDir;
+        if(left > BEACON_FOUND_THRESH) {
+            recovering = false;
+        }
     }
     else {
-        // Activation function to get the motor to track
-        // the target object smoothly. Determined experimentally.
-        motor[towerMotor] = (diff * -TRACKING_SLOPE) - (TRACKING_MIN * sign(diff));
+        if(left < BEACON_LOST_THRESH && right < BEACON_LOST_THRESH) {
+            lastDir = sign(diff);
+            recovering = true;
+        }
+        else if(abs(diff) < 0) {
+            motor[towerMotor] = 0;
+        }
+        else {
+            // Activation function to get the motor to track
+            // the target object smoothly. Determined experimentally.
+            motor[towerMotor] = (diff * -TRACKING_SLOPE) - (TRACKING_MIN * sign(diff));
+        }
     }
 }
 

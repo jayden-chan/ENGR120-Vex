@@ -303,7 +303,10 @@ bool realTimeApproachNew(int maxSpeed) {
         float driveError = getUltraSonicFiltered() - ULTRASONIC_THRESH;
 
         if(driveError < 40) {
-            L_SENSOR_DIFF = -150;
+            L_SENSOR_DIFF = -100;
+        }
+        if(driveError < 20) {
+            L_SENSOR_DIFF = -200;
         }
 
         turnRight = SensorValue[towerPot] > POT_TRACKING_THRESH;
@@ -321,12 +324,12 @@ bool realTimeApproachNew(int maxSpeed) {
             wasRight = false;
         }
 
-        if(getUltraSonicFiltered() > 120) {
-            ratio = 1;
-        }
-        else {
+        //if(getUltraSonicFiltered() > 120) {
+        //    ratio = 1;
+        //}
+        //else {
             ratio = (TRACKING_TURN_SENS + (abs(SensorValue[towerPot] - POT_TRACKING_THRESH))) / TRACKING_TURN_SENS;
-        }
+        //}
         betterAutoTrack();
 
         if(turnRight) {
@@ -356,6 +359,22 @@ bool realTimeApproachNew(int maxSpeed) {
         }
     }
     return true;
+}
+
+
+/**
+ * Scans for the target object less methodically
+ * by simply stopping when the light sensors
+ * exceed a certain threshold. This is much faster
+ * than scanning the entire field of view but can
+ * sometimes result in some error.
+ */
+void fastScan() {
+    while(getLeftLight() < BEACON_FOUND_THRESH && getRightLight() < BEACON_FOUND_THRESH) {
+        setRaw(20, -20);
+    }
+
+    stopMotors();
 }
 
 /**

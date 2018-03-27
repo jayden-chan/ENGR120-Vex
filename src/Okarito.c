@@ -21,9 +21,8 @@ RobotState currentState = STATE_ENABLED;
  * Function used for testing only.
  */
 void testPeriodic() {
-    realTimeApproachNew(127);
-    //betterAutoTrack();
-    currentState = STATE_DISABLED;
+    betterAutoTrack();
+    //currentState = STATE_DISABLED;
 }
 
 /**
@@ -67,10 +66,8 @@ void waitingForButtons() {
  * rotate towards the found object.
  */
 void scanForBeacon() {
-    //rotateToDeg(0, 30, 40, 250);
-    //fastScan();
-    //fastCheck();
     scanPID(180, 100, 40, 200);
+    //fastScan();
     currentState = STATE_ROTATE;
 }
 
@@ -80,7 +77,7 @@ void scanForBeacon() {
  * the scanForBeacon function.
  */
 void rotateToBeacon() {
-    rotate((180-posInDegs) * 1.05, 40, 20, 200);
+    rotate((180-posInDegs) * 1.0, 40, 20, 200);
     currentState = STATE_APPROACH;
 }
 
