@@ -12,4 +12,3 @@ Group members: Cobey Hollier, Jayden Chan, Gabe Goerzen
 ![alt-text](/img/CC_2.jpg "Image 2")
 ![alt-text](/img/CC_3.jpg "Image 3")
 ![alt-text](/img/CC_4.jpg "Image 4")
-![alt-text](/img/CC_5.jpg "Image 5")
