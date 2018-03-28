@@ -68,7 +68,6 @@ void waitingForButtons() {
  */
 void scanForBeacon() {
     scanPID(180, 100, 40, 200);
-    //fastScan();
     currentState = STATE_ROTATE;
 }
 
@@ -78,7 +77,7 @@ void scanForBeacon() {
  * the scanForBeacon function.
  */
 void rotateToBeacon() {
-    rotate((180-posInDegs) * 1.0, 40, 20, 200);
+    rotate((180-posInDegs), 40, 20, 200);
     currentState = STATE_APPROACH;
 }
 
@@ -104,10 +103,10 @@ void approachTarget() {
  */
 void departTarget() {
     motor[towerMotor] = 0;
-
-    //driveStraight(-12, 100, 40, 250);
     quikBak();
+
     toggleRedLED();
     toggleRainbowLED();
+
     currentState = STATE_DISABLED;
 }

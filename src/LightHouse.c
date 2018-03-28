@@ -169,44 +169,6 @@ void betterAutoTrack() {
 }
 
 /**
- * Same as betterAutoTrack but with a
- * safety timeout in case it chooses the
- * wrong direction to recover in.
- * Experimental.
- */
-void betterAutoTrackSafe() {
-    float left = getLeftLight();
-    float right = getRightLight();
-    float diff = left - (right + L_SENSOR_DIFF);
-
-    if(recovering) {
-        motor[towerMotor] = 15 * lastDir;
-        if(left > BEACON_FOUND_THRESH) {
-            recovering = false;
-            timeout++;
-            if(timeout > 200) {
-                lastDir *= -1;
-                timeout = 0;
-            }
-        }
-    }
-    else {
-        if(left < BEACON_LOST_THRESH && right < BEACON_LOST_THRESH) {
-            lastDir = sign(diff);
-            recovering = true;
-        }
-        else if(abs(diff) < 0) {
-            motor[towerMotor] = 0;
-        }
-        else {
-            // Activation function to get the motor to track
-            // the target object smoothly. Determined experimentally.
-            motor[towerMotor] = (diff * -TRACKING_SLOPE) - (TRACKING_MIN * sign(diff));
-        }
-    }
-}
-
-/**
  * Scans for the beacon using a PID loop instead
  * of just setting the motors for a certain amount
  * of time. Needed to ensure that the beacon is
@@ -252,49 +214,5 @@ void scanPID(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
     }
 
     posInDegs = (float)(pos+offset) / TICKS_PER_DEG;
-    motor[towerMotor] = 0;
-}
-
-/**
- * Scans for the beacon using a PID loop instead
- * of just setting the motors for a certain amount
- * of time. Needed to ensure that the beacon is
- * exactly centered at the end of the scan.
- */
-void scanPIDFull(float degrees, int maxSpeed, int safeRange, int safeThreshold) {
-    PIDReset(lightPID);
-
-    int safeTime = 0;
-    int time     = 0;
-    int dTime    = 0;
-    int offset   = 0;
-
-    while(true) {
-
-        dTime = nPgmTime - time;
-        time = nPgmTime;
-
-        float error = ((degrees * TICKS_PER_DEG)) - (SensorValue[towerPot] + offset);
-        float out = PIDCalculate(lightPID, error);
-
-        out = clamp(out, maxSpeed);
-        motor[towerMotor] = out;
-
-        safeTime = abs(error) < safeRange ? safeTime + dTime : 0;
-
-        float val = getLeftLight();
-        if(val > highestValue) {
-            highestValue = val;
-            pos = SensorValue[towerPot];
-        }
-
-        if(safeTime > safeThreshold) {
-            break;
-        }
-    }
-
-    posInDegs = (float)(pos+offset) / TICKS_PER_DEG;
-
-    rotateToDeg(180, 100, 40, 200);
     motor[towerMotor] = 0;
 }
