@@ -299,6 +299,8 @@ bool realTimeApproachNew(int maxSpeed) {
 
     bool wasRight = false;
 
+    photosensorDefaultValue = SensorValue[lightSensor];
+
     while(!(isCableDetached(photosensorDefaultValue))) {
         float driveError = getUltraSonicFiltered() - ULTRASONIC_THRESH;
 
