@@ -4,6 +4,8 @@ RobotC source code for my team's ENGR 120 Vex robot, "Okarito". The robot's obje
 
 Okarito received 50/50 marks on its final Milestone test and went on to win the course-wide competition with an average connection time of 5.99 seconds.
 
+If you would like to learn more about the code, a detailed documentation handbook has been included inside `/doc` for your reference.
+
 Group members: Cobey Hollier, Jayden Chan, Gabe Goerzen
 
 ## Images
